@@ -1,0 +1,9 @@
+[book]
+authors = ["Gallium70"]
+language = "zh-CN"
+multilingual = false
+src = "src"
+title = "用 Rust 编写一个 RISC-V 操作系统"
+
+[output.html]
+mathjax-support = true

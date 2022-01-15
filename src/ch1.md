@@ -1,0 +1,259 @@
+# **The Adventures of OS**
+
+使用Rust的RISC-V操作系统
+[**在Patreon上支持我!**](https://www.patreon.com/sgmarz)  [**操作系统博客**](http://osblog.stephenmarz.com/)  [**RSS订阅** ](http://osblog.stephenmarz.com/feed.rss)  [**Github** ](https://github.com/sgmarz)  [**EECS网站**](http://web.eecs.utk.edu/~smarz1)
+这是[用Rust编写RISC-V操作系统](http://osblog.stephenmarz.com/index.html)系列教程中的第0章，介绍如何正确地构建运行环境。
+[目录](http://osblog.stephenmarz.com/index.html) → （第0章） → [第1章](http://osblog.stephenmarz.com/ch1.html)
+
+### 我需要你的支持
+
+对我来说，写这些帖子现在只是业余消遣，因为我的本职工作是本科生教育。我会一直写下去，但真的很希望有人来帮助编写。如果你愿意，请在[Patreon（sgmarz）](https://www.patreon.com/sgmarz)支持我。
+文章刚开始，要写的还有很多！所以，请加入我的团队吧!
+
+### **掌握RISC-V**
+
+**<span style='color:red'>2019年9月27日</span>**
+
+#### **概述**
+
+启动并进入RISC-V系统是相当简单的。在各种方法中，我将要介绍我自己的方法--从物理内存地址**0x8000_0000**开始。幸运的是，QEMU可以读取ELF文件，所以它知道把我们的代码应该运行在哪个地址上。在整个过程中，我们将通过查看QEMU中包含的**qemu/hw/riscv/virt.c**源代码收集大量信息。首先，先来看一下内存映射：
+
+```c
+static const struct MemmapEntry {
+	hwaddr base;
+	hwaddr size;
+} virt_memmap[] = {
+	[VIRT_DEBUG] =       {        0x0,         0x100 },
+	[VIRT_MROM] =        {     0x1000,       0x11000 },
+	[VIRT_TEST] =        {   0x100000,        0x1000 },
+	[VIRT_CLINT] =       {  0x2000000,       0x10000 },
+	[VIRT_PLIC] =        {  0xc000000,     0x4000000 },
+	[VIRT_UART0] =       { 0x10000000,         0x100 },
+	[VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
+	[VIRT_DRAM] =        { 0x80000000,           0x0 },
+	[VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
+	[VIRT_PCIE_PIO] =    { 0x03000000,    0x00010000 },
+	[VIRT_PCIE_ECAM] =   { 0x30000000,    0x10000000 },
+};
+```
+
+
+ 由此可见，我们的机器从DRAM（VIRT_DRAM）的第0字节，地址0x8000_0000开始。当我们再往前走一点，我们将对CLINT（0x200_0000）、PLIC（0xc00_0000）、UART（0x1000_0000）和VIRTIO（0x1000_1000）编程。现在不要担心这些是什么意思，我们只需要看看接下来要做什么!
+
+完成这些后，我们需要在RISC-V汇编中完成以下工作：
+
+1.  选择一个CPU引导加载程序（通常是id#0）；
+2.  将BSS部分清零；
+3.  开始Rust!
+
+RISC-V汇编类似于MIPS汇编，除了我们不需要给我们的寄存器加前缀。所有的指令都来自于RISC-V规范，你可以在以下网站copy一份：[https://github.com/riscv/riscv-isa-manual](https://github.com/riscv/riscv-isa-manual)。我们的编写对象是RV64GC（RISC-V 64位，一般扩展和压缩指令扩展）。
+
+#### **选择一个引导加载程序**
+
+这个时候我们不去考虑并行性、条件竞争或其他任何与此相关的问题。相反，我们只让我们的一个CPU核心（RISC-V称为HARTs[硬件线程]）做所有的工作。我们现在首先要深入研究特权级规范，来弄清我们要讨论的是哪个寄存器。因此，请在[https://github.com/riscv/riscv-isa-manual](https://github.com/riscv/riscv-isa-manual/)获取一份指导。
+我们将从3.1.5章中开始（Hart ID寄存器 mhartid）。这个寄存器将告诉我们我们的hart编号。根据规范，我们必须有一个hart id #0。所以，我们以这个ID来启动。
+
+在你的**src/asm/**目录下创建一个**boot.S**文件。我们将在此启动并进入Rust的编写。
+
+```nasm
+# boot.S
+# bootloader for SoS
+# Stephen Marz
+# 8 February 2019
+.option norvc
+.section .data
+
+.section .text.init
+.global _start
+_start:
+	# Any hardware threads (hart) that are not bootstrapping
+	# need to wait for an IPI
+	csrr	t0, mhartid
+	bnez	t0, 3f
+	# SATP should be zero, but let's make sure
+	csrw	satp, zero
+.option push
+.option norelax
+	la		gp, _global_pointer
+.option pop
+
+3:
+	wfi
+	j	3b
+```
+
+在这里，csrr的意思是 "控制状态寄存器读取"，所以我们把我们的hart标识符读到寄存器t0中，检查它是否为零。如果不是，我们就把它送去停放（繁忙循环）。之后，我们将监督器地址转换和保护（satp）寄存器设置为0，这就是我们最终控制MMU的方式。由于我们还没有对虚拟内存的需求，我们通过把csrw（控制状态寄存器写入）写成0来禁用掉。一些板子的复位向量会将mhartid加载到该板子的a0寄存器中，但有些板子或许不会这么做，所以我选择从最可靠的地方来获取hart ID。
+
+#### **清除BSS**
+
+全局的、未初始化的变量的初值都是0，因为这些变量是在BSS段分配的。对于操作系统而言，我们要保证内存全是0幸运的是，在我们的链接器脚本中，有两个字段为我们定义，叫做_bss_start和_bss_end，分别告诉我们BSS部分的开始和结束位置。因此，我们在.option pop的下面和3的前面添加以下内容：
+
+```nasm
+# The BSS section is expected to be zero
+	la 		a0, _bss_start
+	la		a1, _bss_end
+	bgeu	a0, a1, 2f
+1:
+	sd		zero, (a0)
+	addi	a0, a0, 8
+	bltu	a0, a1, 1b
+2:	
+```
+
+在这里，我们使用sd（双字[64位]存储）将0存到内存地址a0，该地址逐渐向_bss_end移动。
+
+#### **进入Rust编程**
+
+由于许多人都不喜欢编写大量的汇编，我们尽快跳入Rust，虽然也会有人认为用Rust编程是最难的部分。我们的Rust不会那么难，不会一直和借用检查器(borrow checker)较劲。
+
+为了进入Rust程序并使CPU处于可预测的模式，我们将使用mret指令，这是一个陷阱返回函数。这允许我们将mstatus寄存器设置为我们的特权模式。因此，我们在boot.S中加入以下内容。
+
+```nasm
+# Control registers, set the stack, mstatus, mepc,
+# and mtvec to return to the main function.
+# li		t5, 0xffff;
+# csrw	medeleg, t5
+# csrw	mideleg, t5
+la		sp, _stack
+# We use mret here so that the mstatus register
+# is properly updated.
+li		t0, (0b11 << 11) | (1 << 7) | (1 << 3)
+csrw	mstatus, t0
+la		t1, kmain
+csrw	mepc, t1
+la		t2, asm_trap_vector
+csrw	mtvec, t2
+li		t3, (1 << 3) | (1 << 7) | (1 << 11)
+csrw	mie, t3
+la		ra, 4f
+mret
+4:
+	wfi
+	j	4b
+```
+
+
+ 这里有很多东西，有些被注释掉了。然而，我们要做的是将位[12:11]设置为11，也就是 "机器模式"。这将使我们能够访问所有的指令和寄存器。当然，我们可能已经处于这种模式了，但让我们再做一次。
+
+\> 那么位[7]和位[3]将在粗略的水平上启用中断。然而，我们仍然需要通过mie（机器中断使能）寄存器启用特定的中断，这一点我们在最后做。
+
+mepc寄存器是 "机器异常程序计数器"，它是我们要返回的内存地址。符号kmain是在Rust中定义的，是我们离开汇编的逃生票。
+
+mtvec（机器陷阱向量），是一个内核函数，每当有陷阱出现时就会被调用，比如系统调用、非法指令，甚至是定时器中断。
+
+在我们完成Rust的主函数后，我们将ra（返回地址）设置为park。然后，mret指令将我们刚才所做的一切，通过mepc寄存器跳回，这就是我们最终进入Rust的地方!
+
+(2019年9月29日添加）我们已经参考了asm_trap_vector，但我们还没有写。不过我们很快就会写，现在先在 src/asm/ 下创建一个名为 trap.S 的文件，并在其中添加以下内容。
+
+```nasm
+# trap.S
+# Assembly-level trap handler.
+.section .text
+.global asm_trap_vector
+asm_trap_vector:
+    # We get here when the CPU is interrupted
+	# for any reason.
+    mret
+```
+
+**裸机Rust的世界**
+
+现在我们已经来到了rust，我们需要编辑lib.rs，它是由cargo命令为我们创建的。不要改变 lib.rs 的名称，否则 cargo 将永远不知道我们在说什么。相反，lib.rs将是我们的入口点、实用工具，以及我们用来导入其他Rust模块的东西。不要把kmain看成是一个执行代码。相反，它将初始化我们所需要的一切，然后引起 "大爆炸"，也就是让一切都开始运动。操作系统主要是异步的。我们将使用一个定时器中断来催促我们的内核开始行动，所以我们不能使用我们可能习惯的单线程编程方法。
+
+当你打开lib.rs时，删除里面的所有东西。里面没有我们需要的东西，也没有我们可以用于内核的东西。相反，根据Rust，我们需要定义一些东西。由于我们没有使用标准库（反正它不是为我们的内核建立的），我们必须在继续之前定义abort和panic_handler。所以，这里什么都没有。
+
+```rust
+// Steve Operating System
+// Stephen Marz
+// 21 Sep 2019
+#![no_std]
+#![feature(panic_info_message,asm)]
+
+// ///////////////////////////////////
+// / RUST MACROS
+// ///////////////////////////////////
+#[macro_export]
+macro_rules! print
+{
+	($($args:tt)+) => ({
+
+	});
+}
+#[macro_export]
+macro_rules! println
+{
+	() => ({
+		print!("\r\n")
+	});
+	($fmt:expr) => ({
+		print!(concat!($fmt, "\r\n"))
+	});
+	($fmt:expr, $($args:tt)+) => ({
+		print!(concat!($fmt, "\r\n"), $($args)+)
+	});
+}
+
+// ///////////////////////////////////
+// / LANGUAGE STRUCTURES / FUNCTIONS
+// ///////////////////////////////////
+#[no_mangle]
+extern "C" fn eh_personality() {}
+#[panic_handler]
+fn panic(info: &core::panic::PanicInfo) -> ! {
+	print!("Aborting: ");
+	if let Some(p) = info.location() {
+		println!(
+					"line {}, file {}: {}",
+					p.line(),
+					p.file(),
+					info.message().unwrap()
+		);
+	}
+	else {
+		println!("no information available.");
+	}
+	abort();
+}
+#[no_mangle]
+extern "C"
+fn abort() -> ! {
+	loop {
+		unsafe {
+            // The asm! syntax has changed in Rust.
+            // For the old, you can use llvm_asm!, but the
+            // new syntax kicks ass--when we actually get to use it.
+			asm!("wfi");
+		}
+	}
+}		
+```
+
+我们使用#！[no_std]来告诉Rust，我们不会使用标准库。然后我们要求Rust允许我们的代码使用恐慌信息和内嵌式汇编功能。我们做的第一件事是创建一个空的eh_personality函数。#[no_mangle]关闭了Rust的名称处理功能，所以这个符号正好是eh_personality。然后，extern "C "告诉Rust使用C风格的ABI。
+
+然后，#[panic_handler]告诉Rust，我们定义的下一个函数将是我们的panic处理程序。Rust调用panic有几个原因，我们将用我们的断言隐含地调用它。我让这个函数做的是打印出引起恐慌的源文件和行号。然而，我们还没有写print！或println!，但我们知道Rust中print和println的格式。顺便提一下，->！意味着这个函数不会返回。如果Rust检测到它可以返回，编译器会给你一个错误。
+
+最后，我们写下中止函数。这所做的就是不断循环wfi（等待中断）指令。这使它正在运行的硬盘断电，直到另一个中断。
+
+**我们在生锈!**
+
+我们已经正式进入rust，所以我们需要写出我们在boot.S中指定的入口点，也就是kmain。所以，在我们的lib.rs代码中添加。
+
+```rust
+#[no_mangle]
+extern "C"
+fn kmain() {
+	// Main should initialize all sub-systems and get
+	// ready to start scheduling. The last thing this
+	// should do is start the timer.
+}
+```
+
+当kmain返回时，它碰到wfi循环并挂起。这是我们所期望的，因为我们还没有告诉内核要做什么。
+
+所以，你有它。我们在Rust中。不幸的是，在我们写出print！的实际作用之前，我们不会看到任何打印到屏幕上的东西。但是，所有的东西都应该被编译出来通常情况下，好的作家会以一些引言或结束语来结束，但我不是一个好的作家。
+
+当你输入make run时，你的操作系统将尝试启动并进入Rust，它会这样做的。然而，由于我们还没有编写与操作系统通信的驱动程序，所以什么也不会出现。输入CTRL-A，然后点击'x'退出模拟器。另外，你可以通过输入CTRL-A，然后点击'c'来查看你所在的位置。你现在是在QEMU的控制台。输入 "info registers "来查看模拟器在你的操作系统中的位置。
+
+[第0章](http://osblog.stephenmarz.com/ch0.html)→（第1章）→[第2章](http://osblog.stephenmarz.com/ch2.html)
+
+ 

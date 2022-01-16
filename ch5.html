@@ -1,0 +1,470 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>外部中断 - 用 Rust 编写一个 RISC-V 操作系统</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 搭建环境与前置需求</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> 页级内存分配</div></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 处理中断和陷入</div></li><li class="chapter-item expanded "><a href="ch5.html" class="active"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> 进程的内存</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> 系统调用</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">用 Rust 编写一个 RISC-V 操作系统</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        
+
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="the-adventures-of-os"><a class="header" href="#the-adventures-of-os"><strong>The Adventures of OS</strong></a></h1>
+<p>使用Rust的RISC-V操作系统<br />
+<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a><br />
+这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第5章。<br />
+<a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch4.html">第4章</a> → (第5章) → <a href="http://osblog.stephenmarz.com/ch6.html">第6章</a></p>
+<h1 id="外部中断"><a class="header" href="#外部中断">外部中断</a></h1>
+<p><strong><span style='color:red'>2019年11月18日: 仅Patreon</span></strong><br />
+<strong><span style='color:red'>2019年11月25日: 公开</span></strong></p>
+<h2 id="视频"><a class="header" href="#视频">视频</a></h2>
+<p><a href="https://www.youtube.com/watch?v=99KMubPgDIU">https://www.youtube.com/watch?v=99KMubPgDIU</a></p>
+<h2 id="概述"><a class="header" href="#概述">概述</a></h2>
+<p>在上一章，我们讨论了CPU以及内核的中断。 在这一章，我们将讨论中断的其中一类——外部中断，这些中断表示发生了某些外部或平台中断。 例如，UART设备可能刚刚填满了它的缓冲区。</p>
+<h2 id="平台级中断控制器the-platform-level-interrupt-controller"><a class="header" href="#平台级中断控制器the-platform-level-interrupt-controller">平台级中断控制器(The Platform-Level Interrupt Controller)</a></h2>
+<p>平台级中断控制器 (PLIC) 通过CPU上的一个引脚——EI (外部中断) 引脚，来路由所有信号，通过 <code>mie</code> 寄存器中的机器外部中断启用 (<code>meie</code>) 位可以启用该引脚。</p>
+<p>每当我们看到该引脚已被触发（外部中断待处理）时，我们就可以查询 PLIC 以查看是什么原因造成的。 此外，我们可以将 PLIC 配置为优先考虑中断源或完全禁用某些源，同时启用其他源。</p>
+<h2 id="plic-寄存器"><a class="header" href="#plic-寄存器">PLIC 寄存器</a></h2>
+<p>PLIC 是一个通过 MMIO 控制的中断控制器。 有几个与 PLIC 相关的寄存器：</p>
+<pre><code>寄存器              地址            描述
+Priority           0x0c00_0000    设置特定中断源的优先级
+Pending            0x0c00_1000    包含已触发的中断列表(待处理)
+Enable             0x0c00_2000    启用/禁用某些中断源
+Threshold          0x0c20_0000    设置中断触发的阈值
+Claim(read)        0x0c20_0004    按优先级顺序返回下一个中断
+Complete(write)    0x0c20_0004    完成对特定中断的处理
+</code></pre>
+<h2 id="plic-如何工作"><a class="header" href="#plic-如何工作">PLIC 如何工作</a></h2>
+<p>PLIC 通过外部中断引脚连接到 CPU。 以下架构图来自<a href="https://sifive.cdn.prismic.io/sifive%2F834354f0-08e6-423c-bf1f-0cb58ef14061_fu540-c000-v1.0.pdf">SiFive's Freedom Unleashed Manual</a>。</p>
+<div align=center>
+<p><img src="assets/plic_cpu.png" alt="plic_cpu" /></p>
+</div>
+<p>PLIC 连接到外部设备，并通过位于 PLIC 基地址（如上表所示的寄存器）的可编程接口控制它们的中断。 这意味着我们作为程序员可以控制每个中断的优先级，我们是否看到它，我们是否处理过它，等等。</p>
+<p>上图可能有点混乱，但在 QEMU 中编程的 PLIC 要简单得多。</p>
+<h2 id="plic-处理"><a class="header" href="#plic-处理">PLIC 处理</a></h2>
+<p>系统将通过电线将 PLIC 连接到外部设备，我们通常会在技术参考文档或类似文件中获得线号。 但是对于我们来说，我在 <code>qemu/include/hw/riscv/virt.h</code> 中查看到 UART 连接到引脚 10，VIRTIO 设备是 1 到 8，PCI express 设备是 32 到 35。 你可能在想为什么在我们的 Rust 代码中，我们只有一个中断启用寄存器——因为我们不会为了我们的目的而超过中断 10 (UART)。</p>
+<h2 id="启用中断源"><a class="header" href="#启用中断源">启用中断源</a></h2>
+<p>现在知道了设备通过哪个中断进行连接，我们通过将 <code>1 &lt;&lt; id</code> 写入中断启用寄存器来启用该中断。 此示例的中断 ID 将为 UART 的 10。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>/// 启用给定的中断 id
+pub fn enable(id: u32) {
+    let enables = PLIC_INT_ENABLE as *mut u32;
+    let actual_id = 1 &lt;&lt; id;
+    unsafe {
+        // 与 complete 和 claim 寄存器不同，plic_int_enable 
+        // 寄存器是一个位集(bitset)，其中 id 是位索引。 
+        // 该寄存器是一个 32 位寄存器，因此我们可以启用
+        // 中断 31 到 1（0 硬连线到 0）。
+        enables.write_volatile(enables.read_volatile() | actual_id);
+    }
+}
+
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="设置中断源优先级"><a class="header" href="#设置中断源优先级">设置中断源优先级</a></h2>
+<p>现在已经启用了中断源，我们需要给它一个 0 到 7 的优先级。7 是最高优先级，0 是“scum”类（h/t Top Gear）——但是优先级 0 不能满足任何阈值，因此它基本上禁用了中断（请参阅下面的 PLIC 阈值）。 我们可以通过优先级寄存器设置每个中断源的优先级。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>/// 将给定中断的优先级设置为给定优先级。
+/// 优先级必须为 [0..7]
+pub fn set_priority(id: u32, prio: u8) {
+    let actual_prio = prio as u32 &amp; 7;
+    let prio_reg = PLIC_PRIORITY as *mut u32;
+    unsafe {
+        // 中断 id 的偏移量是：
+        // PLIC_PRIORITY + 4 * id
+        // 由于我们在 u32 类型上使用指针运算
+        // 它会自动将 id 乘以 4。
+        prio_reg.add(id as usize).write_volatile(actual_prio);
+    }
+}
+
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="设置-plic-阈值"><a class="header" href="#设置-plic-阈值">设置 PLIC 阈值</a></h2>
+<p>PLIC 本身有一个全局阈值，所有中断在“启用”之前都必须通过该阈值。 这是通过阈值寄存器控制的，我们可以将值 0 到 7 写入其中。 任何小于或等于此阈值的中断优先级都无法满足障碍并被屏蔽，这实际上意味着中断被禁用。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>/// 设置全局阈值，阈值可以是值 [0..7]。
+/// PLIC 将屏蔽等于或低于给定阈值的任何中断。
+/// 这意味着阈值 7 将屏蔽所有中断，阈值 0 将允许所有中断。
+pub fn set_threshold(tsh: u8) {
+    // 我们使用 tsh 是因为我们使用的是 u8
+    // 但我们的最大数量是 3 位 0b111。 
+    // 所以，我们与 7 (0b111) 求 and 来获取最后三位。
+    let actual_tsh = tsh &amp; 7;
+    let tsh_reg = PLIC_THRESHOLD as *mut u32;
+    unsafe {
+        tsh_reg.write_volatile(actual_tsh as u32);
+    }
+}
+
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="处理-plic-中断"><a class="header" href="#处理-plic-中断">处理 PLIC 中断</a></h2>
+<p>PLIC 将通过异步原因(<code>asynchronous cause</code>) 11（机器外部中断）向我们的操作系统发出信号。 当处理这个中断时，我们不会知道实际上是什么导致了中断——只知道 PLIC 导致了它。 这是声明(<code>claim</code>)/完成(<code>complete</code>)过程开始的地方。</p>
+<h2 id="声明一个中断"><a class="header" href="#声明一个中断">声明一个中断</a></h2>
+<p>SiFive 将声明/完成过程描述如下：</p>
+<blockquote>
+<h2 id="107-中断声明过程"><a class="header" href="#107-中断声明过程">10.7 中断声明过程</a></h2>
+<p>FU540-C000 hart 可以通过读取<code>claim/complete</code>寄存器（表 45）来执行中断声明，该寄存器返回最高优先级的挂起中断的 ID，如果没有挂起的中断，则返回零。 成功的声明还会原子地清除中断源上相应的pending位。</p>
+<p>FU540-C000 hart 可以随时执行声明，即使其 <code>mip</code>（表 22）寄存器中的 MEIP 位未设置。</p>
+<p>声明操作不受优先级阈值寄存器设置的影响。</p>
+<h2 id="108-中断完成"><a class="header" href="#108-中断完成">10.8 中断完成</a></h2>
+<p>FU540-C000 hart 通过将其从声明中接收到的中断 ID 写入<code>claim/complete</code>寄存器（表 45）来发出它已完成执行中断处理程序的信号。 PLIC 不检查完成 ID 是否与该目标的最后一个声明 ID 相同。 如果完成 ID 与当前为目标启用的中断源不匹配，则g该完成会被静默忽略。</p>
+</blockquote>
+<p><code>claim</code>寄存器将返回按优先级排序的下一个中断。 如果寄存器返回 0，则没有挂起的中断，这不应该发生，因为我们将通过中断处理程序处理声明过程。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>/// 获取下一个可用中断，这就是“claim声明”过程。
+// plic 会自动按优先级排序，并将中断的 ID 交给我们。 
+// 例如，如果 UART 正在中断并且为下一个，我们将得到值 10。
+pub fn next() -&gt; Option {
+    let claim_reg = PLIC_CLAIM as *const u32;
+    let claim_no;
+    // 声明寄存器填充了最高优先级的已启用中断。
+    unsafe {
+        claim_no = claim_reg.read_volatile();
+    }
+    if claim_no == 0 {
+        // 中断 0 硬连线到 0，这告诉我们没有要声明的中断
+        // 因此我们返回 None。
+        None
+    }
+    else {
+        // 如果到达这里，我们就会得到一个非 0 中断。
+        Some(claim_no)
+    }
+}
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>然后，我们可以要求 PLIC 通过该声明寄存器向我们提供任何发起中断的编号。 在 Rust 中，我通过匹配将其驱动到正确的处理程序。 到目前为止，我们直接在中断上下文中处理它——这是一个坏主意，但我们还没有任何延迟任务系统。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>  // 机器外部 (来自 PLIC 的中断)
+  // println!(&quot;Machine external interrupt CPU#{}&quot;, hart);
+  // 我们将检查下一个中断。 如果中断不可用，则将给我们 None。
+  // 然而，这意味着我们得到了一个虚假的中断，除非
+  // 我们得到一个来自非 PLIC 源的中断。 这是 PLIC 将 id 0 硬连线
+  // 到 0 的主要原因，因此我们可以将其用作错误案例。
+  if let Some(interrupt) = plic::next() {
+    // 如果我们到达这里，我们就会从声明寄存器中得到一个中断。 
+    // PLIC 将自动为下一个中断设置优先级，因此当我们从声明中获取它时，
+    // 它将是优先级顺序中的下一个。
+    match interrupt {
+      10 =&gt; { // 中断 10 是 UART 中断。
+        // 我们通常会将其设置为在中断上下文之外进行处理，
+        // 但我们在这里进行测试！ 来吧！
+        // 我们还没有为 my_uart 使用单例模式，但请记住，
+        // 这只是简单地包装(wrap)了 0x1000_0000 (UART)。
+        let mut my_uart = uart::Uart::new(0x1000_0000);
+        // 如果我们到了这里，UART 最好有一些东西！ 如果不是，会发生什么？？
+        if let Some(c) = my_uart.get() {
+          // 如果您认识这段代码，它曾经位于 kmain() 下的 lib.rs 中。
+          // 那是因为我们需要轮询 UART 数据。
+          // 既然现在我们有中断了，那就来吧！
+          match c {
+            8 =&gt; {
+              // 这是一个退格，所以我们基本上必须写一个空格，再写一个退格：
+              print!(&quot;{} {}&quot;, 8 as char, 8 as char);
+            },
+            10 | 13 =&gt; {
+              // 换行或回车
+              println!();
+            },
+            _ =&gt; {
+              print!(&quot;{}&quot;, c as char);
+            },
+          }
+        }
+    
+      },
+      // 非UART中断在这里并且什么也不做。
+      _ =&gt; {
+        println!(&quot;Non-UART external interrupt: {}&quot;, interrupt);
+      }
+    }
+    // 我们已经声明了它，所以现在假设我们已经处理了它。
+    // 这将重置挂起的中断并允许 UART 再次中断。 否则，UART 将“卡住”。
+    plic::complete(interrupt);
+  }
+
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="告诉-plic-我们需要"><a class="header" href="#告诉-plic-我们需要">告诉 PLIC 我们需要</a></h2>
+<p>当我们声明一个中断时，我们是在告诉 PLIC 它将被处理或正在被处理。 在此期间，PLIC 不会再监听来自同一设备的任何中断。 这是 <code>complete</code> 过程的开始。 当我们写入（而不是读取）声明寄存器时，我们给出一个中断的值来告诉 PLIC 我们已经完成了它给我们的中断。 然后，PLIC 可以重置中断触发器并等待该设备将来再次中断。 这会重置系统并让我们一遍又一遍地循环回到声明/完成。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>// 通过 id 完成一个挂起的中断。 id 应该来自上面的 next() 函数。
+pub fn complete(id: u32) {
+    let complete_reg = PLIC_CLAIM as *mut u32;
+    unsafe {
+        // 我们实际上将一个 u32 写入整个 complete_register。
+        // 这与声明寄存器是同一个寄存器，
+        // 但它可以根据我们是在读还是在写来区分。
+        complete_reg.write_volatile(id);
+    }
+}
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>就是这样。 PLIC 已被编程，现在它只处理我们的 UART。 请注意在 <code>lib.rs</code> 中我删除了 UART 轮询代码。 现在有了中断，我们只能在它向我们发出信号时处理 UART。 由于我们使用等待中断 (wfi) 将 HART 置于等待循环中，我们可以节省电力和 CPU 周期。</p>
+<p>让我们将它添加到我们的 <code>kmain</code> 函数中，看看会发生什么！</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>// 让我们通过 PLIC 设置中断系统。 
+// 我们必须将阈值设置为不会屏蔽所有中断的值。
+println!(&quot;Setting up interrupts and PLIC...&quot;);
+// 我们降低了阈值墙，这样我们的中断就可以跃过它。
+plic::set_threshold(0);
+// VIRTIO = [1..8]
+// UART0 = 10
+// PCIE = [32..35]
+// 启用 UART 中断。
+plic::enable(10);
+plic::set_priority(10, 1);
+println!(&quot;UART interrupts have been enabled and are awaiting your command&quot;);
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>当我们运行(<code>make run</code>)这段代码时，我们得到以下信息。 我输入了底线(bottom line)，但它表明我们现在正在通过 PLIC 处理中断！</p>
+<div align=center>
+<p><img src="assets/plic_works.png" alt="plic_works" /></p>
+</div>
+<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch4.html">第4章</a> → (第5章) → <a href="http://osblog.stephenmarz.com/ch6.html">第6章</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="ch3.2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="ch3.2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

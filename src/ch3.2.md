@@ -1,5 +1,9 @@
 # 内存管理单元
 
+## 视频
+
+本章博文的视频在 YouTube 上：[https://www.youtube.com/watch?v=-9sRy5UPWJk](https://www.youtube.com/watch?v=-9sRy5UPWJk)
+
 ## 概述
 
 从操作系统的角度来看，我们有一个从某个起始地址到某个结束地址的大内存池。我们可以使用链接脚本（virt.lds 文件）提供表示起始和终止地址的符号。

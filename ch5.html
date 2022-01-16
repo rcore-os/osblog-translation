@@ -169,12 +169,12 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="the-adventures-of-os"><a class="header" href="#the-adventures-of-os"><strong>The Adventures of OS</strong></a></h1>
-<p>使用Rust的RISC-V操作系统<br />
-<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a><br />
-这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第5章。<br />
+<p>使用Rust的RISC-V操作系统
+<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a>
+这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第5章。
 <a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch4.html">第4章</a> → (第5章) → <a href="http://osblog.stephenmarz.com/ch6.html">第6章</a></p>
 <h1 id="外部中断"><a class="header" href="#外部中断">外部中断</a></h1>
-<p><strong><span style='color:red'>2019年11月18日: 仅Patreon</span></strong><br />
+<p><strong><span style='color:red'>2019年11月18日: 仅Patreon</span></strong>
 <strong><span style='color:red'>2019年11月25日: 公开</span></strong></p>
 <h2 id="视频"><a class="header" href="#视频">视频</a></h2>
 <p><a href="https://www.youtube.com/watch?v=99KMubPgDIU">https://www.youtube.com/watch?v=99KMubPgDIU</a></p>
@@ -196,7 +196,7 @@ Complete(write)    0x0c20_0004    完成对特定中断的处理
 <h2 id="plic-如何工作"><a class="header" href="#plic-如何工作">PLIC 如何工作</a></h2>
 <p>PLIC 通过外部中断引脚连接到 CPU。 以下架构图来自<a href="https://sifive.cdn.prismic.io/sifive%2F834354f0-08e6-423c-bf1f-0cb58ef14061_fu540-c000-v1.0.pdf">SiFive's Freedom Unleashed Manual</a>。</p>
 <div align=center>
-<p><img src="assets/plic_cpu.png" alt="plic_cpu" /></p>
+<p><img src="assets/5/plic_cpu.png" alt="plic_cpu" /></p>
 </div>
 <p>PLIC 连接到外部设备，并通过位于 PLIC 基地址（如上表所示的寄存器）的可编程接口控制它们的中断。 这意味着我们作为程序员可以控制每个中断的优先级，我们是否看到它，我们是否处理过它，等等。</p>
 <p>上图可能有点混乱，但在 QEMU 中编程的 PLIC 要简单得多。</p>
@@ -213,8 +213,8 @@ pub fn enable(id: u32) {
     let enables = PLIC_INT_ENABLE as *mut u32;
     let actual_id = 1 &lt;&lt; id;
     unsafe {
-        // 与 complete 和 claim 寄存器不同，plic_int_enable 
-        // 寄存器是一个位集(bitset)，其中 id 是位索引。 
+        // 与 complete 和 claim 寄存器不同，plic_int_enable
+        // 寄存器是一个位集(bitset)，其中 id 是位索引。
         // 该寄存器是一个 32 位寄存器，因此我们可以启用
         // 中断 31 到 1（0 硬连线到 0）。
         enables.write_volatile(enables.read_volatile() | actual_id);
@@ -256,7 +256,7 @@ pub fn set_priority(id: u32, prio: u8) {
 /// 这意味着阈值 7 将屏蔽所有中断，阈值 0 将允许所有中断。
 pub fn set_threshold(tsh: u8) {
     // 我们使用 tsh 是因为我们使用的是 u8
-    // 但我们的最大数量是 3 位 0b111。 
+    // 但我们的最大数量是 3 位 0b111。
     // 所以，我们与 7 (0b111) 求 and 来获取最后三位。
     let actual_tsh = tsh &amp; 7;
     let tsh_reg = PLIC_THRESHOLD as *mut u32;
@@ -285,7 +285,7 @@ pub fn set_threshold(tsh: u8) {
 </span>
 <span class="boring">fn main() {
 </span>/// 获取下一个可用中断，这就是“claim声明”过程。
-// plic 会自动按优先级排序，并将中断的 ID 交给我们。 
+// plic 会自动按优先级排序，并将中断的 ID 交给我们。
 // 例如，如果 UART 正在中断并且为下一个，我们将得到值 10。
 pub fn next() -&gt; Option {
     let claim_reg = PLIC_CLAIM as *const u32;
@@ -319,7 +319,7 @@ pub fn next() -&gt; Option {
   // 我们得到一个来自非 PLIC 源的中断。 这是 PLIC 将 id 0 硬连线
   // 到 0 的主要原因，因此我们可以将其用作错误案例。
   if let Some(interrupt) = plic::next() {
-    // 如果我们到达这里，我们就会从声明寄存器中得到一个中断。 
+    // 如果我们到达这里，我们就会从声明寄存器中得到一个中断。
     // PLIC 将自动为下一个中断设置优先级，因此当我们从声明中获取它时，
     // 它将是优先级顺序中的下一个。
     match interrupt {
@@ -348,7 +348,7 @@ pub fn next() -&gt; Option {
             },
           }
         }
-    
+
       },
       // 非UART中断在这里并且什么也不做。
       _ =&gt; {
@@ -387,7 +387,7 @@ pub fn complete(id: u32) {
 <span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
-</span>// 让我们通过 PLIC 设置中断系统。 
+</span>// 让我们通过 PLIC 设置中断系统。
 // 我们必须将阈值设置为不会屏蔽所有中断的值。
 println!(&quot;Setting up interrupts and PLIC...&quot;);
 // 我们降低了阈值墙，这样我们的中断就可以跃过它。
@@ -404,7 +404,7 @@ println!(&quot;UART interrupts have been enabled and are awaiting your command&q
 </span></code></pre></pre>
 <p>当我们运行(<code>make run</code>)这段代码时，我们得到以下信息。 我输入了底线(bottom line)，但它表明我们现在正在通过 PLIC 处理中断！</p>
 <div align=center>
-<p><img src="assets/plic_works.png" alt="plic_works" /></p>
+<p><img src="assets/5/plic_works.png" alt="plic_works" /></p>
 </div>
 <p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch4.html">第4章</a> → (第5章) → <a href="http://osblog.stephenmarz.com/ch6.html">第6章</a></p>
 

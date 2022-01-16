@@ -937,12 +937,16 @@ loop {
 <p>RISC-V 有不同的分页模式。HiFive Unleashed 使用 Sv39 模式，这意味着虚拟地址为 39 位。在这种情况下，虚拟地址无法使用完整的 64 位内存空间。其他的分页模式包括使用 32 位虚拟地址的 Sv32 和使用 48 位虚拟地址的 Sv48。</p>
 <h2 id="虚拟地址"><a class="header" href="#虚拟地址">虚拟地址</a></h2>
 <p>Sv39 虚拟地址包含三个 9 位索引。由于 2^9 = 512，每级页表都包含 512 个页表项，每个页表项正好是 8 字节（64 位），如下所示。 Sv39 虚拟地址包含 VPN[x]。 VPN 代表“虚拟页号”，它本质上是一个包含 512 个 8 字节条目的数组的索引。因此，MMU 不是直接将虚拟地址转换为物理地址，而是通过一系列页表。使用 Sv39 系统，我们的页表可以三个级别，每个级别是一张包含 512 个 8 字节项的表。</p>
+<p><img src="assets/3.2/sv39_virtual_address.png" alt=" " /></p>
 <h2 id="页表项"><a class="header" href="#页表项">页表项</a></h2>
 <p>操作系统会写入一个页表项来控制 MMU 的工作方式。我们可以更改地址的翻译方式，也可以设置某些位来保护页面。页面入口如下图所示：</p>
+<p><img src="assets/3.2/sv39_pte.png" alt=" " /></p>
 <h2 id="物理地址"><a class="header" href="#物理地址">物理地址</a></h2>
 <p>物理地址实际上是 56 位。因此，一个 39 位的虚拟地址可以转换为一个 56 位的物理地址。显然，这允许我们将相同的虚拟地址映射到不同的物理地址——就像我们在创建用户进程时映射地址的方式一样。物理地址是通过获取 PPN[2:0] 并将它们按照以下格式拼接来形成的。可以注意到页面偏移量是直接从虚拟地址复制到物理地址的。</p>
+<p><img src="assets/3.2/sv39_physical_address.png" alt=" " /></p>
 <h2 id="satp-寄存器"><a class="header" href="#satp-寄存器">SATP 寄存器</a></h2>
 <p>所有的地址翻译都从如下所示的SATP寄存器开始，具体描述在 <a href="https://github.com/riscv/riscv-isa-manual">RISC-V 特权规范第 4.1.12 章</a>中。SATP 寄存器的示意图如下。</p>
+<p><img src="assets/3.2/satp.png" alt=" " /></p>
 <p>我们可以看到 PPN（物理页号）是一个 44 位的值。但是，该值在存储之前已右移 12 位，这本质上是将实际地址除以 4096 (2^12 = 4096)。因此，实际地址为 PPN &lt;&lt; 12。</p>
 <h2 id="页面错误"><a class="header" href="#页面错误">页面错误</a></h2>
 <p>MMU 通过三个不同的分页错误向 CPU 发出地址翻译错误信号：(1) 指令、(2) 加载和 (3) 存储。当 MMU 引发页面错误时，在取指阶段发生指令分页错误。这可能意味着页表项无效或没有将 X（执行）位设置为 1 或其他原因。</p>
@@ -1195,8 +1199,9 @@ v.set_entry(entry);
 <li>如果你试图写入一个 D 位为 0 的页面，MMU 将抛出一个页面错误，这与 W 位为 0 的情况很相似。</li>
 <li>如果你试图读取一个 A 位为 0 的页面，MMU 将抛出一个页面错误，这与 R 位为 0 的情况很相似。</li>
 </ol>
-<p>RISC-V 特权规范。第4.3.1章
-简而言之，我们有两种选择：（a）软件控制或（b）硬件控制。</p>
+<p><img src="assets/3.2/sv39_mmu_ad_bits.png" alt=" " /></p>
+<p>RISC-V 特权规范，第4.3.1章</p>
+<p>简而言之，我们有两种选择：（a）软件控制或（b）硬件控制。</p>
 <h2 id="内核的地址映射"><a class="header" href="#内核的地址映射">内核的地址映射</a></h2>
 <p>我们将切换到内核态，这样可以让内核内存使用 MMU，不过我们首先需要映射一切我们需要的内容。在 RISC-V 中，机器态使用物理内存地址；而如果我们打开 MMU（将 MODE 字段设置为 8），那么我们可以在内核或用户态下使用 MMU。</p>
 <p>要做到这一点，我们要对内核中需要的一切进行恒等映射（虚拟地址=物理地址），包括程序代码、全局段、UART MMIO 地址等等。首先，我用 Rust 写了一个函数，它将帮助我恒等映射一段地址。</p>
@@ -1314,6 +1319,7 @@ page::map(
 </span></code></pre></pre>
 <p>这有很多代码，因此我需要编写 id_map_range 函数。在这段代码中，我们首先初始化我们在第 3.1 章中创建的页分配系统。然后，我们创建一个页表根，它正好需要1页（4096字节）。来回转换内存地址的类型的意义在于，我们最终需要将一个物理地址写入 SATP（Supervisor Address Translation and Protection，监管者地址翻译与保护）寄存器以使 MMU 正常运行。</p>
 <p>现在我们有了页表根，我们需要把它写进 SATP 寄存器的 PPN 字段。PPN 本质上是页表根的 56 位物理地址的前 44 位。我们要做的是把页表根的地址向右移 12 位，这本质上是把地址除以一个页面的大小。</p>
+<p><img src="assets/3.2/satp.png" alt=" " /></p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1328,6 +1334,7 @@ unsafe {
 <h2 id="开启mmu"><a class="header" href="#开启mmu">开启MMU</a></h2>
 <p>仅在 MMU 模式字段中写入 8 并没有完全打开 MMU。原因是我们处于 3 号 CPU 模式，也就是机器模式。所以，我们需要切换到“监督者”模式，也就是模式 1 。我们通过在 mstatus 寄存器的 MPP（Machine Previous Privilege）字段（第 11 和 12 位）中写入二进制数字 01 来实现这一点。</p>
 <p>我们切换 SATP 寄存器时需要谨慎，因为页表会被缓存。切换的次数越多，我们就需要刷新缓存：旧的出来，新的进去。当用户进程开始切入和切出上下文时，我们需要同步页表。如果你现在对此有兴趣，请看 <a href="https://github.com/riscv/riscv-isa-manual">RISC-V 的特权规范第4.2.1章</a>，不过当我们开始运行进程时，我们会详细介绍这一点。</p>
+<p><img src="assets/3.2/mstatus.png" alt=" " /></p>
 <pre><code class="language-assembly">    li t0, (1 &lt;&lt; 11) | (1 &lt;&lt; 5)
     csrw mstatus, t0
 
@@ -1339,12 +1346,12 @@ unsafe {
 <p>我们在上面的代码中所做的是启用中断，并将第 11 位开始的数值置为 1（MPP=01）。当我们执行 mret 时，我们进入了一个叫 kmain 的 Rust 函数。现在我们处于监督者模式并且完全打开 MMU。</p>
 <p>我们还没有处理任何页面错误，所以要小心！如果你跑到地址空间以外的地方，你的内核就会挂起宕机。</p>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-2"><a class="header" href="#the-adventures-of-os-2"><strong>The Adventures of OS</strong></a></h1>
-<p>使用Rust的RISC-V操作系统<br />
-<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a><br />
-这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第5章。<br />
+<p>使用Rust的RISC-V操作系统
+<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a>
+这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第5章。
 <a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch4.html">第4章</a> → (第5章) → <a href="http://osblog.stephenmarz.com/ch6.html">第6章</a></p>
 <h1 id="外部中断"><a class="header" href="#外部中断">外部中断</a></h1>
-<p><strong><span style='color:red'>2019年11月18日: 仅Patreon</span></strong><br />
+<p><strong><span style='color:red'>2019年11月18日: 仅Patreon</span></strong>
 <strong><span style='color:red'>2019年11月25日: 公开</span></strong></p>
 <h2 id="视频"><a class="header" href="#视频">视频</a></h2>
 <p><a href="https://www.youtube.com/watch?v=99KMubPgDIU">https://www.youtube.com/watch?v=99KMubPgDIU</a></p>
@@ -1366,7 +1373,7 @@ Complete(write)    0x0c20_0004    完成对特定中断的处理
 <h2 id="plic-如何工作"><a class="header" href="#plic-如何工作">PLIC 如何工作</a></h2>
 <p>PLIC 通过外部中断引脚连接到 CPU。 以下架构图来自<a href="https://sifive.cdn.prismic.io/sifive%2F834354f0-08e6-423c-bf1f-0cb58ef14061_fu540-c000-v1.0.pdf">SiFive's Freedom Unleashed Manual</a>。</p>
 <div align=center>
-<p><img src="assets/plic_cpu.png" alt="plic_cpu" /></p>
+<p><img src="assets/5/plic_cpu.png" alt="plic_cpu" /></p>
 </div>
 <p>PLIC 连接到外部设备，并通过位于 PLIC 基地址（如上表所示的寄存器）的可编程接口控制它们的中断。 这意味着我们作为程序员可以控制每个中断的优先级，我们是否看到它，我们是否处理过它，等等。</p>
 <p>上图可能有点混乱，但在 QEMU 中编程的 PLIC 要简单得多。</p>
@@ -1383,8 +1390,8 @@ pub fn enable(id: u32) {
     let enables = PLIC_INT_ENABLE as *mut u32;
     let actual_id = 1 &lt;&lt; id;
     unsafe {
-        // 与 complete 和 claim 寄存器不同，plic_int_enable 
-        // 寄存器是一个位集(bitset)，其中 id 是位索引。 
+        // 与 complete 和 claim 寄存器不同，plic_int_enable
+        // 寄存器是一个位集(bitset)，其中 id 是位索引。
         // 该寄存器是一个 32 位寄存器，因此我们可以启用
         // 中断 31 到 1（0 硬连线到 0）。
         enables.write_volatile(enables.read_volatile() | actual_id);
@@ -1426,7 +1433,7 @@ pub fn set_priority(id: u32, prio: u8) {
 /// 这意味着阈值 7 将屏蔽所有中断，阈值 0 将允许所有中断。
 pub fn set_threshold(tsh: u8) {
     // 我们使用 tsh 是因为我们使用的是 u8
-    // 但我们的最大数量是 3 位 0b111。 
+    // 但我们的最大数量是 3 位 0b111。
     // 所以，我们与 7 (0b111) 求 and 来获取最后三位。
     let actual_tsh = tsh &amp; 7;
     let tsh_reg = PLIC_THRESHOLD as *mut u32;
@@ -1455,7 +1462,7 @@ pub fn set_threshold(tsh: u8) {
 </span>
 <span class="boring">fn main() {
 </span>/// 获取下一个可用中断，这就是“claim声明”过程。
-// plic 会自动按优先级排序，并将中断的 ID 交给我们。 
+// plic 会自动按优先级排序，并将中断的 ID 交给我们。
 // 例如，如果 UART 正在中断并且为下一个，我们将得到值 10。
 pub fn next() -&gt; Option {
     let claim_reg = PLIC_CLAIM as *const u32;
@@ -1489,7 +1496,7 @@ pub fn next() -&gt; Option {
   // 我们得到一个来自非 PLIC 源的中断。 这是 PLIC 将 id 0 硬连线
   // 到 0 的主要原因，因此我们可以将其用作错误案例。
   if let Some(interrupt) = plic::next() {
-    // 如果我们到达这里，我们就会从声明寄存器中得到一个中断。 
+    // 如果我们到达这里，我们就会从声明寄存器中得到一个中断。
     // PLIC 将自动为下一个中断设置优先级，因此当我们从声明中获取它时，
     // 它将是优先级顺序中的下一个。
     match interrupt {
@@ -1518,7 +1525,7 @@ pub fn next() -&gt; Option {
             },
           }
         }
-    
+
       },
       // 非UART中断在这里并且什么也不做。
       _ =&gt; {
@@ -1557,7 +1564,7 @@ pub fn complete(id: u32) {
 <span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
-</span>// 让我们通过 PLIC 设置中断系统。 
+</span>// 让我们通过 PLIC 设置中断系统。
 // 我们必须将阈值设置为不会屏蔽所有中断的值。
 println!(&quot;Setting up interrupts and PLIC...&quot;);
 // 我们降低了阈值墙，这样我们的中断就可以跃过它。
@@ -1574,7 +1581,7 @@ println!(&quot;UART interrupts have been enabled and are awaiting your command&q
 </span></code></pre></pre>
 <p>当我们运行(<code>make run</code>)这段代码时，我们得到以下信息。 我输入了底线(bottom line)，但它表明我们现在正在通过 PLIC 处理中断！</p>
 <div align=center>
-<p><img src="assets/plic_works.png" alt="plic_works" /></p>
+<p><img src="assets/5/plic_works.png" alt="plic_works" /></p>
 </div>
 <p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch4.html">第4章</a> → (第5章) → <a href="http://osblog.stephenmarz.com/ch6.html">第6章</a></p>
 

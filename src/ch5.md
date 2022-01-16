@@ -1,13 +1,13 @@
 # **The Adventures of OS**
 
-使用Rust的RISC-V操作系统  
-[**在Patreon上支持我!**](https://www.patreon.com/sgmarz)  [**操作系统博客**](http://osblog.stephenmarz.com/)  [**RSS订阅** ](http://osblog.stephenmarz.com/feed.rss)  [**Github** ](https://github.com/sgmarz)  [**EECS网站**](http://web.eecs.utk.edu/~smarz1)  
-这是[用Rust编写RISC-V操作系统](http://osblog.stephenmarz.com/index.html)系列教程中的第5章。  
-[目录](http://osblog.stephenmarz.com/index.html) → [第4章](http://osblog.stephenmarz.com/ch4.html) → (第5章) → [第6章](http://osblog.stephenmarz.com/ch6.html)  
+使用Rust的RISC-V操作系统
+[**在Patreon上支持我!**](https://www.patreon.com/sgmarz)  [**操作系统博客**](http://osblog.stephenmarz.com/)  [**RSS订阅** ](http://osblog.stephenmarz.com/feed.rss)  [**Github** ](https://github.com/sgmarz)  [**EECS网站**](http://web.eecs.utk.edu/~smarz1)
+这是[用Rust编写RISC-V操作系统](http://osblog.stephenmarz.com/index.html)系列教程中的第5章。
+[目录](http://osblog.stephenmarz.com/index.html) → [第4章](http://osblog.stephenmarz.com/ch4.html) → (第5章) → [第6章](http://osblog.stephenmarz.com/ch6.html)
 
 # 外部中断
 
-**<span style='color:red'>2019年11月18日: 仅Patreon</span>**  
+**<span style='color:red'>2019年11月18日: 仅Patreon</span>**
 **<span style='color:red'>2019年11月25日: 公开</span>**
 
 ## 视频
@@ -44,7 +44,7 @@ PLIC 通过外部中断引脚连接到 CPU。 以下架构图来自[SiFive's Fre
 
 <div align=center>
 
-![plic_cpu](assets/plic_cpu.png)
+![plic_cpu](assets/5/plic_cpu.png)
 
 </div>
 
@@ -67,8 +67,8 @@ pub fn enable(id: u32) {
     let enables = PLIC_INT_ENABLE as *mut u32;
     let actual_id = 1 << id;
     unsafe {
-        // 与 complete 和 claim 寄存器不同，plic_int_enable 
-        // 寄存器是一个位集(bitset)，其中 id 是位索引。 
+        // 与 complete 和 claim 寄存器不同，plic_int_enable
+        // 寄存器是一个位集(bitset)，其中 id 是位索引。
         // 该寄存器是一个 32 位寄存器，因此我们可以启用
         // 中断 31 到 1（0 硬连线到 0）。
         enables.write_volatile(enables.read_volatile() | actual_id);
@@ -110,7 +110,7 @@ PLIC 本身有一个全局阈值，所有中断在“启用”之前都必须通
 /// 这意味着阈值 7 将屏蔽所有中断，阈值 0 将允许所有中断。
 pub fn set_threshold(tsh: u8) {
     // 我们使用 tsh 是因为我们使用的是 u8
-    // 但我们的最大数量是 3 位 0b111。 
+    // 但我们的最大数量是 3 位 0b111。
     // 所以，我们与 7 (0b111) 求 and 来获取最后三位。
     let actual_tsh = tsh & 7;
     let tsh_reg = PLIC_THRESHOLD as *mut u32;
@@ -131,9 +131,9 @@ SiFive 将声明/完成过程描述如下：
 
 > ## 10.7 中断声明过程
 > FU540-C000 hart 可以通过读取`claim/complete`寄存器（表 45）来执行中断声明，该寄存器返回最高优先级的挂起中断的 ID，如果没有挂起的中断，则返回零。 成功的声明还会原子地清除中断源上相应的pending位。
-> 
+>
 > FU540-C000 hart 可以随时执行声明，即使其 `mip`（表 22）寄存器中的 MEIP 位未设置。
-> 
+>
 > 声明操作不受优先级阈值寄存器设置的影响。
 >
 > ## 10.8 中断完成
@@ -144,7 +144,7 @@ SiFive 将声明/完成过程描述如下：
 ```rust
 
 /// 获取下一个可用中断，这就是“claim声明”过程。
-// plic 会自动按优先级排序，并将中断的 ID 交给我们。 
+// plic 会自动按优先级排序，并将中断的 ID 交给我们。
 // 例如，如果 UART 正在中断并且为下一个，我们将得到值 10。
 pub fn next() -> Option {
     let claim_reg = PLIC_CLAIM as *const u32;
@@ -177,7 +177,7 @@ pub fn next() -> Option {
   // 我们得到一个来自非 PLIC 源的中断。 这是 PLIC 将 id 0 硬连线
   // 到 0 的主要原因，因此我们可以将其用作错误案例。
   if let Some(interrupt) = plic::next() {
-    // 如果我们到达这里，我们就会从声明寄存器中得到一个中断。 
+    // 如果我们到达这里，我们就会从声明寄存器中得到一个中断。
     // PLIC 将自动为下一个中断设置优先级，因此当我们从声明中获取它时，
     // 它将是优先级顺序中的下一个。
     match interrupt {
@@ -206,7 +206,7 @@ pub fn next() -> Option {
             },
           }
         }
-    
+
       },
       // 非UART中断在这里并且什么也不做。
       _ => {
@@ -245,7 +245,7 @@ pub fn complete(id: u32) {
 
 ```rust
 
-// 让我们通过 PLIC 设置中断系统。 
+// 让我们通过 PLIC 设置中断系统。
 // 我们必须将阈值设置为不会屏蔽所有中断的值。
 println!("Setting up interrupts and PLIC...");
 // 我们降低了阈值墙，这样我们的中断就可以跃过它。
@@ -264,8 +264,8 @@ println!("UART interrupts have been enabled and are awaiting your command");
 
 <div align=center>
 
-![plic_works](assets/plic_works.png)
+![plic_works](assets/5/plic_works.png)
 
 </div>
 
-[目录](http://osblog.stephenmarz.com/index.html) → [第4章](http://osblog.stephenmarz.com/ch4.html) → (第5章) → [第6章](http://osblog.stephenmarz.com/ch6.html)  
+[目录](http://osblog.stephenmarz.com/index.html) → [第4章](http://osblog.stephenmarz.com/ch4.html) → (第5章) → [第6章](http://osblog.stephenmarz.com/ch6.html)

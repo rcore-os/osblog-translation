@@ -76,127 +76,127 @@ MMU 通过三个不同的分页错误向 CPU 发出地址翻译错误信号：(1
 
 我使用了一些结构体来简化页表项的编程。
 
-    ```rust
-    pub struct Table {
-        pub entries: [Entry; 512],
-    }
+```rust
+pub struct Table {
+    pub entries: [Entry; 512],
+}
 
-    impl Table {
-        pub fn len() -> usize {
-            512
-        }
+impl Table {
+    pub fn len() -> usize {
+        512
     }
-    ```
+}
+```
 
 第一个结构体是一个表。它描述了一级 4096 字节的表。这个大小来自 512 个 8 字节的页表项。一个页表项被描述为：
 
-    ```rust
-    pub struct Entry {
-        pub entry: i64,
+```rust
+pub struct Entry {
+    pub entry: i64,
+}
+
+impl Entry {
+    pub fn is_valid(&self) -> bool {
+        self.get_entry() & EntryBits::Valid.val() != 0
     }
 
-    impl Entry {
-        pub fn is_valid(&self) -> bool {
-            self.get_entry() & EntryBits::Valid.val() != 0
-        }
-
-        // 首位 (下标 #0) 是有效位 (Valid, V)
-        pub fn is_invalid(&self) -> bool {
-            !self.is_valid()
-        }
-
-        // 页项的 RWX 位至少有一位被置位
-        pub fn is_leaf(&self) -> bool {
-            self.get_entry() & 0xe != 0
-        }
-
-        pub fn is_branch(&self) -> bool {
-            !self.is_leaf()
-        }
-
-        pub fn set_entry(&mut self, entry: i64) {
-            self.entry = entry;
-        }
-
-        pub fn get_entry(&self) -> i64 {
-            self.entry
-        }
+    // 首位 (下标 #0) 是有效位 (Valid, V)
+    pub fn is_invalid(&self) -> bool {
+        !self.is_valid()
     }
-    ```
+
+    // 页项的 RWX 位至少有一位被置位
+    pub fn is_leaf(&self) -> bool {
+        self.get_entry() & 0xe != 0
+    }
+
+    pub fn is_branch(&self) -> bool {
+        !self.is_leaf()
+    }
+
+    pub fn set_entry(&mut self, entry: i64) {
+        self.entry = entry;
+    }
+
+    pub fn get_entry(&self) -> i64 {
+        self.entry
+    }
+}
+```
 
 本质上我只是把 `i64` 数据类型重命名为 `Entry`，这样我就可以给它添加一些辅助函数。
 
 map 函数接收一个页表根的可变引用，一个虚拟地址，一个物理地址，保护位，以及这个地址应该被映射到哪个级别。通常情况下，我们将所有的页面映射到 0 级，也就是 4KiB 级。然而，我们可以用 2 级表示比 1GiB 页，1 表示 2MiB 页，或 0 表示 4KiB 页。
 
-    ```rust
-    pub fn map(root: &mut Table, vaddr: usize, paddr: usize, bits: i64, level: usize) {
-        // 确保 RWX 至少有一位被置位，否则会导致内存泄漏并且产生一个页错误
-        assert!(bits & 0xe != 0);
-        // 从虚拟地址中提取 VPN 。虚拟地址中, 每段 VPN 都恰好是 9 位，
-        // 所以我们用 0x1ff = 0b1_1111_1111 (9 位) 作为掩码
-        let vpn = [
-                    // VPN[0] = vaddr[20:12]
-                    (vaddr >> 12) & 0x1ff,
-                    // VPN[1] = vaddr[29:21]
-                    (vaddr >> 21) & 0x1ff,
-                    // VPN[2] = vaddr[38:30]
-                    (vaddr >> 30) & 0x1ff,
-        ];
+```rust
+pub fn map(root: &mut Table, vaddr: usize, paddr: usize, bits: i64, level: usize) {
+    // 确保 RWX 至少有一位被置位，否则会导致内存泄漏并且产生一个页错误
+    assert!(bits & 0xe != 0);
+    // 从虚拟地址中提取 VPN 。虚拟地址中, 每段 VPN 都恰好是 9 位，
+    // 所以我们用 0x1ff = 0b1_1111_1111 (9 位) 作为掩码
+    let vpn = [
+                // VPN[0] = vaddr[20:12]
+                (vaddr >> 12) & 0x1ff,
+                // VPN[1] = vaddr[29:21]
+                (vaddr >> 21) & 0x1ff,
+                // VPN[2] = vaddr[38:30]
+                (vaddr >> 30) & 0x1ff,
+    ];
 
-        // 与虚拟地址类似，提取物理页号 (PPN)。但是 PPN[2] 是 26 位而不是 9 位，
-        // 这是不同之处。因此我们使用
-        // 0x3ff_ffff = 0b11_1111_1111_1111_1111_1111_1111 (26 位).
-        let ppn = [
-                    // PPN[0] = paddr[20:12]
-                    (paddr >> 12) & 0x1ff,
-                    // PPN[1] = paddr[29:21]
-                    (paddr >> 21) & 0x1ff,
-                    // PPN[2] = paddr[55:30]
-                    (paddr >> 30) & 0x3ff_ffff,
-        ];
-    ```
+    // 与虚拟地址类似，提取物理页号 (PPN)。但是 PPN[2] 是 26 位而不是 9 位，
+    // 这是不同之处。因此我们使用
+    // 0x3ff_ffff = 0b11_1111_1111_1111_1111_1111_1111 (26 位).
+    let ppn = [
+                // PPN[0] = paddr[20:12]
+                (paddr >> 12) & 0x1ff,
+                // PPN[1] = paddr[29:21]
+                (paddr >> 21) & 0x1ff,
+                // PPN[2] = paddr[55:30]
+                (paddr >> 30) & 0x3ff_ffff,
+    ];
+```
 
 我们在这里做的第一件事是分解虚拟地址和物理地址。注意，我们并不关心页面偏移量--这是因为我们并不存储页面偏移量。相反，当 MMU 翻译一个虚拟地址时，它直接将页面偏移量复制到物理地址中，形成一个完整的 56 位物理地址。
 
-    ```rust
-    // We will use this as a floating reference so that we can set
-    // individual entries as we walk the table.
-    let mut v = &mut root.entries[vpn[2]];
-    // Now, we're going to traverse the page table and set the bits
-    // properly. We expect the root to be valid, however we're required to
-    // create anything beyond the root.
-    // In Rust, we create a range iterator using the .. operator.
-    // The .rev() will reverse the iteration since we need to start with
-    // VPN[2] The .. operator is inclusive on start but exclusive on end.
-    // So, (0..2) will iterate 0 and 1.
-    for i in (level..2).rev() {
-        if !v.is_valid() {
-            // Allocate a page
-            let page = zalloc(1);
-            // The page is already aligned by 4,096, so store it
-            // directly The page is stored in the entry shifted
-            // right by 2 places.
-            v.set_entry(
-                        (page as i64 >> 2)
-                        | EntryBits::Valid.val(),
-            );
-        }
-        let entry = ((v.get_entry() & !0x3ff) << 2) as *mut Entry;
-        v = unsafe { entry.add(vpn[i]).as_mut().unwrap() };
+```rust
+// We will use this as a floating reference so that we can set
+// individual entries as we walk the table.
+let mut v = &mut root.entries[vpn[2]];
+// Now, we're going to traverse the page table and set the bits
+// properly. We expect the root to be valid, however we're required to
+// create anything beyond the root.
+// In Rust, we create a range iterator using the .. operator.
+// The .rev() will reverse the iteration since we need to start with
+// VPN[2] The .. operator is inclusive on start but exclusive on end.
+// So, (0..2) will iterate 0 and 1.
+for i in (level..2).rev() {
+    if !v.is_valid() {
+        // Allocate a page
+        let page = zalloc(1);
+        // The page is already aligned by 4,096, so store it
+        // directly The page is stored in the entry shifted
+        // right by 2 places.
+        v.set_entry(
+                    (page as i64 >> 2)
+                    | EntryBits::Valid.val(),
+        );
     }
-    // When we get here, we should be at VPN[0] and v should be pointing to
-    // our entry.
-    // The entry structure is Figure 4.18 in the RISC-V Privileged
-    // Specification
-    let entry = (ppn[2] << 28) as i64 |   // PPN[2] = [53:28]
-                (ppn[1] << 19) as i64 |   // PPN[1] = [27:19]
-                (ppn[0] << 10) as i64 |   // PPN[0] = [18:10]
-                bits |                    // Specified bits, such as User, Read, Write, etc
-                EntryBits::Valid.val();   // Valid bit
-                // Set the entry. V should be set to the correct pointer by the loop
-                // above.
-    v.set_entry(entry);
-    ```
+    let entry = ((v.get_entry() & !0x3ff) << 2) as *mut Entry;
+    v = unsafe { entry.add(vpn[i]).as_mut().unwrap() };
+}
+// When we get here, we should be at VPN[0] and v should be pointing to
+// our entry.
+// The entry structure is Figure 4.18 in the RISC-V Privileged
+// Specification
+let entry = (ppn[2] << 28) as i64 |   // PPN[2] = [53:28]
+            (ppn[1] << 19) as i64 |   // PPN[1] = [27:19]
+            (ppn[0] << 10) as i64 |   // PPN[0] = [18:10]
+            bits |                    // Specified bits, such as User, Read, Write, etc
+            EntryBits::Valid.val();   // Valid bit
+            // Set the entry. V should be set to the correct pointer by the loop
+            // above.
+v.set_entry(entry);
+```
 
 在上面的代码中，我们用 zalloc 分配了一个新的页面。幸运的是，RISC-V 的每级页表正好是 4096 字节（512个页表项，每个 8 字节），这正是我们使用 zalloc 分配的大小。
 
@@ -208,35 +208,35 @@ map 函数接收一个页表根的可变引用，一个虚拟地址，一个物�
 
 我们将为每个用户空间的应用程序至少分配一个页。然而，我计划只允许用户空间的应用程序使用 4KiB 大小的页。因此，我们至少需要为一个地址准备三个页表项。这意味着，如果我们不重复使用这些页，内存很快就会耗尽。为了释放内存，我们将使用 unmap。
 
-    ```rust
-    pub fn unmap(root: &mut Table) {
-        // Start with level 2
-        for lv2 in 0..Table::len() {
-            let ref entry_lv2 = root.entries[lv2];
-            if entry_lv2.is_valid() && entry_lv2.is_branch() {
-                // This is a valid entry, so drill down and free.
-                let memaddr_lv1 = (entry_lv2.get_entry() & !0x3ff) << 2;
-                let table_lv1 = unsafe {
-                    // Make table_lv1 a mutable reference instead of a pointer.
-                    (memaddr_lv1 as *mut Table).as_mut().unwrap()
-                };
-                for lv1 in 0..Table::len() {
-                    let ref entry_lv1 = table_lv1.entries[lv1];
-                    if entry_lv1.is_valid() && entry_lv1.is_branch()
-                    {
-                        let memaddr_lv0 = (entry_lv1.get_entry()
-                                            & !0x3ff) << 2;
-                        // The next level is level 0, which
-                        // cannot have branches, therefore,
-                        // we free here.
-                        dealloc(memaddr_lv0 as *mut u8);
-                    }
+```rust
+pub fn unmap(root: &mut Table) {
+    // Start with level 2
+    for lv2 in 0..Table::len() {
+        let ref entry_lv2 = root.entries[lv2];
+        if entry_lv2.is_valid() && entry_lv2.is_branch() {
+            // This is a valid entry, so drill down and free.
+            let memaddr_lv1 = (entry_lv2.get_entry() & !0x3ff) << 2;
+            let table_lv1 = unsafe {
+                // Make table_lv1 a mutable reference instead of a pointer.
+                (memaddr_lv1 as *mut Table).as_mut().unwrap()
+            };
+            for lv1 in 0..Table::len() {
+                let ref entry_lv1 = table_lv1.entries[lv1];
+                if entry_lv1.is_valid() && entry_lv1.is_branch()
+                {
+                    let memaddr_lv0 = (entry_lv1.get_entry()
+                                        & !0x3ff) << 2;
+                    // The next level is level 0, which
+                    // cannot have branches, therefore,
+                    // we free here.
+                    dealloc(memaddr_lv0 as *mut u8);
                 }
-                dealloc(memaddr_lv1 as *mut u8);
             }
+            dealloc(memaddr_lv1 as *mut u8);
         }
     }
-    ```
+}
+```
 
 就像 map 函数一样，这个函数假设了一个合法的页表根（第 2 级页表）。我们把它的可变引用传递到 unmap 函数中。因此，这段代码背后的逻辑是，我们从最低一级（第 0 级）开始释放空间，然后一路回到最高级（第 2 级）。上述代码本质上是使用迭代方式实现了一个递归函数。请注意，我没有释放页表根本身。由于我们得到了一个通用的的页表结构体的引用，我们可以传入一个 1 级表来释放一个更大的表。
 
@@ -244,50 +244,50 @@ map 函数接收一个页表根的可变引用，一个虚拟地址，一个物�
 
 最后，我们需要手动遍历页表。这被用于从虚拟内存地址复制数据。由于虚拟内存地址在内核和用户进程之间是不同的，我们需要通过物理地址进行转化。唯一的方法是将虚拟内存地址转换为对应的物理地址。与硬件 MMU 不同，我们可以将任何页表传递给这个函数，无论这个表目前是否正被 MMU 使用。
 
-    ```rust
-    pub fn virt_to_phys(root: &Table, vaddr: usize) -> Option {
-        // Walk the page table pointed to by root
-        let vpn = [
-                    // VPN[0] = vaddr[20:12]
-                    (vaddr >> 12) & 0x1ff,
-                    // VPN[1] = vaddr[29:21]
-                    (vaddr >> 21) & 0x1ff,
-                    // VPN[2] = vaddr[38:30]
-                    (vaddr >> 30) & 0x1ff,
-        ];
+```rust
+pub fn virt_to_phys(root: &Table, vaddr: usize) -> Option {
+    // Walk the page table pointed to by root
+    let vpn = [
+                // VPN[0] = vaddr[20:12]
+                (vaddr >> 12) & 0x1ff,
+                // VPN[1] = vaddr[29:21]
+                (vaddr >> 21) & 0x1ff,
+                // VPN[2] = vaddr[38:30]
+                (vaddr >> 30) & 0x1ff,
+    ];
 
-        let mut v = &root.entries[vpn[2]];
-        for i in (0..=2).rev() {
-            if v.is_invalid() {
-                // This is an invalid entry, page fault.
-                break;
-            }
-            else if v.is_leaf() {
-                // According to RISC-V, a leaf can be at any level.
-
-                // The offset mask masks off the PPN. Each PPN is 9
-                // bits and they start at bit #12. So, our formula
-                // 12 + i * 9
-                let off_mask = (1 << (12 + i * 9)) - 1;
-                let vaddr_pgoff = vaddr & off_mask;
-                let addr = ((v.get_entry() << 2) as usize) & !off_mask;
-                return Some(addr | vaddr_pgoff);
-            }
-            // Set v to the next entry which is pointed to by this
-            // entry. However, the address was shifted right by 2 places
-            // when stored in the page table entry, so we shift it left
-            // to get it back into place.
-            let entry = ((v.get_entry() & !0x3ff) << 2) as *const Entry;
-            // We do i - 1 here, however we should get None or Some() above
-            // before we do 0 - 1 = -1.
-            v = unsafe { entry.add(vpn[i - 1]).as_ref().unwrap() };
+    let mut v = &root.entries[vpn[2]];
+    for i in (0..=2).rev() {
+        if v.is_invalid() {
+            // This is an invalid entry, page fault.
+            break;
         }
+        else if v.is_leaf() {
+            // According to RISC-V, a leaf can be at any level.
 
-        // If we get here, we've exhausted all valid tables and haven't
-        // found a leaf.
-        None
+            // The offset mask masks off the PPN. Each PPN is 9
+            // bits and they start at bit #12. So, our formula
+            // 12 + i * 9
+            let off_mask = (1 << (12 + i * 9)) - 1;
+            let vaddr_pgoff = vaddr & off_mask;
+            let addr = ((v.get_entry() << 2) as usize) & !off_mask;
+            return Some(addr | vaddr_pgoff);
+        }
+        // Set v to the next entry which is pointed to by this
+        // entry. However, the address was shifted right by 2 places
+        // when stored in the page table entry, so we shift it left
+        // to get it back into place.
+        let entry = ((v.get_entry() & !0x3ff) << 2) as *const Entry;
+        // We do i - 1 here, however we should get None or Some() above
+        // before we do 0 - 1 = -1.
+        v = unsafe { entry.add(vpn[i - 1]).as_ref().unwrap() };
     }
-    ```
+
+    // If we get here, we've exhausted all valid tables and haven't
+    // found a leaf.
+    None
+}
+```
 
 在上面的 Rust 函数中，我们得到了一个对页表的常引用。我们返回一个 Option，它是一个枚举类型，要么是 None（用于指示页面错误），要么是Some()（用于返回物理地址）。
 
@@ -313,127 +313,127 @@ RISC-V 特权规范。第4.3.1章
 
 要做到这一点，我们要对内核中需要的一切进行恒等映射（虚拟地址=物理地址），包括程序代码、全局段、UART MMIO 地址等等。首先，我用 Rust 写了一个函数，它将帮助我恒等映射一段地址。
 
-    ```rust
-    pub fn id_map_range(root: &mut page::Table,
-        start: usize,
-        end: usize,
-        bits: i64)
-    {
-        let mut memaddr = start & !(page::PAGE_SIZE - 1);
-        let num_kb_pages = (page::align_val(end, 12)
-            - memaddr)
-            / page::PAGE_SIZE;
+```rust
+pub fn id_map_range(root: &mut page::Table,
+    start: usize,
+    end: usize,
+    bits: i64)
+{
+    let mut memaddr = start & !(page::PAGE_SIZE - 1);
+    let num_kb_pages = (page::align_val(end, 12)
+        - memaddr)
+        / page::PAGE_SIZE;
 
-        // I named this num_kb_pages for future expansion when
-        // I decide to allow for GiB (2^30) and 2MiB (2^21) page
-        // sizes. However, the overlapping memory regions are causing
-        // nightmares.
-        for _ in 0..num_kb_pages {
-        page::map(root, memaddr, memaddr, bits, 0);
-        memaddr += 1 << 12;
-        }
+    // I named this num_kb_pages for future expansion when
+    // I decide to allow for GiB (2^30) and 2MiB (2^21) page
+    // sizes. However, the overlapping memory regions are causing
+    // nightmares.
+    for _ in 0..num_kb_pages {
+    page::map(root, memaddr, memaddr, bits, 0);
+    memaddr += 1 << 12;
     }
-    ```
+}
+```
 
 如你所见，这个函数调用了我们的 page::map 函数，它将一个虚拟地址映射到一个物理地址。我们得到的根表是一个可变引用，可以把它直接传递给 map 函数。
 
 现在，我们需要用这个函数来映射我们的程序代码段和稍后设备驱动所需的所有的 MMIO 地址。
 
-    ```rust
-    page::init();
-    kmem::init();
+```rust
+page::init();
+kmem::init();
 
-    // Map heap allocations
-    let root_ptr = kmem::get_page_table();
-    let root_u = root_ptr as usize;
-    let mut root = unsafe { root_ptr.as_mut().unwrap() };
-    let kheap_head = kmem::get_head() as usize;
-    let total_pages = kmem::get_num_allocations();
-    println!();
-    println!();
-    unsafe {
-        println!("TEXT:   0x{:x} -> 0x{:x}", TEXT_START, TEXT_END);
-        println!("RODATA: 0x{:x} -> 0x{:x}", RODATA_START, RODATA_END);
-        println!("DATA:   0x{:x} -> 0x{:x}", DATA_START, DATA_END);
-        println!("BSS:    0x{:x} -> 0x{:x}", BSS_START, BSS_END);
-        println!("STACK:  0x{:x} -> 0x{:x}", KERNEL_STACK_START, KERNEL_STACK_END);
-        println!("HEAP:   0x{:x} -> 0x{:x}", kheap_head, kheap_head + total_pages * 4096);
-    }
+// Map heap allocations
+let root_ptr = kmem::get_page_table();
+let root_u = root_ptr as usize;
+let mut root = unsafe { root_ptr.as_mut().unwrap() };
+let kheap_head = kmem::get_head() as usize;
+let total_pages = kmem::get_num_allocations();
+println!();
+println!();
+unsafe {
+    println!("TEXT:   0x{:x} -> 0x{:x}", TEXT_START, TEXT_END);
+    println!("RODATA: 0x{:x} -> 0x{:x}", RODATA_START, RODATA_END);
+    println!("DATA:   0x{:x} -> 0x{:x}", DATA_START, DATA_END);
+    println!("BSS:    0x{:x} -> 0x{:x}", BSS_START, BSS_END);
+    println!("STACK:  0x{:x} -> 0x{:x}", KERNEL_STACK_START, KERNEL_STACK_END);
+    println!("HEAP:   0x{:x} -> 0x{:x}", kheap_head, kheap_head + total_pages * 4096);
+}
+id_map_range(
+                &mut root,
+                kheap_head,
+                kheap_head + total_pages * 4096,
+                page::EntryBits::ReadWrite.val(),
+);
+unsafe {
+    // Map heap descriptors
+    let num_pages = HEAP_SIZE / page::PAGE_SIZE;
+    id_map_range(&mut root,
+                    HEAP_START,
+                    HEAP_START + num_pages,
+                    page::EntryBits::ReadWrite.val()
+    );
+    // Map executable section
     id_map_range(
                     &mut root,
-                    kheap_head,
-                    kheap_head + total_pages * 4096,
+                    TEXT_START,
+                    TEXT_END,
+                    page::EntryBits::ReadExecute.val(),
+    );
+    // Map rodata section
+    // We put the ROdata section into the text section, so they can
+    // potentially overlap however, we only care that it's read
+    // only.
+    id_map_range(
+                    &mut root,
+                    RODATA_START,
+                    RODATA_END,
+                    page::EntryBits::ReadExecute.val(),
+    );
+    // Map data section
+    id_map_range(
+                    &mut root,
+                    DATA_START,
+                    DATA_END,
                     page::EntryBits::ReadWrite.val(),
     );
-    unsafe {
-        // Map heap descriptors
-        let num_pages = HEAP_SIZE / page::PAGE_SIZE;
-        id_map_range(&mut root,
-                        HEAP_START,
-                        HEAP_START + num_pages,
-                        page::EntryBits::ReadWrite.val()
-        );
-        // Map executable section
-        id_map_range(
-                        &mut root,
-                        TEXT_START,
-                        TEXT_END,
-                        page::EntryBits::ReadExecute.val(),
-        );
-        // Map rodata section
-        // We put the ROdata section into the text section, so they can
-        // potentially overlap however, we only care that it's read
-        // only.
-        id_map_range(
-                        &mut root,
-                        RODATA_START,
-                        RODATA_END,
-                        page::EntryBits::ReadExecute.val(),
-        );
-        // Map data section
-        id_map_range(
-                        &mut root,
-                        DATA_START,
-                        DATA_END,
-                        page::EntryBits::ReadWrite.val(),
-        );
-        // Map bss section
-        id_map_range(
-                        &mut root,
-                        BSS_START,
-                        BSS_END,
-                        page::EntryBits::ReadWrite.val(),
-        );
-        // Map kernel stack
-        id_map_range(
-                        &mut root,
-                        KERNEL_STACK_START,
-                        KERNEL_STACK_END,
-                        page::EntryBits::ReadWrite.val(),
-        );
-    }
-
-    // UART
-    page::map(
-                &mut root,
-                0x1000_0000,
-                0x1000_0000,
-                page::EntryBits::ReadWrite.val(),
-                0
+    // Map bss section
+    id_map_range(
+                    &mut root,
+                    BSS_START,
+                    BSS_END,
+                    page::EntryBits::ReadWrite.val(),
     );
-    ```
+    // Map kernel stack
+    id_map_range(
+                    &mut root,
+                    KERNEL_STACK_START,
+                    KERNEL_STACK_END,
+                    page::EntryBits::ReadWrite.val(),
+    );
+}
+
+// UART
+page::map(
+            &mut root,
+            0x1000_0000,
+            0x1000_0000,
+            page::EntryBits::ReadWrite.val(),
+            0
+);
+```
 
 这有很多代码，因此我需要编写 id_map_range 函数。在这段代码中，我们首先初始化我们在第 3.1 章中创建的页分配系统。然后，我们创建一个页表根，它正好需要1页（4096字节）。来回转换内存地址的类型的意义在于，我们最终需要将一个物理地址写入 SATP（Supervisor Address Translation and Protection，监管者地址翻译与保护）寄存器以使 MMU 正常运行。
 
 现在我们有了页表根，我们需要把它写进 SATP 寄存器的 PPN 字段。PPN 本质上是页表根的 56 位物理地址的前 44 位。我们要做的是把页表根的地址向右移 12 位，这本质上是把地址除以一个页面的大小。
 
-    ```rust
-    let root_ppn = root_u >> 12;
-    let satp_val = 8 << 60 | root_ppn;
-    unsafe {
-        asm!("csrw satp, $0" :: "r"(satp_val));
-    }
-    ```
+```rust
+let root_ppn = root_u >> 12;
+let satp_val = 8 << 60 | root_ppn;
+unsafe {
+    asm!("csrw satp, $0" :: "r"(satp_val));
+}
+```
 
 上面的代码使用了 asm！宏，它允许我们在 Rust 中直接编写汇编代码。在这里，我们使用 csrw 指令，意思是 "控制和状态寄存器-写入"。8 << 60 把数值 8 放在 SATP 寄存器的 MODE 字段中，表示 Sv39 分页模式。
 
@@ -443,15 +443,15 @@ RISC-V 特权规范。第4.3.1章
 
 我们切换 SATP 寄存器时需要谨慎，因为页表会被缓存。切换的次数越多，我们就需要刷新缓存：旧的出来，新的进去。当用户进程开始切入和切出上下文时，我们需要同步页表。如果你现在对此有兴趣，请看 [RISC-V 的特权规范第4.2.1章](https://github.com/riscv/riscv-isa-manual)，不过当我们开始运行进程时，我们会详细介绍这一点。
 
-    ```assembly
-        li t0, (1 << 11) | (1 << 5)
-        csrw mstatus, t0
+```assembly
+    li t0, (1 << 11) | (1 << 5)
+    csrw mstatus, t0
 
-        la t1, kmain
-        csrw mepc, t1
+    la t1, kmain
+    csrw mepc, t1
 
-        mret
-    ```
+    mret
+```
 
 我们在上面的代码中所做的是启用中断，并将第 11 位开始的数值置为 1（MPP=01）。当我们执行 mret 时，我们进入了一个叫 kmain 的 Rust 函数。现在我们处于监督者模式并且完全打开 MMU。
 

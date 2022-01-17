@@ -1,8 +1,8 @@
-# 页面粒度的内存分配
+# 页粒度的内存分配
 
 ## 视频
 
-这个帖子的视频在 YouTube 上：[https://www.youtube.com/watch?v=SZ6GMxLkbx0](https://www.youtube.com/watch?v=SZ6GMxLkbx0)。
+本章博文的视频在 YouTube 上：[https://www.youtube.com/watch?v=SZ6GMxLkbx0](https://www.youtube.com/watch?v=SZ6GMxLkbx0)。
 
 ## 概述
 

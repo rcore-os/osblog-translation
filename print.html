@@ -100,7 +100,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 搭建环境与前置需求</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> 页级内存分配</div></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 处理中断和陷入</div></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> 进程的内存</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> 系统调用</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 搭建环境与前置需求</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页级内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 处理中断和陷入</div></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> 进程的内存</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> 系统调用</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -926,8 +926,59 @@ loop {
 <p>现在，我们只想进行通信。我们从婴儿谈话开始，然后我们可以开始将UART集成到一个控制台模块中，该模块将支持更多类似终端的功能。记住，让它工作、玩耍、欢呼、啤酒（这是一个动词，对吗？），然后我们就可以开始清理代码了。我预计还有很多章节会是这样的。我们将探索已经被广泛研究的内存分配器，我们将挑选一个，看看它是否适合我们，如果不适合，再挑选另一个。我认为这更像是一个旅程，而不是 &quot;这是最终产品，享受吧！&quot;已经有一个最终产品了--如果这是你唯一的目标，就叫<a href="https://fedoraproject.org/wiki/Architectures/RISC-V">RISC-V的Linux</a>。</p>
 <p><strong>沟通是关键</strong></p>
 <p>使用调试器是一个很大的挑战，尤其是当你不熟悉如何使用调试器或你所使用的特定调试器时。相反，我教我的那些从来没有编程的学生以一定的增量打印出数值，看看他们是否得到他们认为应该得到的东西。你现在可以倾听你的操作系统，与它对话。你可以开始自己做实验，看看你能让它做什么很酷的事情。还有，用Rust做实验。我绝不是一个专家，正如许多Rust开发者在我的GitHub上所证明的那样--尽管我欢迎教育（我真的很欢迎！）。所以，也许你能找到比我使用Rust更整洁、更好的方法。如果是这样，请告诉我们。</p>
-<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="内存管理单元"><a class="header" href="#内存管理单元">内存管理单元</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="页面粒度的内存分配"><a class="header" href="#页面粒度的内存分配">页面粒度的内存分配</a></h1>
+<h2 id="视频"><a class="header" href="#视频">视频</a></h2>
+<p>这个帖子的视频在 YouTube 上：<a href="https://www.youtube.com/watch?v=SZ6GMxLkbx0">https://www.youtube.com/watch?v=SZ6GMxLkbx0</a>。</p>
 <h2 id="概述-1"><a class="header" href="#概述-1">概述</a></h2>
+<p>当我们启动时，.elf文件内的所有内容都会自动加载到内存中。在代码中可见，我们为整个系统分配了 128 兆字节空间。因此，我们需要处理除去所有声明的全局变量和代码之外的空间。</p>
+<p>在管理内存时，我们本质上需要处理三个部分：1）页粒度的分配，2）字节粒度的分配，以及 3）内存管理单元的编程。</p>
+<h2 id="以页为单位的分配"><a class="header" href="#以页为单位的分配">以页为单位的分配</a></h2>
+<p>以页为单位的分配意味着每一次分配所提供的内存大小是一个页。在大多数架构中，最小的页大小是 4096 字节。RISC-V 也不例外。我们将使用 SV39 MMU 分页系统，这些将在第 3 部分中深入讨论。</p>
+<p>我们有多种方法可以一次分配页面。由于我们知道每一次分配的大小，分配方案就很直白了。许多操作系统使用一个链表进行分配，其中指向链表头部的指针是第一个未分配的页面，然后每个未分配的页面用 8 个字节来存储下一个指针，指向下一个页面的内存地址。这些字节是存储在页面本身之中的，所以不需要额外的内存的开销。</p>
+<p>这个系统的缺点是，我们必须跟踪每一个被分配的页面，因为一个指针就是一个页面。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct FreePages {
+    struct FreePages *next;
+};
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="描述符的分配"><a class="header" href="#描述符的分配">描述符的分配</a></h2>
+<p>我们的操作系统将使用描述符。我们可以分配连续的页面，而只存储链表头的指针。然而要做到这一点，我们需要为每个 4096 字节大小的页额外分配一个字节。这一个字节将包含两个标志：1）这个页面是否被占用？ 2）这是不是连续分配的最后一个页面？</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// These are the page flags, we represent this
+// as a u8, since the Page stores this flag.
+#[repr(u8)]
+pub enum PageBits {
+    Empty = 0,
+    Taken = 1 &lt;&lt; 0,
+    Last = 1 &lt;&lt; 1,
+}
+
+pub struct Page {
+    flags: u8,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>在这里，我们需要为每个页面分配一个 Page 结构体。幸运的是，通过升级过的链接器脚本，我们能够获得堆的地址和大小。</p>
+<pre><code class="language-linker">/*
+Finally, our heap starts right after the kernel stack. This heap will be used mainly
+to dole out memory for user-space applications. However, in some circumstances, it will
+be used for kernel memory as well.
+
+We don't align here because we let the kernel determine how it wants to do this.
+*/
+PROVIDE(_heap_start = _stack_end);
+PROVIDE(_heap_size = _memory_end - _heap_start);
+</code></pre>
+<p>我们可以简单的地计算出堆中的总页数：<code>let num_pages = HEAP_SIZE / PAGE_SIZE;</code>，其中 HEAP_SIZE 是一个全局符号，值为 _heap_size，页大小是一个常数为 4096。最终我们必须分配 num_pages 数量的 <code>Page</code> 描述符来存储分配信息。</p>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="内存管理单元"><a class="header" href="#内存管理单元">内存管理单元</a></h1>
+<h2 id="视频-1"><a class="header" href="#视频-1">视频</a></h2>
+<p>本章博文的视频在 YouTube 上：<a href="https://www.youtube.com/watch?v=-9sRy5UPWJk">https://www.youtube.com/watch?v=-9sRy5UPWJk</a></p>
+<h2 id="概述-2"><a class="header" href="#概述-2">概述</a></h2>
 <p>从操作系统的角度来看，我们有一个从某个起始地址到某个结束地址的大内存池。我们可以使用链接脚本（virt.lds 文件）提供表示起始和终止地址的符号。</p>
 <p>一些内存将用于全局变量、堆栈空间等。但是，我们使用链接脚本来帮助我们处理这些不断移动的东西。其余空闲的内存成为我们的“堆”空间。然而，操作系统中的堆并不完全是 malloc/free 所使用的堆。</p>
 <h2 id="分页"><a class="header" href="#分页">分页</a></h2>
@@ -1353,9 +1404,9 @@ unsafe {
 <h1 id="外部中断"><a class="header" href="#外部中断">外部中断</a></h1>
 <p><strong><span style='color:red'>2019年11月18日: 仅Patreon</span></strong>
 <strong><span style='color:red'>2019年11月25日: 公开</span></strong></p>
-<h2 id="视频"><a class="header" href="#视频">视频</a></h2>
+<h2 id="视频-2"><a class="header" href="#视频-2">视频</a></h2>
 <p><a href="https://www.youtube.com/watch?v=99KMubPgDIU">https://www.youtube.com/watch?v=99KMubPgDIU</a></p>
-<h2 id="概述-2"><a class="header" href="#概述-2">概述</a></h2>
+<h2 id="概述-3"><a class="header" href="#概述-3">概述</a></h2>
 <p>在上一章，我们讨论了CPU以及内核的中断。 在这一章，我们将讨论中断的其中一类——外部中断，这些中断表示发生了某些外部或平台中断。 例如，UART设备可能刚刚填满了它的缓冲区。</p>
 <h2 id="平台级中断控制器the-platform-level-interrupt-controller"><a class="header" href="#平台级中断控制器the-platform-level-interrupt-controller">平台级中断控制器(The Platform-Level Interrupt Controller)</a></h2>
 <p>平台级中断控制器 (PLIC) 通过CPU上的一个引脚——EI (外部中断) 引脚，来路由所有信号，通过 <code>mie</code> 寄存器中的机器外部中断启用 (<code>meie</code>) 位可以启用该引脚。</p>

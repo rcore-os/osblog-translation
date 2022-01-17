@@ -172,7 +172,7 @@
 <h2 id="视频"><a class="header" href="#视频">视频</a></h2>
 <p>本章博文的视频在 YouTube 上：<a href="https://www.youtube.com/watch?v=SZ6GMxLkbx0">https://www.youtube.com/watch?v=SZ6GMxLkbx0</a>。</p>
 <h2 id="概述"><a class="header" href="#概述">概述</a></h2>
-<p>当我们启动时，.elf文件内的所有内容都会自动加载到内存中。在代码中可见，我们为整个系统分配了 128 兆字节空间。因此，我们需要处理除去所有声明的全局变量和代码之外的空间。</p>
+<p>当我们启动时，<code>.elf</code> 文件内的所有内容都会自动加载到内存中。在代码中可见，我们为整个系统分配了 128 兆字节空间。因此，我们需要处理除去所有声明的全局变量和代码之外的空间。</p>
 <p>在管理内存时，我们本质上需要处理三个部分：1）页粒度的分配，2）字节粒度的分配，以及 3）内存管理单元的编程。</p>
 <h2 id="以页为单位的分配"><a class="header" href="#以页为单位的分配">以页为单位的分配</a></h2>
 <p>以页为单位的分配意味着每一次分配所提供的内存大小是一个页。在大多数架构中，最小的页大小是 4096 字节。RISC-V 也不例外。我们将使用 SV39 MMU 分页系统，这些将在第 3 部分中深入讨论。</p>
@@ -205,7 +205,7 @@ pub struct Page {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>在这里，我们需要为每个页面分配一个 Page 结构体。幸运的是，通过升级过的链接器脚本，我们能够获得堆的地址和大小。</p>
+<p>在这里，我们需要为每个页面分配一个 <code>Page</code> 结构体。幸运的是，通过升级过的链接器脚本，我们能够获得堆的地址和大小。</p>
 <pre><code class="language-linker">/*
 Finally, our heap starts right after the kernel stack. This heap will be used mainly
 to dole out memory for user-space applications. However, in some circumstances, it will
@@ -216,9 +216,9 @@ We don't align here because we let the kernel determine how it wants to do this.
 PROVIDE(_heap_start = _stack_end);
 PROVIDE(_heap_size = _memory_end - _heap_start);
 </code></pre>
-<p>我们可以简单的地计算出堆中的总页数：<code>let num_pages = HEAP_SIZE / PAGE_SIZE;</code>，其中 HEAP_SIZE 是一个全局符号，值为 _heap_size，页大小是一个常数为 4096。最终我们必须分配 num_pages 数量的 <code>Page</code> 描述符来存储分配信息。</p>
+<p>我们可以简单的地计算出堆中的总页数：<code>let num_pages = HEAP_SIZE / PAGE_SIZE;</code>，其中 <code>HEAP_SIZE</code> 是一个全局符号，值为 <code>_heap_size</code>，页大小是一个常数为 4096。最终我们必须分配 <code>num_pages</code> 数量的 <code>Page</code> 描述符来存储分配信息。</p>
 <h2 id="页面分配"><a class="header" href="#页面分配">页面分配</a></h2>
-<p>分配是通过首先在描述符链表中搜索一个连续、空闲的页面块来完成的。我们接收想要分配的页数量作为分配的参数。在这里，如果我们找到一段空闲的页，我们就把所有这些页的描述符都设置为已占用，然后将最后一个页的&quot;Last&quot;位置位。这可以帮助我们在释放分配的页面时，跟踪最后一个页面的位置。</p>
+<p>分配是通过首先在描述符链表中搜索一个连续、空闲的页面块来完成的。我们接收想要分配的页数量作为 <code>alloc</code> 的参数。如果我们找到一段空闲的页，我们就把所有这些 <code>Page</code> 的描述符都设置为已占用，然后将最后一个页的&quot;Last&quot;位置位。这可以帮助我们在释放分配的页面时，跟踪最后一个页面的位置。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -252,9 +252,9 @@ PROVIDE(_heap_size = _memory_end - _heap_start);
     // ........................................
 <span class="boring">}
 </span></code></pre></pre>
-<p>我们可以简单算出哪个描述符指向哪个页面，因为第一个描述符就是第一页，第二个描述符是第二页，...，第 n 个描述符是第 n 页。这种一对一的关系简化了数学运算：<code>ALLOC_START + PAGE_SIZE * i</code> 。在这个公式中，ALLOC_START 是第一个可用页面的地址，PAGE_SIZE 是常数 4096，而 i 是指第 i 个页面描述符（从0开始）。</p>
+<p>我们可以简单算出哪个描述符指向哪个页面，因为第一个描述符就是第一页，第二个描述符是第二页，...，第 n 个描述符是第 n 页。这种一对一的关系简化了数学运算：<code>ALLOC_START + PAGE_SIZE * i</code> 。在这个公式中，<code>ALLOC_START</code> 是第一个可用页面的地址，<code>PAGE_SIZE</code> 是常数 4096，而 <code>i</code> 是指第 i 个页面描述符（从0开始）。</p>
 <h2 id="页面释放"><a class="header" href="#页面释放">页面释放</a></h2>
-<p>首先我们必须把上面的等式倒过来，计算出这个页面对应的是哪个描述符。我们可以使用这个式子：HEAP_START + (ptr - ALLOC_START) / PAGE_SIZE。我们接收一个指向可使用页面的指针 ptr。我们从该指针中减去可使用的堆顶部地址，以获得该 ptr 的绝对位置。由于每次分配都正好是 4096 字节，我们再除去页面大小来得到描述符下标。然后我们再加上 HEAP_START 变量，这样就得到了描述符的位置。</p>
+<p>首先我们必须把上面的等式倒过来，计算出这个页面对应的是哪个描述符。我们可以使用这个式子：<code>HEAP_START + (ptr - ALLOC_START) / PAGE_SIZE</code>。我们接收一个指向可使用页面的指针 <code>ptr</code>。我们从该指针中减去可使用的堆顶部地址，以获得该 ptr 的绝对位置。由于每次分配都正好是 4096 字节，我们再除去页面大小来得到描述符下标。然后我们再加上 <code>HEAP_START</code> 变量，这样就得到了描述符的位置。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -287,7 +287,7 @@ PROVIDE(_heap_size = _memory_end - _heap_start);
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>在这段代码中，我们可以看到，我们一直释放空间直到最后一个被分配的页。如果我们在到最后一个分配的页面之前遇到了一个没有被占用的页面，那么我们的堆就乱套了。通常情况下，当一个指针被释放超过一次时就会发生这种情况（常称为双重释放）。在这种情况下我们可以添加一个 assert！语句来帮助捕捉这些类型的问题，但我们必须使用“可能”一词，因为我们不能确定为什么在出现非占用页之前没有遇到最后一个被分配的页。</p>
+<p>在这段代码中，我们可以看到，我们一直释放空间直到最后一个被分配的页。如果我们在到最后一个分配的页面之前遇到了一个没有被占用的页面，那么我们的堆就乱套了。通常情况下，当一个指针被释放超过一次时就会发生这种情况（常称为双重释放）。在这种情况下我们可以添加一个 <code>assert!</code> 语句来帮助捕捉这些类型的问题，但我们必须使用“可能”一词，因为我们不能确定为什么在出现非占用页之前没有遇到最后一个被分配的页。</p>
 <h2 id="分配清零的页面"><a class="header" href="#分配清零的页面">分配清零的页面</a></h2>
 <p>这些 4096 字节的页将分配给内核和用户应用使用。注意当我们释放一个页面时，我们并不清除内存内容，相反我们只清除描述符。在上述代码中这表现为 <code>(*p).clear()</code>。这段代码只清除了描述符对应的位，而不是整个页的 4096 字节。</p>
 <p>安全起见，我们将创建一个辅助函数，分配并清除这些页面。</p>
@@ -320,7 +320,7 @@ pub fn zalloc(pages: usize) -&gt; *mut u8 {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>我们简单地调用 alloc 来完成那些繁重的工作——分配页面描述符并设置标志位。然后我们进入 zalloc 的后半部分，即将页面清零。幸运的是，我们可以使用 8 字节的指针来一次性存储 8 字节的 0 ，因为 4096 / 8 = 512，而 512 是一个整数。因此，8 字节的指针只需 512 轮循环即可完全覆盖一个 4096 字节的页面。</p>
+<p>我们简单地调用 <code>alloc</code> 来完成那些繁重的工作——分配页面描述符并设置标志位。然后我们进入 <code>zalloc</code> 的后半部分，即将页面清零。幸运的是，我们可以使用 8 字节的指针来一次性存储 8 字节的 0 ，因为 <code>4096 / 8 = 512</code>，而 512 是一个整数。因此，8 字节的指针只需 512 轮循环即可完全覆盖一个 4096 字节的页面。</p>
 <h2 id="测试"><a class="header" href="#测试">测试</a></h2>
 <p>我创建了一个函数，通过查看所有占用的描述符来打印出页分配表。</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -389,10 +389,11 @@ pub fn print_page_allocations() {
 <span class="boring">}
 </span></code></pre></pre>
 <p>然后，让我们来分配一些页面! 我已经分配了一些单页和一段较大的 64 页空间。你会看到以下打印出的内容。</p>
+<p><img src="assets/3.1/page_allocations.png" alt=" " /></p>
 <h2 id="未来"><a class="header" href="#未来">未来</a></h2>
-<p>对于较小的数据结构，页粒度的分配器会浪费大量的内存。例如，一个存储整数的链表结点将需要 4 字节 + 8 字节 = 12 字节的内存。4 字节用于整数，8 字节用于下一个指针。然而我们必须动态分配一整页。因此，我们有可能浪费 4096 - 12 = 4084 字节。所以，我们可以做的是更精细管理每个页面的分配，这个以字节为单位的分配器将很像 C++ 中 malloc 的实现方式。</p>
+<p>对于较小的数据结构，页粒度的分配器会浪费大量的内存。例如，一个存储整数的链表结点将需要 4 字节 + 8 字节 = 12 字节的内存。4 字节用于整数，8 字节用于下一个指针。然而我们必须动态分配一整页。因此，我们有可能浪费 4096 - 12 = 4084 字节。所以，我们可以做的是更精细管理每个页面的分配，这个以字节为单位的分配器将很像 C++ 中 <code>malloc</code> 的实现方式。</p>
 <p>当我们开始分配用户空间的进程时，我们需要保护内核内存不被用户的应用程序错误地写入，因此我们将使用内存管理单元，特别地，我们将使用Sv39 方案，它的文档在 <a href="https://github.com/riscv/riscv-isa-manual">RISC-V 特权规范第 4.4章</a>中。</p>
-<p>本章还将关注两个部分：2）内存管理单元（MMU）和 3）Rust 中 alloc crate 的字节粒度内存分配器，它包含数据结构，如链表和二叉树。我们还可以使用这个 crate 来存储和创建 <code>String</code> 类型。</p>
+<p>本章还将关注两个部分：2）内存管理单元（MMU）和 3）Rust 中 <code>alloc</code> crate 的字节粒度内存分配器，它包含数据结构，如链表和二叉树。我们还可以使用这个 crate 来存储和创建 <code>String</code> 类型。</p>
 
                     </main>
 

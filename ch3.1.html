@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>页级内存分配 - 用 Rust 编写一个 RISC-V 操作系统</title>
+        <title>页粒度的内存分配 - 用 Rust 编写一个 RISC-V 操作系统</title>
         
         
 
@@ -98,7 +98,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 搭建环境与前置需求</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html" class="active"><strong aria-hidden="true">4.1.</strong> 页级内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 处理中断和陷入</div></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> 进程的内存</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> 系统调用</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 搭建环境与前置需求</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html" class="active"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> 处理中断和陷入</div></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> 进程的内存</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> 系统调用</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -168,9 +168,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="页面粒度的内存分配"><a class="header" href="#页面粒度的内存分配">页面粒度的内存分配</a></h1>
+                        <h1 id="页粒度的内存分配"><a class="header" href="#页粒度的内存分配">页粒度的内存分配</a></h1>
 <h2 id="视频"><a class="header" href="#视频">视频</a></h2>
-<p>这个帖子的视频在 YouTube 上：<a href="https://www.youtube.com/watch?v=SZ6GMxLkbx0">https://www.youtube.com/watch?v=SZ6GMxLkbx0</a>。</p>
+<p>本章博文的视频在 YouTube 上：<a href="https://www.youtube.com/watch?v=SZ6GMxLkbx0">https://www.youtube.com/watch?v=SZ6GMxLkbx0</a>。</p>
 <h2 id="概述"><a class="header" href="#概述">概述</a></h2>
 <p>当我们启动时，.elf文件内的所有内容都会自动加载到内存中。在代码中可见，我们为整个系统分配了 128 兆字节空间。因此，我们需要处理除去所有声明的全局变量和代码之外的空间。</p>
 <p>在管理内存时，我们本质上需要处理三个部分：1）页粒度的分配，2）字节粒度的分配，以及 3）内存管理单元的编程。</p>
@@ -217,6 +217,182 @@ PROVIDE(_heap_start = _stack_end);
 PROVIDE(_heap_size = _memory_end - _heap_start);
 </code></pre>
 <p>我们可以简单的地计算出堆中的总页数：<code>let num_pages = HEAP_SIZE / PAGE_SIZE;</code>，其中 HEAP_SIZE 是一个全局符号，值为 _heap_size，页大小是一个常数为 4096。最终我们必须分配 num_pages 数量的 <code>Page</code> 描述符来存储分配信息。</p>
+<h2 id="页面分配"><a class="header" href="#页面分配">页面分配</a></h2>
+<p>分配是通过首先在描述符链表中搜索一个连续、空闲的页面块来完成的。我们接收想要分配的页数量作为分配的参数。在这里，如果我们找到一段空闲的页，我们就把所有这些页的描述符都设置为已占用，然后将最后一个页的&quot;Last&quot;位置位。这可以帮助我们在释放分配的页面时，跟踪最后一个页面的位置。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn alloc(pages: usize) -&gt; *mut u8 {
+    // We have to find a contiguous allocation of pages
+    assert!(pages &gt; 0);
+    unsafe {
+        // We create a Page structure for each page on the heap. We
+        // actually might have more since HEAP_SIZE moves and so does
+        // the size of our structure, but we'll only waste a few bytes.
+        let num_pages = HEAP_SIZE / PAGE_SIZE;
+        let ptr = HEAP_START as *mut Page;
+        for i in 0..num_pages - pages {
+            let mut found = false;
+            // Check to see if this Page is free. If so, we have our
+            // first candidate memory address.
+            if (*ptr.add(i)).is_free() {
+                // It was FREE! Yay!
+                found = true;
+                for j in i..i + pages {
+                    // Now check to see if we have a
+                    // contiguous allocation for all of the
+                    // request pages. If not, we should
+                    // check somewhere else.
+                    if (*ptr.add(j)).is_taken() {
+                        found = false;
+                        break;
+                    }
+                }
+            }
+    // ........................................
+<span class="boring">}
+</span></code></pre></pre>
+<p>我们可以简单算出哪个描述符指向哪个页面，因为第一个描述符就是第一页，第二个描述符是第二页，...，第 n 个描述符是第 n 页。这种一对一的关系简化了数学运算：<code>ALLOC_START + PAGE_SIZE * i</code> 。在这个公式中，ALLOC_START 是第一个可用页面的地址，PAGE_SIZE 是常数 4096，而 i 是指第 i 个页面描述符（从0开始）。</p>
+<h2 id="页面释放"><a class="header" href="#页面释放">页面释放</a></h2>
+<p>首先我们必须把上面的等式倒过来，计算出这个页面对应的是哪个描述符。我们可以使用这个式子：HEAP_START + (ptr - ALLOC_START) / PAGE_SIZE。我们接收一个指向可使用页面的指针 ptr。我们从该指针中减去可使用的堆顶部地址，以获得该 ptr 的绝对位置。由于每次分配都正好是 4096 字节，我们再除去页面大小来得到描述符下标。然后我们再加上 HEAP_START 变量，这样就得到了描述符的位置。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn dealloc(ptr: *mut u8) {
+    // Make sure we don't try to free a null pointer.
+    assert!(!ptr.is_null());
+    unsafe {
+        let addr =
+            HEAP_START + (ptr as usize - ALLOC_START) / PAGE_SIZE;
+        // Make sure that the address makes sense. The address we
+        // calculate here is the page structure, not the HEAP address!
+        assert!(addr &gt;= HEAP_START &amp;&amp; addr &lt; HEAP_START + HEAP_SIZE);
+        let mut p = addr as *mut Page;
+        // Keep clearing pages until we hit the last page.
+        while (*p).is_taken() &amp;&amp; !(*p).is_last() {
+            (*p).clear();
+            p = p.add(1);
+        }
+        // If the following assertion fails, it is most likely
+        // caused by a double-free.
+        assert!(
+                (*p).is_last() == true,
+                &quot;Possible double-free detected! (Not taken found \
+                    before last)&quot;
+        );
+        // If we get here, we've taken care of all previous pages and
+        // we are on the last page.
+        (*p).clear();
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>在这段代码中，我们可以看到，我们一直释放空间直到最后一个被分配的页。如果我们在到最后一个分配的页面之前遇到了一个没有被占用的页面，那么我们的堆就乱套了。通常情况下，当一个指针被释放超过一次时就会发生这种情况（常称为双重释放）。在这种情况下我们可以添加一个 assert！语句来帮助捕捉这些类型的问题，但我们必须使用“可能”一词，因为我们不能确定为什么在出现非占用页之前没有遇到最后一个被分配的页。</p>
+<h2 id="分配清零的页面"><a class="header" href="#分配清零的页面">分配清零的页面</a></h2>
+<p>这些 4096 字节的页将分配给内核和用户应用使用。注意当我们释放一个页面时，我们并不清除内存内容，相反我们只清除描述符。在上述代码中这表现为 <code>(*p).clear()</code>。这段代码只清除了描述符对应的位，而不是整个页的 4096 字节。</p>
+<p>安全起见，我们将创建一个辅助函数，分配并清除这些页面。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Allocate and zero a page or multiple pages
+/// pages: the number of pages to allocate
+/// Each page is PAGE_SIZE which is calculated as 1 &lt;&lt; PAGE_ORDER
+/// On RISC-V, this typically will be 4,096 bytes.
+pub fn zalloc(pages: usize) -&gt; *mut u8 {
+    // Allocate and zero a page.
+    // First, let's get the allocation
+    let ret = alloc(pages);
+    if !ret.is_null() {
+        let size = (PAGE_SIZE * pages) / 8;
+        let big_ptr = ret as *mut u64;
+        for i in 0..size {
+            // We use big_ptr so that we can force an
+            // sd (store doubleword) instruction rather than
+            // the sb. This means 8x fewer stores than before.
+            // Typically we have to be concerned about remaining
+            // bytes, but fortunately 4096 % 8 = 0, so we
+            // won't have any remaining bytes.
+            unsafe {
+                (*big_ptr.add(i)) = 0;
+            }
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>我们简单地调用 alloc 来完成那些繁重的工作——分配页面描述符并设置标志位。然后我们进入 zalloc 的后半部分，即将页面清零。幸运的是，我们可以使用 8 字节的指针来一次性存储 8 字节的 0 ，因为 4096 / 8 = 512，而 512 是一个整数。因此，8 字节的指针只需 512 轮循环即可完全覆盖一个 4096 字节的页面。</p>
+<h2 id="测试"><a class="header" href="#测试">测试</a></h2>
+<p>我创建了一个函数，通过查看所有占用的描述符来打印出页分配表。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Print all page allocations
+/// This is mainly used for debugging.
+pub fn print_page_allocations() {
+    unsafe {
+        let num_pages = HEAP_SIZE / PAGE_SIZE;
+        let mut beg = HEAP_START as *const Page;
+        let end = beg.add(num_pages);
+        let alloc_beg = ALLOC_START;
+        let alloc_end = ALLOC_START + num_pages * PAGE_SIZE;
+        println!();
+        println!(
+                    &quot;PAGE ALLOCATION TABLE\nMETA: {:p} -&gt; {:p}\nPHYS: \
+                    0x{:x} -&gt; 0x{:x}&quot;,
+                    beg, end, alloc_beg, alloc_end
+        );
+        println!(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);
+        let mut num = 0;
+        while beg &lt; end {
+            if (*beg).is_taken() {
+                let start = beg as usize;
+                let memaddr = ALLOC_START
+                                + (start - HEAP_START)
+                                * PAGE_SIZE;
+                print!(&quot;0x{:x} =&gt; &quot;, memaddr);
+                loop {
+                    num += 1;
+                    if (*beg).is_last() {
+                        let end = beg as usize;
+                        let memaddr = ALLOC_START
+                                        + (end
+                                            - HEAP_START)
+                                        * PAGE_SIZE
+                                        + PAGE_SIZE - 1;
+                        print!(
+                                &quot;0x{:x}: {:&gt;3} page(s)&quot;,
+                                memaddr,
+                                (end - start + 1)
+                        );
+                        println!(&quot;.&quot;);
+                        break;
+                    }
+                    beg = beg.add(1);
+                }
+            }
+            beg = beg.add(1);
+        }
+        println!(&quot;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&quot;);
+        println!(
+                    &quot;Allocated: {:&gt;6} pages ({:&gt;10} bytes).&quot;,
+                    num,
+                    num * PAGE_SIZE
+        );
+        println!(
+                    &quot;Free     : {:&gt;6} pages ({:&gt;10} bytes).&quot;,
+                    num_pages - num,
+                    (num_pages - num) * PAGE_SIZE
+        );
+        println!();
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>然后，让我们来分配一些页面! 我已经分配了一些单页和一段较大的 64 页空间。你会看到以下打印出的内容。</p>
+<h2 id="未来"><a class="header" href="#未来">未来</a></h2>
+<p>对于较小的数据结构，页粒度的分配器会浪费大量的内存。例如，一个存储整数的链表结点将需要 4 字节 + 8 字节 = 12 字节的内存。4 字节用于整数，8 字节用于下一个指针。然而我们必须动态分配一整页。因此，我们有可能浪费 4096 - 12 = 4084 字节。所以，我们可以做的是更精细管理每个页面的分配，这个以字节为单位的分配器将很像 C++ 中 malloc 的实现方式。</p>
+<p>当我们开始分配用户空间的进程时，我们需要保护内核内存不被用户的应用程序错误地写入，因此我们将使用内存管理单元，特别地，我们将使用Sv39 方案，它的文档在 <a href="https://github.com/riscv/riscv-isa-manual">RISC-V 特权规范第 4.4章</a>中。</p>
+<p>本章还将关注两个部分：2）内存管理单元（MMU）和 3）Rust 中 alloc crate 的字节粒度内存分配器，它包含数据结构，如链表和二叉树。我们还可以使用这个 crate 来存储和创建 <code>String</code> 类型。</p>
 
                     </main>
 

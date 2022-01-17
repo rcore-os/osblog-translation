@@ -131,3 +131,115 @@ pub fn dealloc(ptr: *mut u8) {
 ```
 
 在这段代码中，我们可以看到，我们一直释放空间直到最后一个被分配的页。如果我们在到最后一个分配的页面之前遇到了一个没有被占用的页面，那么我们的堆就乱套了。通常情况下，当一个指针被释放超过一次时就会发生这种情况（常称为双重释放）。在这种情况下我们可以添加一个 assert！语句来帮助捕捉这些类型的问题，但我们必须使用“可能”一词，因为我们不能确定为什么在出现非占用页之前没有遇到最后一个被分配的页。
+
+## 分配清零的页面
+
+这些 4096 字节的页将分配给内核和用户应用使用。注意当我们释放一个页面时，我们并不清除内存内容，相反我们只清除描述符。在上述代码中这表现为 `(*p).clear()`。这段代码只清除了描述符对应的位，而不是整个页的 4096 字节。
+
+安全起见，我们将创建一个辅助函数，分配并清除这些页面。
+
+```rust
+/// Allocate and zero a page or multiple pages
+/// pages: the number of pages to allocate
+/// Each page is PAGE_SIZE which is calculated as 1 << PAGE_ORDER
+/// On RISC-V, this typically will be 4,096 bytes.
+pub fn zalloc(pages: usize) -> *mut u8 {
+    // Allocate and zero a page.
+    // First, let's get the allocation
+    let ret = alloc(pages);
+    if !ret.is_null() {
+        let size = (PAGE_SIZE * pages) / 8;
+        let big_ptr = ret as *mut u64;
+        for i in 0..size {
+            // We use big_ptr so that we can force an
+            // sd (store doubleword) instruction rather than
+            // the sb. This means 8x fewer stores than before.
+            // Typically we have to be concerned about remaining
+            // bytes, but fortunately 4096 % 8 = 0, so we
+            // won't have any remaining bytes.
+            unsafe {
+                (*big_ptr.add(i)) = 0;
+            }
+        }
+    }
+}
+```
+
+我们简单地调用 alloc 来完成那些繁重的工作——分配页面描述符并设置标志位。然后我们进入 zalloc 的后半部分，即将页面清零。幸运的是，我们可以使用 8 字节的指针来一次性存储 8 字节的 0 ，因为 4096 / 8 = 512，而 512 是一个整数。因此，8 字节的指针只需 512 轮循环即可完全覆盖一个 4096 字节的页面。
+
+## 测试
+
+我创建了一个函数，通过查看所有占用的描述符来打印出页分配表。
+
+```rust
+/// Print all page allocations
+/// This is mainly used for debugging.
+pub fn print_page_allocations() {
+    unsafe {
+        let num_pages = HEAP_SIZE / PAGE_SIZE;
+        let mut beg = HEAP_START as *const Page;
+        let end = beg.add(num_pages);
+        let alloc_beg = ALLOC_START;
+        let alloc_end = ALLOC_START + num_pages * PAGE_SIZE;
+        println!();
+        println!(
+                    "PAGE ALLOCATION TABLE\nMETA: {:p} -> {:p}\nPHYS: \
+                    0x{:x} -> 0x{:x}",
+                    beg, end, alloc_beg, alloc_end
+        );
+        println!("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        let mut num = 0;
+        while beg < end {
+            if (*beg).is_taken() {
+                let start = beg as usize;
+                let memaddr = ALLOC_START
+                                + (start - HEAP_START)
+                                * PAGE_SIZE;
+                print!("0x{:x} => ", memaddr);
+                loop {
+                    num += 1;
+                    if (*beg).is_last() {
+                        let end = beg as usize;
+                        let memaddr = ALLOC_START
+                                        + (end
+                                            - HEAP_START)
+                                        * PAGE_SIZE
+                                        + PAGE_SIZE - 1;
+                        print!(
+                                "0x{:x}: {:>3} page(s)",
+                                memaddr,
+                                (end - start + 1)
+                        );
+                        println!(".");
+                        break;
+                    }
+                    beg = beg.add(1);
+                }
+            }
+            beg = beg.add(1);
+        }
+        println!("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        println!(
+                    "Allocated: {:>6} pages ({:>10} bytes).",
+                    num,
+                    num * PAGE_SIZE
+        );
+        println!(
+                    "Free     : {:>6} pages ({:>10} bytes).",
+                    num_pages - num,
+                    (num_pages - num) * PAGE_SIZE
+        );
+        println!();
+    }
+}
+```
+
+然后，让我们来分配一些页面! 我已经分配了一些单页和一段较大的 64 页空间。你会看到以下打印出的内容。
+
+## 未来
+
+对于较小的数据结构，页粒度的分配器会浪费大量的内存。例如，一个存储整数的链表结点将需要 4 字节 + 8 字节 = 12 字节的内存。4 字节用于整数，8 字节用于下一个指针。然而我们必须动态分配一整页。因此，我们有可能浪费 4096 - 12 = 4084 字节。所以，我们可以做的是更精细管理每个页面的分配，这个以字节为单位的分配器将很像 C++ 中 malloc 的实现方式。
+
+当我们开始分配用户空间的进程时，我们需要保护内核内存不被用户的应用程序错误地写入，因此我们将使用内存管理单元，特别地，我们将使用Sv39 方案，它的文档在 [RISC-V 特权规范第 4.4章](https://github.com/riscv/riscv-isa-manual)中。
+
+本章还将关注两个部分：2）内存管理单元（MMU）和 3）Rust 中 alloc crate 的字节粒度内存分配器，它包含数据结构，如链表和二叉树。我们还可以使用这个 crate 来存储和创建 `String` 类型。

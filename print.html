@@ -100,7 +100,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 搭建环境与前置需求</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">5.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">7.</strong> 进程的内存</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> 系统调用</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 搭建环境与前置需求</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">5.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">7.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">8.</strong> 系统调用</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -2353,6 +2353,101 @@ call	m_trap
 <p>我们的调度算法（稍后）将始终需要至少一个进程，就像 Linux 一样，我们将把这个进程称为 <code>init</code>。</p>
 <p>本章的重点是展示一个进程在抽象视图中的样子，我将通过添加调度程序并显示实际运行的进程来在本章基础上进一步展示，这将是我们操作系统的基础。 想要让进程实际执行操作，我们需要做的另一件事是实现系统调用，因此您可以期待它！</p>
 <p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch5.html">第5章</a> → (第6章) → <a href="http://osblog.stephenmarz.com/ch7.html">第7章</a></p>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-4"><a class="header" href="#the-adventures-of-os-4"><strong>The Adventures of OS</strong></a></h1>
+<p>使用Rust的RISC-V操作系统<br />
+<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a><br />
+这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第7章。<br />
+<a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch6.html">第6章</a> → (第7章) → <a href="http://osblog.stephenmarz.com/ch8.html">第8章</a></p>
+<h1 id="系统调用"><a class="header" href="#系统调用">系统调用</a></h1>
+<p><strong><span style='color:red'>2020年1月23日: 仅Patreon</span></strong><br />
+<strong><span style='color:red'>2020年1月29日: 公开</span></strong></p>
+<h2 id="视频-3"><a class="header" href="#视频-3">视频</a></h2>
+<p><a href="https://www.youtube.com/watch?v=6GW_jgkdGPw">https://www.youtube.com/watch?v=6GW_jgkdGPw</a></p>
+<h2 id="概述-6"><a class="header" href="#概述-6">概述</a></h2>
+<p>系统调用是非特权用户应用程序向内核请求服务的一种方式。 在 RISC-V 架构中，我们使用 <code>ecall</code> 指令调用，这将导致 CPU 停止它正在做的事情，提升特权模式，然后跳转到存储在 <code>mtvec</code>（机器陷入向量）寄存器中的任何函数处理程序，请记住这是处理所有陷入的“漏斗”，包括我们的系统调用。</p>
+<p>我们必须设置处理系统调用的约定，可以使用已经存在的约定，这样可以与库进行交互，例如 newlib。 但是，让我们把它变成我们的！ 我们可以规定系统调用号是多少，以及当我们执行系统调用时它们将在哪里。</p>
+<h2 id="系统调用程序"><a class="header" href="#系统调用程序">系统调用程序</a></h2>
+<p>我们通常只需要在处于较低权限模式时执行系统调用，如果我们在内核中，我们已经可以访问大多数特权系统，这使我们实际上不需要进入系统调用。</p>
+<p>我们的系统调用是通过同步陷入#8 到达的，这是用户模式 ecall 的原因(cause)。 因此在我们的#8 处理程序中，我们将数据转发到我们的系统调用处理程序。 我们将完全使用 Rust，我们还需要能够操作程序计数器。 想想看，我们的<code>exit</code>系统调用必须能够移动到另一个进程，所以我们通过 <code>mepc</code>（机器异常程序计数器）寄存器来操作它。</p>
+<h2 id="rust-系统调用"><a class="header" href="#rust-系统调用">Rust 系统调用</a></h2>
+<p>与往常一样，请确保使用以下内容导入系统调用代码。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>pub mod syscall;
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>这将进入您的 <code>lib.rs</code> 文件。</p>
+<h2 id="顺序与编号"><a class="header" href="#顺序与编号">顺序与编号</a></h2>
+<p>一些库已经有它们希望您的系统调用保持的顺序，但是我们将为我们的简单应用程序创建自己的“C 库”，因此只要我们保持一致，就可以继续下去。</p>
+<p>想想我们如何才能做到这一点。 每当我们执行 ecall 指令时，CPU 都会提升权限并跳转到陷阱向量，我们如何发送数据呢？ ARM 架构允许您将数字编码到他们的 <code>svc</code>（superviser 调用）指令中，然而许多操作系统放弃了这种实现，那么我们该怎么做呢？</p>
+<p>答案是：寄存器。 我们在 RISC-V 架构中有大量的寄存器，所以我们几乎不像在 x86 时代那样受到限制。 对于我们的系统调用约定，我们将系统调用的编号放入第一个参数寄存器 <code>a0</code>，后续参数将进入 a1、a2、a3、...、a7，然后我们将使用相同的 a0 寄存器进行返回。</p>
+<p>这与常规函数的调用约定相同，因此它将与我们已经知道的内容很好地交互。 在 RISC-V 中，我们可以使用伪指令 <code>call</code> 来进行正常的函数调用，或者使用 <code>ecall</code> 来进行 superviser 调用。 一致性是关键。Consistency is cey, or Konsistency is Key. Hmm.. Consistency is key isn't consistently sounding the 'k' :(.</p>
+<h2 id="实现系统调用"><a class="header" href="#实现系统调用">实现系统调用</a></h2>
+<p>我们将同步原因(cause) #8 重定向到我们的系统调用 Rust 代码。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>8 =&gt; {
+  // 来自用户模式的环境（系统）调用
+  println!(&quot;E-call from User mode! CPU#{} -&gt; 0x{:08x}&quot;, hart, epc);
+  return_pc = do_syscall(return_pc, frame);
+},
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>大多数操作系统使用函数指针构建一个表，但我在这里使用 Rust 的 <code>match</code> 语句。 我没有进行任何性能计算，但我不认为一个比另一个有明显的优势。 再说一次，不要引用我的话，我还没有实际测试过。</p>
+<p>如您所见，我们收到一个新的程序计数器，它是我们返回时要执行的指令的地址，系统调用函数必须至少将其加 4，因为 <code>ecall</code> 指令实际上是导致同步中断的原因，如果我们不移动程序计数器，我们就会一遍又一遍地执行 <code>ecall</code> 指令。 幸运的是，与 x86 不同的是，除了 16 位压缩指令外，所有指令都是 32 位的，但 <code>ecall</code> 始终是 32 位的，因为它没有压缩形式。</p>
+<h2 id="神说要有系统调用"><a class="header" href="#神说要有系统调用">神说：要有系统调用！</a></h2>
+<p>让我们看一下 Rust 中的代码。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>pub fn do_syscall(mepc: usize, frame: *mut TrapFrame) -&gt; usize {
+    let syscall_number;
+    unsafe {
+        // A0 是 X10，所以它的寄存器号是 10。
+        syscall_number = (*frame).regs[10];
+    }
+    match syscall_number {
+        0 =&gt; {
+            // Exit
+            println!(&quot;You called the exit system call!&quot;);
+            mepc + 4
+        },
+      _ =&gt; {
+            print!(&quot;Unknown syscall number {}&quot;, syscall_number);
+            mepc + 4
+        }
+    }
+}
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>我们首先需要的是 A0 的值，它是系统调用号。 由于它在陷入处理程序阶段存储在上下文中，我们可以直接从内存中检索它。 我们必须把它放在一个 <code>unsafe</code> 上下文中，因为我们正在取消引用一个原始 (raw) 指针，它可能是也可能不是准确的内存地址，由于 Rust 不能保证它是，我们需要把它放在一个不安全的块中。</p>
+<p>这对非Rustaceans来说可能很有趣。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>let syscall_number;
+unsafe {
+    // A0 是 X10，所以它的寄存器号是 10。
+    syscall_number = (*frame).regs[10];
+}
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>我正在创建一个名为 <code>syscall_number</code> 的变量，但由于在进入不安全块之前我无法获得它的值，所以它只是一个占位符。 事实上，在我们给它一个值之前，Rust 都不会给它一个类型。 你会注意到我没有对变量类型施加任何限制，所以我让 Rust 来决定。</p>
+<p>我为什么这样做？ unsafe 块创建了一个新块，因此它创建了一个新范围 (scope)，但是我希望 <code>syscall_number</code> 在不安全上下文之外包含一个不可变值，这就是为什么我决定这样做。 从技术上讲，我可以使用 <code>let syscall_number: u64;</code> 来约束数据类型，但这不是必需的，因为只要我们将变量设置为等于某个值，Rust 就会评估数据类型。</p>
+<h2 id="现在我们干嘛"><a class="header" href="#现在我们干嘛">现在我们干嘛？</a></h2>
+<p>我们将编写调度程序，以便我们的系统调用实际上可以做一些事情——是的，以技术上最准确的方式做事情！ 例如，我们可能需要将进程推迟到一定时间后（有点像 <code>sleep()</code> 的工作方式），或者我们需要关闭进程（很像 <code>exit()</code> 的工作方式），写点东西到控制台怎么样——是的，我们也需要那个。</p>
+<p>因此，接下来我们将添加进程和必要的系统调用，我们没有做出任何未来的预测，这可能很危险，但我们正在实现我们的操作系统，因为我们发现了一个不可行的解决方案。 希望这将使您了解操作系统怎样实现为所有应用程序的一切！</p>
+<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch6.html">第6章</a> → (第7章) → <a href="http://osblog.stephenmarz.com/ch8.html">第8章</a></p>
 
                     </main>
 

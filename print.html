@@ -100,7 +100,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 搭建环境与前置需求</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">5.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">7.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">8.</strong> 系统调用</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 环境配置与依赖安装</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">5.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">7.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">8.</strong> 系统调用</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -170,26 +170,29 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os"><a class="header" href="#the-adventures-of-os"><strong>The Adventures of OS</strong></a></h1>
-<p>使用Rust的RISC-V操作系统
-<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a>
-这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第0章，介绍如何正确地构建运行环境。
-<a href="http://osblog.stephenmarz.com/index.html">目录</a> → （第0章） → <a href="http://osblog.stephenmarz.com/ch1.html">第1章</a></p>
+                        <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os"><a class="header" href="#the-adventures-of-os">The Adventures of OS</a></h1>
+<p>使用Rust的RISC-V操作系统</p>
+<p><strong><a href="https://www.patreon.com/sgmarz">在Patreon上支持我!</a>  <a href="http://osblog.stephenmarz.com/">操作系统博客</a>  <a href="http://osblog.stephenmarz.com/feed.rss">RSS订阅</a>  <a href="https://github.com/sgmarz">Github </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1">EECS网站</a></strong></p>
+<p>这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第0章，介绍如何正确地构建运行环境。</p>
+<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → （第0章） → <a href="http://osblog.stephenmarz.com/ch1.html">第1章</a></p>
 <h3 id="我需要你的支持"><a class="header" href="#我需要你的支持">我需要你的支持</a></h3>
-<p>对我来说，写这些帖子现在只是业余消遣，因为我的本职工作是本科生教育。我会一直写下去，但真的很希望有人来帮助编写。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon（sgmarz）</a>支持我。
+<p>对我来说，写这些帖子现在只是业余消遣，因为我的本职工作主要是本科生教育。我会一直写下去，但真的很希望有人来帮助编写。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon（sgmarz）</a>支持我。
 文章刚开始，要写的还有很多！所以，请加入我的团队吧!</p>
-<h3 id="环境配置与依赖安装"><a class="header" href="#环境配置与依赖安装">环境配置与依赖安装</a></h3>
+<h1 id="环境配置与依赖安装"><a class="header" href="#环境配置与依赖安装">环境配置与依赖安装</a></h1>
 <p><strong><span style='color:red;'>2019年9月27日</span></strong></p>
 <h4 id="2020年更新"><a class="header" href="#2020年更新">2020年更新</a></h4>
-<p>Rust现在对RISC-V的支持使我们能开箱即用！这使我们不通过工具链也能很容易地来构建项目。但工具链之外，你仍然需要QEMU（模拟器），在<a href="http://osblog.stephenmarz.com/ch0.old.html">ch0.old.html</a>的旧教程中有相关介绍。
-同时还需要使用<strong>rustup</strong>命令安装一些依赖。如果你没有rustup，请在https://www.rust-lang.org/tools/install下载。</p>
+<p>Rust现在对RISC-V的支持使我们能开箱即用！这使我们不通过工具链也能很容易地来构建项目。但工具链之外，你仍然需要QEMU（模拟器），在<a href="http://osblog.stephenmarz.com/ch0.old.html">ch0.old.html</a>的旧版教程中有相关介绍。</p>
+<ul>
+<li></li>
+</ul>
+<p>Rust要求我们使用<code>rustup</code>命令安装一些依赖。如果你没有rustup，请在https://www.rust-lang.org/tools/install下载。</p>
 <pre><code>rustup default nightly
 rustup target add riscv64gc-unknown-none-elf
 cargo install cargo-binutils
 </code></pre>
-<p>由于我在系统中使用了语言特性（用**#![features]**表示），我们必须使用nightly版本，即使RISC-V是在稳定构建上。</p>
-<h4 id="构建与运行"><a class="header" href="#构建与运行">构建与运行</a></h4>
-<p>在博客的git仓库中<a href="https://github.com/sgmarz/osblog">(Github)</a>你会看到一个名为**.cargo/config**的文件。你可以根据你的系统来编辑这个文件：</p>
+<p>由于我在系统中使用了语言特性（用<code>#![features]</code>表示），我们必须使用nightly版本，即使RISC-V是在稳定版本上。</p>
+<h3 id="构建与运行"><a class="header" href="#构建与运行">构建与运行</a></h3>
+<p>在博客的git仓库中<a href="https://github.com/sgmarz/osblog">(Github)</a>你会看到一个名为<code>.cargo/config</code>的文件。你可以根据你的系统来编辑这个文件：</p>
 <pre><code>[build]
 target = &quot;riscv64gc-unknown-none-elf&quot;
 rustflags = ['-Clink-arg=-Tsrc/lds/virt.lds']
@@ -197,21 +200,13 @@ rustflags = ['-Clink-arg=-Tsrc/lds/virt.lds']
 [target.riscv64gc-unknown-none-elf]
 runner = &quot;qemu-system-riscv64 -machine virt -cpu rv64 -smp 4 -m 128M -drive if=none,format=raw,file=hdd.dsk,id=foo -device virtio-blk-device,scsi=off,drive=foo -nographic -serial mon:stdio -bios none -device virtio-rng-device -device virtio-gpu-device -device virtio-net-device -device virtio-tablet-device -device virtio-keyboard-device -kernel &quot;	
 </code></pre>
-<p>配置文件显示了我们要构建的目标，也就是riscv64gc。我们还需要指定我们的链接器脚本<strong>src/lds/virt.lds</strong>，以便我们能确保正确的文件位置。最后，当我们输入<strong>cargo run</strong>时，会调用一个 &quot;runner&quot;，它将运行riscv64 qemu。另外注意在-kernel后面有一个空格，这是因为cargo会自动指定通过Cargo.toml配置的可执行文件。</p>
-<h4 id="完成"><a class="header" href="#完成">完成!</a></h4>
+<p>配置文件显示了我们要构建的目标，也就是riscv64gc。我们还需要指定我们的链接器脚本<code>src/lds/virt.lds</code>，以便我们能确保正确的文件位置。最后，当我们输入<code>cargo run</code>时，会调用一个 &quot;runner&quot;，它将运行riscv64 qemu。另外注意在-kernel后面有一个空格，这是因为cargo会自动指定通过Cargo.toml配置的可执行文件。</p>
+<h3 id="完成"><a class="header" href="#完成">完成!</a></h3>
 <p>这部分确实很无聊，如果配置过程一切顺利（在ArchLinux上配置正常！），接下来的部分将有趣起来。</p>
-<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-1"><a class="header" href="#the-adventures-of-os-1"><strong>The Adventures of OS</strong></a></h1>
-<p>使用Rust的RISC-V操作系统
-<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a>
-这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第0章，介绍如何正确地构建运行环境。
-<a href="http://osblog.stephenmarz.com/index.html">目录</a> → （第0章） → <a href="http://osblog.stephenmarz.com/ch1.html">第1章</a></p>
-<h3 id="我需要你的支持-1"><a class="header" href="#我需要你的支持-1">我需要你的支持</a></h3>
-<p>对我来说，写这些帖子现在只是业余消遣，因为我的本职工作是本科生教育。我会一直写下去，但真的很希望有人来帮助编写。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon（sgmarz）</a>支持我。
-文章刚开始，要写的还有很多！所以，请加入我的团队吧!</p>
-<h3 id="掌握risc-v"><a class="header" href="#掌握risc-v"><strong>掌握RISC-V</strong></a></h3>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="掌控risc-v"><a class="header" href="#掌控risc-v">掌控RISC-V</a></h1>
 <p><strong><span style='color:red'>2019年9月27日</span></strong></p>
-<h4 id="概述"><a class="header" href="#概述"><strong>概述</strong></a></h4>
-<p>启动并进入RISC-V系统是相当简单的。在各种方法中，我将要介绍我自己的方法--从物理内存地址<strong>0x8000_0000</strong>开始。幸运的是，QEMU可以读取ELF文件，所以它知道把我们的代码应该运行在哪个地址上。在整个过程中，我们将通过查看QEMU中包含的<strong>qemu/hw/riscv/virt.c</strong>源代码收集大量信息。首先，先来看一下内存映射：</p>
+<h3 id="概述"><a class="header" href="#概述">概述</a></h3>
+<p>启动并进入RISC-V系统是很简单的。在各种方法中，我将要介绍我自己的方法——从物理内存地址<code>0x8000_0000</code>开始。幸运的是，QEMU可以读取ELF文件，所以它知道应该把我们的代码运行在哪个地址上。在整个过程中，我们将通过查看QEMU中包含的<code>qemu/hw/riscv/virt.c</code>源代码来获取一些信息。首先，先来看一下内存映射：</p>
 <pre><code class="language-c">static const struct MemmapEntry {
 	hwaddr base;
 	hwaddr size;
@@ -236,11 +231,11 @@ runner = &quot;qemu-system-riscv64 -machine virt -cpu rv64 -smp 4 -m 128M -drive
 <li>将BSS部分清零；</li>
 <li>开始Rust!</li>
 </ol>
-<p>RISC-V汇编类似于MIPS汇编，除了我们不需要给我们的寄存器加前缀。所有的指令都来自于RISC-V规范，你可以在以下网站copy一份：<a href="https://github.com/riscv/riscv-isa-manual">https://github.com/riscv/riscv-isa-manual</a>。我们的编写对象是RV64GC（RISC-V 64位，一般扩展和压缩指令扩展）。</p>
-<h4 id="选择一个引导加载程序"><a class="header" href="#选择一个引导加载程序"><strong>选择一个引导加载程序</strong></a></h4>
-<p>这个时候我们不去考虑并行性、条件竞争或其他任何与此相关的问题。相反，我们只让我们的一个CPU核心（RISC-V称为HARTs[硬件线程]）做所有的工作。我们现在首先要深入研究特权级规范，来弄清我们要讨论的是哪个寄存器。因此，请在<a href="https://github.com/riscv/riscv-isa-manual/">https://github.com/riscv/riscv-isa-manual</a>获取一份指导。
+<p>RISC-V汇编类似于MIPS汇编，除了我们不需要给我们的寄存器加前缀。所有的指令都来自于RISC-V规范，你可以在以下网站获取：<a href="https://github.com/riscv/riscv-isa-manual">https://github.com/riscv/riscv-isa-manual</a>。我们的编写对象是RV64GC（RISC-V 64位，一般扩展和压缩指令扩展）。</p>
+<h3 id="选择一个引导加载程序bootloader"><a class="header" href="#选择一个引导加载程序bootloader">选择一个引导加载程序(bootloader)</a></h3>
+<p>这个时候我们不考虑并行性、条件竞争或其他此类问题。相反，我们只让我们的一个CPU核心（RISC-V中称为HARTs[硬件线程]）做所有的工作。现在我们首先要深入研究特权级规范，来弄清我们要讨论的是哪个寄存器。因此，请在<a href="https://github.com/riscv/riscv-isa-manual/">https://github.com/riscv/riscv-isa-manual</a>下载。
 我们将从3.1.5章中开始（Hart ID寄存器 mhartid）。这个寄存器将告诉我们我们的hart编号。根据规范，我们必须有一个hart id #0。所以，我们以这个ID来启动。</p>
-<p>在你的<strong>src/asm/<strong>目录下创建一个</strong>boot.S</strong>文件。我们将在此启动并进入Rust的编写。</p>
+<p>在你的<code>src/asm/</code>目录下创建一个<code>boot.S</code>文件。我们将在此启动并进入Rust的编写。</p>
 <pre><code class="language-nasm"># boot.S
 # bootloader for SoS
 # Stephen Marz
@@ -266,9 +261,9 @@ _start:
 	wfi
 	j	3b
 </code></pre>
-<p>在这里，csrr的意思是 &quot;控制状态寄存器读取&quot;，所以我们把我们的hart标识符读到寄存器t0中，检查它是否为零。如果不是，我们就把它送去停放（繁忙循环）。之后，我们将监督器地址转换和保护（satp）寄存器设置为0，这就是我们最终控制MMU的方式。由于我们还没有对虚拟内存的需求，我们通过把csrw（控制状态寄存器写入）写成0来禁用掉。一些板子的复位向量会将mhartid加载到该板子的a0寄存器中，但有些板子或许不会这么做，所以我选择从最可靠的地方来获取hart ID。</p>
-<h4 id="清除bss"><a class="header" href="#清除bss"><strong>清除BSS</strong></a></h4>
-<p>全局的、未初始化的变量的初值都是0，因为这些变量是在BSS段分配的。对于操作系统而言，我们要保证内存全是0幸运的是，在我们的链接器脚本中，有两个字段为我们定义，叫做_bss_start和_bss_end，分别告诉我们BSS部分的开始和结束位置。因此，我们在.option pop的下面和3的前面添加以下内容：</p>
+<p>这里csrr的意思是 &quot;控制状态寄存器读取&quot;，利用csrr我们把hart标识符读到寄存器t0中，检查它是否为零。如果不是，我们就把它送去循环等待。之后，我们将监管者地址转换和保护（satp）寄存器设置为0，这就是我们最终控制MMU的方式。由于我们还没有对虚拟内存的需求，我们用csrw（控制状态寄存器写入）写入0来把它禁用掉。一些板子的复位向量会将mhartid加载到该板子的a0寄存器中，但有些板子或许不会这么做，所以我选择从最可靠的地方来获取hart ID。</p>
+<h3 id="清除bss"><a class="header" href="#清除bss">清除BSS</a></h3>
+<p>全局的、未初始化的变量的初值都是0，因为这些变量是在BSS段分配的。对于操作系统而言，我们要保证内存全是0。幸运的是，在我们的链接器脚本中定义了<code>_bss_start</code>和<code>_bss_end</code>这两个字段，分别告诉我们BSS部分的开始和结束位置。因此，我们在<code>.option pop</code>和<code>3</code>之间添加以下内容：</p>
 <pre><code class="language-nasm"># The BSS section is expected to be zero
 	la 		a0, _bss_start
 	la		a1, _bss_end
@@ -280,9 +275,9 @@ _start:
 2:	
 </code></pre>
 <p>在这里，我们使用sd（双字[64位]存储）将0存到内存地址a0，该地址逐渐向_bss_end移动。</p>
-<h4 id="进入rust编程"><a class="header" href="#进入rust编程"><strong>进入Rust编程</strong></a></h4>
+<h3 id="进入rust编程"><a class="header" href="#进入rust编程">进入Rust编程</a></h3>
 <p>由于许多人都不喜欢编写大量的汇编，我们尽快跳入Rust，虽然也会有人认为用Rust编程是最难的部分。我们的Rust不会那么难，不会一直和借用检查器(borrow checker)较劲。</p>
-<p>为了进入Rust程序并使CPU处于可预测的模式，我们将使用mret指令，这是一个陷阱返回函数。这允许我们将mstatus寄存器设置为我们的特权模式。因此，我们在boot.S中加入以下内容。</p>
+<p>为了进入Rust程序并使CPU处于一个确定的模式，我们将使用mret指令，这是一个陷阱返回函数，允许我们将mstatus寄存器设置为我们的特权模式。因此，我们在boot.S中加入以下内容。</p>
 <pre><code class="language-nasm"># Control registers, set the stack, mstatus, mepc,
 # and mtvec to return to the main function.
 # li		t5, 0xffff;
@@ -305,12 +300,12 @@ mret
 	wfi
 	j	4b
 </code></pre>
-<p>这里有很多东西，有些被注释掉了。然而，我们要做的是将位[12:11]设置为11，也就是 &quot;机器模式&quot;。这将使我们能够访问所有的指令和寄存器。当然，我们可能已经处于这种模式了，但让我们再做一次。</p>
-<p>&gt; 那么位[7]和位[3]将在粗略的水平上启用中断。然而，我们仍然需要通过mie（机器中断使能）寄存器启用特定的中断，这一点我们在最后做。</p>
-<p>mepc寄存器是 &quot;机器异常程序计数器&quot;，它是我们要返回的内存地址。符号kmain是在Rust中定义的，是我们离开汇编的逃生票。</p>
-<p>mtvec（机器陷阱向量），是一个内核函数，每当有陷阱出现时就会被调用，比如系统调用、非法指令，甚至是定时器中断。</p>
-<p>在我们完成Rust的主函数后，我们将ra（返回地址）设置为park。然后，mret指令将我们刚才所做的一切，通过mepc寄存器跳回，这就是我们最终进入Rust的地方!</p>
-<p>(2019年9月29日添加）我们已经参考了asm_trap_vector，但我们还没有写。不过我们很快就会写，现在先在 src/asm/ 下创建一个名为 trap.S 的文件，并在其中添加以下内容。</p>
+<p>这段代码很长，中间还有些注释。我们要做的是将[12:11]位设置为11，也就是 &quot;机器模式(machine mode)&quot;。这将使我们能够访问所有的指令和寄存器。当然，我们或许已经处于这一模式了，但还是做一次比较好。</p>
+<p>&gt; 之后位[7]和位[3]将在总体上启用中断。然而，我们仍然需要通过<code>mie</code>（机器中断使能）寄存器启用特定的中断，这一点在最后几行实现。</p>
+<p>mepc寄存器是 &quot;机器异常程序计数器&quot;，它是我们要返回的内存地址。符号<code>kmain</code>是在Rust中定义的，是我们离开汇编、进入Rust的“逃生”通道。</p>
+<p>mtvec（机器陷阱向量）是一个内核函数，每当有陷阱出现时就会被调用，比如系统调用、非法指令或者时钟中断。</p>
+<p>在我们完成Rust的主函数后，我们将ra（返回地址）置为等待状态。然后，<code>mret</code>指令将我们刚才所做的一切，通过mepc寄存器跳回，这就是我们最终进入Rust的地方!</p>
+<p>(2019年9月29日添加）我们已经参考了<code>asm_trap_vector</code>，但我们还没有实际编写它。不过我们很快就会开工，现在先在 <code>src/asm/</code> 下创建一个名为 <code>trap.S</code> 的文件，并在其中添加以下内容。</p>
 <pre><code class="language-nasm"># trap.S
 # Assembly-level trap handler.
 .section .text
@@ -320,9 +315,9 @@ asm_trap_vector:
 	# for any reason.
     mret
 </code></pre>
-<p><strong>裸机Rust的世界</strong></p>
-<p>现在我们已经来到了rust，我们需要编辑lib.rs，它是由cargo命令为我们创建的。不要改变 lib.rs 的名称，否则 cargo 将永远不知道我们在说什么。相反，lib.rs将是我们的入口点、实用工具，以及我们用来导入其他Rust模块的东西。不要把kmain看成是一个执行代码。相反，它将初始化我们所需要的一切，然后引起 &quot;大爆炸&quot;，也就是让一切都开始运动。操作系统主要是异步的。我们将使用一个定时器中断来催促我们的内核开始行动，所以我们不能使用我们可能习惯的单线程编程方法。</p>
-<p>当你打开lib.rs时，删除里面的所有东西。里面没有我们需要的东西，也没有我们可以用于内核的东西。相反，根据Rust，我们需要定义一些东西。由于我们没有使用标准库（反正它不是为我们的内核建立的），我们必须在继续之前定义abort和panic_handler。所以，这里什么都没有。</p>
+<h3 id="裸机rust的世界"><a class="header" href="#裸机rust的世界">裸机Rust的世界!</a></h3>
+<p>现在我们已经进入了rust。首先我们需要编辑 <code>lib.rs</code>，这个文件是由cargo命令为我们创建的。不要改变 lib.rs 的名称，否则 cargo 将永远不知道我们在干什么。lib.rs将是我们的入口点与我们用来导入其他Rust模块的工具。不要把<code>kmain</code>看成是一段执行代码。相反，它将初始化我们所需要的一切，然后引起 &quot;大爆炸&quot;，也就是说让所有代码都开始运行。操作系统主要是异步的，我们将使用时钟中断来指示内核开始运行，所以我们不能使用平时习惯的单线程编程方法。</p>
+<p>当第一次打开<code>lib.rs</code>时，清空文件，因为里面没有我们需要用于内核的东西。我们需要自己定义一些东西来满足Rust的要求。由于我们不会使用标准库（标准库自己就依赖于内核，不能被用于我们的内核构建），我们必须首先定义<code>abort</code>和<code>panic_handler</code>再去做别的事情。就像这样：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -391,11 +386,11 @@ fn abort() -&gt; ! {
 }		
 <span class="boring">}
 </span></code></pre></pre>
-<p>我们使用#！[no_std]来告诉Rust，我们不会使用标准库。然后我们要求Rust允许我们的代码使用恐慌信息和内嵌式汇编功能。我们做的第一件事是创建一个空的eh_personality函数。#[no_mangle]关闭了Rust的名称处理功能，所以这个符号正好是eh_personality。然后，extern &quot;C &quot;告诉Rust使用C风格的ABI。</p>
-<p>然后，#[panic_handler]告诉Rust，我们定义的下一个函数将是我们的panic处理程序。Rust调用panic有几个原因，我们将用我们的断言隐含地调用它。我让这个函数做的是打印出引起恐慌的源文件和行号。然而，我们还没有写print！或println!，但我们知道Rust中print和println的格式。顺便提一下，-&gt;！意味着这个函数不会返回。如果Rust检测到它可以返回，编译器会给你一个错误。</p>
-<p>最后，我们写下中止函数。这所做的就是不断循环wfi（等待中断）指令。这使它正在运行的硬盘断电，直到另一个中断。</p>
-<p><strong>我们在生锈!</strong></p>
-<p>我们已经正式进入rust，所以我们需要写出我们在boot.S中指定的入口点，也就是kmain。所以，在我们的lib.rs代码中添加。</p>
+<p>我们使用<code>#![no_std]</code>来告诉Rust不会使用标准库。然后我们要求Rust允许我们的代码使用 panic 信息和内嵌式汇编功能。第一件要做的事是创建一个空的<code>eh_personality</code>函数。<code>#[no_mangle]</code>关闭了Rust的名称处理功能，所以这个符号确实是eh_personality。然后，<code>extern &quot;C &quot;</code>告诉Rust使用C风格的ABI。</p>
+<p>之后，<code>#[panic_handler]</code>告诉Rust，我们定义的下一个函数将是我们的panic处理程序。Rust调用panic有几个原因，我们将用我们的断言隐式地调用它。我让这个函数做的是打印出产生panic的源文件和行号。虽说我们还没有实现<code>print！</code>或<code>println!</code>，但我们知道Rust中print和println的格式。顺便提一下，<code>-&gt;！</code>意味着这个函数不会返回。如果Rust检测到它可以返回，编译器会报错。</p>
+<p>最后，我们编写<code>abort</code>函数。它要做的就是不断循环<code>wfi</code>（等待中断）指令。这使它正在运行的hart关闭，直到另一个中断发生。</p>
+<h3 id="我们真正进入了rust"><a class="header" href="#我们真正进入了rust">我们真正进入了RUST!</a></h3>
+<p>我们已经正式进入rust，所以我们需要写出<code>boot.S</code>中指定的入口点，也就是<code>kmain</code>。所以，在我们的<code>lib.rs</code>代码中添加：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -409,31 +404,26 @@ fn kmain() {
 <span class="boring">}
 </span></code></pre></pre>
 <p>当kmain返回时，它碰到wfi循环并挂起。这是我们所期望的，因为我们还没有告诉内核要做什么。</p>
-<p>所以，你有它。我们在Rust中。不幸的是，在我们写出print！的实际作用之前，我们不会看到任何打印到屏幕上的东西。但是，所有的东西都应该被编译出来通常情况下，好的作家会以一些引言或结束语来结束，但我不是一个好的作家。</p>
-<p>当你输入make run时，你的操作系统将尝试启动并进入Rust，它会这样做的。然而，由于我们还没有编写与操作系统通信的驱动程序，所以什么也不会出现。输入CTRL-A，然后点击'x'退出模拟器。另外，你可以通过输入CTRL-A，然后点击'c'来查看你所在的位置。你现在是在QEMU的控制台。输入 &quot;info registers &quot;来查看模拟器在你的操作系统中的位置。</p>
-<p><a href="http://osblog.stephenmarz.com/ch0.html">第0章</a>→（第1章）→<a href="http://osblog.stephenmarz.com/ch2.html">第2章</a></p>
-<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><p><strong>操作系统的历险记</strong></p>
-<p><strong>使用<strong><strong>Rust</strong></strong>的<strong><strong>RISC-V</strong></strong>操作系统</strong></p>
-<p><a href="https://www.patreon.com/sgmarz"><strong>在<strong><strong>Patreon</strong></strong>上支持我</strong>**!**</a><a href="http://osblog.stephenmarz.com/index.html"><strong>操作系统</strong> <strong>博客</strong></a><a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS****订阅</strong> </a><a href="https://github.com/sgmarz"><strong>Github</strong> </a><a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS****网站</strong></a></p>
-<p>这是关于<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>的多部分系列中的第二章。</p>
-<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch1.html">第一章</a> → （第二章） → <a href="http://osblog.stephenmarz.com/ch3.html">第三章</a></p>
-<p><strong>通讯</strong></p>
-<p>2019年10月4日：仅有PATREON</p>
-<p>2019年10月6日：公开</p>
-<p><strong>视频</strong></p>
-<p>带有评论的视频版本可以在以下网站找到<a href="https://www.youtube.com/watch?v=1SR1sB8W248">：https://www.youtube.com/watch?v=1SR1sB8W248</a>。</p>
-<p><strong>概述</strong></p>
-<p>在没有结果显示的情况下，我们编写的这个操作系统有什么好处？简短的回答是没有什么。我们已经孕育了这个男孩，并给它起了个名字，所以我们来谈谈吧！&quot;。</p>
-<p>我们将开始构建操作系统的各个部分，它们将像拼图一样，在以后的时间里组合在一起。有些会在相当早的时候就装配好（控制台和这个UART驱动密切配合），有些会在以后装配。请耐心等待，我们会成功的。</p>
-<p><strong>获取代码</strong>**!**</p>
-<p>为了更容易跟上，请到https://github.com/sgmarz/osblog，抓住第二章的代码。</p>
-<p><strong>通用异步收发器</strong>**/**<strong>发射器（<strong><strong>UART</strong></strong>）</strong></p>
-<p>我们将首先使用UART（通用异步接收器/发射器）进行通信。我们通过QEMU使用的虚拟机模拟了NS16550A UART芯片组。我们使用内存映射的I/O在基础地址0x1000_0000处控制这个UART系统。在这里，我们可以控制NS16550a的寄存器，它们都是8位的。</p>
-<p><strong>内存映射的<strong><strong>IO</strong></strong>（<strong><strong>MMIO</strong></strong>）</strong></p>
-<p>基本上，我们要做的是设置一个指向地址0x1000_0000的指针。当我们写到这个地址或这个地址的某个偏移量时，我们实际上是在与UART设备而不是物理RAM对话。这是一个在嵌入式系统中众所周知的系统，称为MMIO或内存映射的输入和输出。</p>
-<p><strong>NS16550a****寄存器</strong></p>
-<p>寄存器只是位于硬件设备上的一点内存。对于NS16550a来说，这个内存是一个字节一个字节地访问的。例如，寄存器的布局如下（在 &quot;寄存器图 &quot;下），你可以看到发射器（THR）和接收器（RBR）寄存器都正好是8位（1字节）。当我从指向0x1000_0000的指针读取时，我从RBR中提取这8位。当我写到指向0x1000_0000的完全相同的指针时，我将会向THR发送。</p>
-<p>这个MMIO系统很好，因为它不需要我们做任何特别的事情，除了从内存地址读取或写入。由于Rust支持原始指针，它使我们能够相当容易地控制硬件。在C++中，我们可以写下面的内容来读写发射器。</p>
+<p>那么基本已经完工了，我们进入了Rust之中。不幸的是，在我们实现<code>print！</code>之前不会看到任何打印到屏幕上的东西。但是，现在的代码至少应该是能够正常编译的！一般来说，优秀的作家会以一些引言或结束语来结束，但我并不是一位优秀的作家。</p>
+<p>当你输入<code>make run</code>时，你的操作系统将尝试启动并进入Rust。然而由于我们还没有编写与操作系统通信的驱动程序，所以什么也不会发生。输入CTRL-A+'x'退出模拟器。同时，你也可以通过输入CTRL-A+'c'来查看你所在的位置。你现在是在QEMU的控制台。输入 &quot;info registers &quot;来查看模拟器在你的操作系统中的位置。</p>
+<p><a href="ch0.html">第0章</a> → 第1章 → <a href="ch2.html">第2章</a></p>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="通信"><a class="header" href="#通信">通信</a></h1>
+<p><strong><span style='color:red'>2019年10月4日：仅Patreon</span></strong></p>
+<p><strong><span style='color:red'>2019年10月6日：公开</span></strong></p>
+<h3 id="视频"><a class="header" href="#视频">视频</a></h3>
+<p>带有评论的视频版本可以在以下网站找到:<a href="https://www.youtube.com/watch?v=1SR1sB8W248">https://www.youtube.com/watch?v=1SR1sB8W248</a>。</p>
+<h3 id="概述-1"><a class="header" href="#概述-1">概述</a></h3>
+<p>在什么都显示不出来的情况下，我们编写的这个操作系统有什么优点？简单来说确实没有。但我们已经让这个小家伙诞生了，并给它起了个名字，所以我们要进一步培养它！</p>
+<p>我们将开始构建操作系统的各个部分，它们将像拼图一样，在之后组合在一起。有些会在相当早的时候就装配好（控制台和UART驱动有紧密的结合），有些会在以后组装。请耐心看下去，我们最终一定会成功的！</p>
+<h3 id="获取代码"><a class="header" href="#获取代码">获取代码</a></h3>
+<p>为了更容易跟上进度，请到https://github.com/sgmarz/osblog获取第二章的代码。</p>
+<h3 id="通用异步收发传输器uart"><a class="header" href="#通用异步收发传输器uart">通用异步收发传输器（UART）</a></h3>
+<p>我们将首先使用UART（通用异步收发传输器）进行通信。我们通过QEMU使用的虚拟机模拟了NS16550A UART芯片组。我们使用内存映射的I/O在地址<code>0x1000_0000</code>处控制这个UART系统。在这里，我们可以控制NS16550a的寄存器，它们都是8位的。</p>
+<h3 id="内存映射iommio"><a class="header" href="#内存映射iommio">内存映射I/O（MMIO）</a></h3>
+<p>基本上，我们要做的是设置一个指向地址0x1000_0000的指针。当我们写到这个地址或这个地址的某个偏移量时，我们实际上是在与UART设备而不是物理RAM对话。这是一个在嵌入式系统中众所周知的系统，称为MMIO,也即内存映射的输入和输出。</p>
+<h3 id="ns16550a寄存器"><a class="header" href="#ns16550a寄存器">NS16550a寄存器</a></h3>
+<p>寄存器只是位于硬件设备上的一点内存。对于NS16550a来说，这个内存是一个字节一个字节地访问的。例如，在下面的寄存器布局中（见 &quot;寄存器图表 &quot;），你可以看到发送器（THR）和接收器（RBR）寄存器都正好是8位（1字节）。当我从指向0x1000_0000的指针读取时，我从RBR中提取这8位。当我写到指向0x1000_0000的完全相同的指针时，我将会向THR发送。</p>
+<p>这个MMIO系统很好，因为它不需要我们做除了从内存地址读写之外的任何特别的事情。由于Rust支持裸指针，它使我们能够相当容易地控制硬件。在C++中，我们可以编写下面的内容来读写传输器。</p>
 <pre><code class="language-c">void mmio_write(unsigned long address, int offset, char value)
 {
 	// We use volatile so that the optimizer on the
@@ -460,8 +450,8 @@ char mmio_read(unsigned long address, int offset)
 	return *(reg + offset);
 }
 </code></pre>
-<p><strong>带<strong><strong>Rust</strong></strong>的****MMIO</strong></p>
-<p>Rust确实有原始指针，但它没有volatile关键字。相反，我们将指针作为对象使用，并使用Rust的原始指针的write_volatile和read_volatile成员。比如说</p>
+<h3 id="rust的mmio"><a class="header" href="#rust的mmio">Rust的MMIO</a></h3>
+<p>Rust确实有裸指针，但它没有volatile关键字。我们将指针作为对象使用，并使用Rust裸指针的<code>write_volatile</code>和<code>read_volatile</code>成员函数。比如说：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -499,24 +489,26 @@ fn unsafe mmio_read(address: usize, offset: usize, value: u8) -&gt; u8 {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>如果你对add感到好奇，Rust提供了这个作为普通的ptr.offset的封装器，但是offset采取了一个isize，意味着它可以是正的或负的。为了清楚起见，我使用了基础寄存器中的.add()，但你可以选择你希望的任何一种。</p>
-<p>我在mmio_read的评论中提到了不加分号的问题。Rust<em>主要是</em>一种 &quot;表达式语言&quot;，正如这里所记录的<a href="https://doc.rust-lang.org/reference/statements-and-expressions.html">：https://doc.rust-lang.org/reference/statements-and-expressions.html</a>。本质上，Rust会将函数分解为返回部分，对于这个函数来说，返回部分是一个u8（无符号8位整数）。当我们加上分号时，我们告诉Rust放弃求值的结果，并返回（）类型，Rust称之为<em>单元</em>类型（<a href="https://doc.rust-lang.org/stable/rust-by-example/expression.html">见https://doc.rust-lang.org/stable/rust-by-example/expression.html</a>）。</p>
-<p><strong>登记表</strong></p>
-<p>NS16550a的寄存器如下。 </p>
-<p><img src="http://osblog.stephenmarz.com/imgs/ns16550a.png" alt="img" /></p>
-<p>这个寄存器图的重要部分是，发送器和接收器都在0x1000_0000。当我们向这个地址写8位时，它把这个字符放到发送器中。当我们从这个地址读出8位时，它从接收器中弹出一个字符。</p>
+<p>如果你对add感到奇怪，它是Rust对普通的<code>ptr.offset</code>方法的一个封装，但是offset的参数是<code>isize</code>，意味着它可以是正的或负的。为了清楚起见，我使用了基础寄存器的<code>.add()</code>，但你可以选择你想用的那种。</p>
+<p>我在<code>mmio_read</code>的注释中提到了不加分号的问题。Rust<em>主要是</em>一种 &quot;表达式语言&quot;，正如这里所讲的:<a href="https://doc.rust-lang.org/reference/statements-and-expressions.html">https://doc.rust-lang.org/reference/statements-and-expressions.html</a>。本质上，Rust会将函数归结为返回值，对于这个函数来说，返回部分是一个u8（无符号8位整数）。当我们加上分号时，我们告诉Rust放弃求值的结果，并返回（）类型，Rust称之为<em>单元</em>类型（<a href="https://doc.rust-lang.org/stable/rust-by-example/expression.html">见https://doc.rust-lang.org/stable/rust-by-example/expression.html</a>）。</p>
+<h3 id="寄存器图表"><a class="header" href="#寄存器图表">寄存器图表</a></h3>
+<p>NS16550a的寄存器如下：</p>
+<p><img src="assets/2/ns16550a.png" alt=" " /></p>
+<p>这个寄存器图的重要部分是，发送器和接收器都在0x1000_0000。当我们向这个地址写8位时，它把这个字符放到发送器中。当我们从这个地址读出8位时，它从接收器中送出一个字符。</p>
 <p>在我们发送和接收之前，我们必须对UART控制器进行如下设置。</p>
-<p>·    设置字长为8位（LCR[1:0]）。</p>
-<p>·    启用FIFO（FCR[0]）。</p>
-<p>·    启用接收器中断（IER[0]）。</p>
-<p><strong>设置字长为<strong><strong>8</strong></strong>位</strong></p>
-<p>字长描述了发送器和接收器的缓冲区一次可以包含多少位。之所以可以设置，是因为即使我们可以同时支持8位，但另一边的UART可能无法支持。然而，QEMU允许所有8位，所以这就是我们要做的。在线路控制寄存器（LCR）中，有两个位控制字的长度。根据技术规范，如果我们在这两个位上各写一个1，我们就会得到一个8位的字符长度。默认情况下，如果我们在每个槽中写0，我们得到一个5位的字长，这很奇怪。</p>
-<p><strong>启用****FIFO</strong></p>
-<p>FIFO通常被实现为一个硬件移位寄存器，允许一次存储多个字节。FIFO的缩写是先入先出。当数据被添加到FIFO中时，它保持相同的顺序，所以当我从同一个FIFO中读取时，我得到的是第一条输入的数据。这很好，因为当有人输入 &quot;hello &quot;时，我们一次读出一个字节，即h、e、l、l、o。</p>
-<p><strong>启用接收机中断</strong></p>
+<ul>
+<li>设置字长为8位（LCR[1:0]）。</li>
+<li>启用FIFO（FCR[0]）。</li>
+<li>启用接收器中断（IER[0]）。</li>
+</ul>
+<h3 id="设置字长为8位"><a class="header" href="#设置字长为8位">设置字长为8位</a></h3>
+<p>字长描述了发送器和接收器的缓冲区一次可以包含多少位。之所以可以设置，是因为即使我们可以同时支持8位，但另一边的UART可能无法支持。然而，QEMU是支持8位的，所以设为8位就是我们要做的。在线路控制寄存器（LCR）中，有两位用来控制字长。根据规范，如果我们在这两个位上各写一个1，我们就会得到一个8位的字符长度。默认情况下，如果我们在每个位中写0，我们得到会是一个5位的字长，这有点奇怪。</p>
+<h3 id="启用fifo"><a class="header" href="#启用fifo">启用FIFO</a></h3>
+<p>FIFO通常被实现为一个硬件移位寄存器，允许一次存储多个字节。FIFO是先入先出(First-In, First-Out)的缩写。当数据被添加到FIFO中时，它的顺序不变，所以当我从同一个FIFO中读取时，我得到的是第一条输入的数据。这很不错，因为当有人输入 &quot;hello &quot;时，我们一次读出一个字节，可以按序得到h、e、l、l、o。</p>
+<h3 id="启用接收器中断"><a class="header" href="#启用接收器中断">启用接收器中断</a></h3>
 <p>启用接收器中断意味着每当数据被添加到接收器中时，CPU就会通过中断得到通知。在本章中，我们将不实际处理中断，因为这需要我们对平台级中断控制器（PLIC）进行编程，我们将在后面进行。相反，在本章中，我们将对UART进行 &quot;轮询&quot;，看数据何时到达。</p>
-<p><strong>设置信令速率（<strong><strong>BAUD</strong></strong>）</strong></p>
-<p>由于这不是一个真正的UART（只是模拟的），我们实际上不需要设置除数来划分时钟以得到一个特定的波特率。然而，这样做的程序是将DLAB（除数锁存器访问位）设置为1。然后基址+0和基址+1现在分别是除数的下8位和上8位。然后，通过将DLAB位清除为0来关闭锁存器。</p>
+<h3 id="设置信号传输率baud"><a class="header" href="#设置信号传输率baud">设置信号传输率（BAUD）</a></h3>
+<p>由于这不是一个真正的UART（只是模拟的），我们实际上不需要设置分频数来划分时钟以确定一个特定的波特率。我们的做法是是将DLAB（除数锁存器访问位）设置为1。然后基址+0和基址+1现在分别是除数的下8位和上8位。然后，通过将DLAB位清除为0来关闭锁存器。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -588,9 +580,9 @@ pub fn uart_init(base_addr: usize) {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>首先，你可能会注意到，函数本身不再是不安全的了。相反，函数主体的各个部分是不安全的。当我们写一个不安全块时，我们是在告诉Rust &quot;拿着我的啤酒&quot;。如果函数被标记为不安全，比如unsafe fn uart_init，那么函数主体中的所有代码都可以是安全或不安全的。当我们给单个不安全块贴上标签时，只有在我们无法避免的情况下，我们才能进入不安全的Rust。</p>
-<p><strong>从<strong><strong>UART</strong></strong>读取数据</strong></p>
-<p>现在我们已经初始化了，现在只要有字符出现，我们就可以从UART读取。在未来，这种读取将由一个中断触发，我们可以读取数值并将其存入RAM中的一个缓冲区。</p>
+<p>首先，你可能会注意到，函数本身不再是<code>不安全(unsafe)</code>的了。相反，函数主体的各个部分是<code>不安全</code>的。当我们写一个不安全块时，我们是在告诉Rust &quot;拿着我的啤酒(我要做些危险的事了)&quot;。如果函数被标记为不安全，比如<code>unsafe fn uart_init</code>，那么函数主体中的所有代码都可以是安全或不安全的。当我们给单个不安全块贴上标签时，只有在我们无法避免的情况下，我们才会进入不安全的Rust。</p>
+<h3 id="读取uart"><a class="header" href="#读取uart">读取UART</a></h3>
+<p>现在我们已经初始化了，现在只要有字符出现，我们就可以从UART读取。在之后的部分中这种读取将由一个中断触发，我们可以读取数值并将其存入RAM中的一个缓冲区。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -610,8 +602,8 @@ pub fn uart_init(base_addr: usize) {
 	}
 <span class="boring">}
 </span></code></pre></pre>
-<p><strong>写入</strong> <strong>UART</strong></p>
-<p>同样地，我们也希望能够写到控制台。因此，让我们写uart_write。</p>
+<h3 id="写入uart"><a class="header" href="#写入uart">写入UART</a></h3>
+<p>同样地，我们也希望能够写入控制台。因此，让我们编写uart_write。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -625,9 +617,9 @@ pub fn uart_init(base_addr: usize) {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><strong>锈蚀</strong></p>
-<p>现在我们已经写好了uart函数，让我们创建一个uart模块。因此，首先创建一个名为 src/uart.rs 的文件。然后将uart_init、uart_get和uart_put函数移入其中。我们将使用被称为Rust &quot;trait &quot;的东西，这样我们就可以将我们的UART与任何想要写的东西联系起来......主要是&gt;write！宏。</p>
-<p>与C++不同，Rust的唯一结构性器具是结构体。Rust的结构可以有方法和成员变量，就像C++一样。所以，我们要把Uart驱动包装成一个名为Uart的结构。</p>
+<h3 id="u加入到rust主程序u"><a class="header" href="#u加入到rust主程序u"><u>加入到Rust主程序</u></a></h3>
+<p>现在我们已经写好了uart函数，让我们创建一个uart模块。首先创建一个名为<code>src/uart.rs</code>的文件。然后将uart_init、uart_get和uart_put函数移入其中。我们将使用名为Rust &quot;trait &quot;的东西，这样我们就可以将我们的UART与任何想要写的东西联系起来......主要是<code>&gt;write！</code>宏。</p>
+<p>与C++不同，Rust的唯一结构性容器是struct。Rust的struct可以有方法和成员变量，就像C++一样。所以，我们要把Uart驱动包装成一个名为Uart的结构。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -636,7 +628,7 @@ pub fn uart_init(base_addr: usize) {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>我们正在存储UART的基本地址。有一些平台有多个UART!然而，现在我们要把它与core::fmt::Write trait联系起来。这使得我们可以在Rust中使用已经内置的宏write!要实现一个trait，我们需要使用 impl Write for Uart 语法，同时确保我们使用core::fmt::Write，以便将trait导入我们的uart.rs文件中。特质只是给出了一个保证，即某个（或某些）函数会存在。例如，下面的 write_str 是由 trait Write 要求的。这些行为非常像Java的接口或C++的抽象类。</p>
+<p>我们正在存储UART的基地址。有一些平台有多个UART!然而，现在我们要把它与<code>core::fmt::Write</code> trait联系起来。这使我们可以使用已经内置在Rust中的宏<code>write!</code>。要实现一个trait，我们需要使用<code>impl Write for Uart</code>语法，同时确保我们使用<code>core::fmt::Write</code>，以便将trait导入我们的uart.rs文件中。这个trait能确保某个（或某些）函数会存在。例如，下面的 <code>write_str</code> 是由 trait <code>Write </code>要求的。这些行为非常像Java的<code>interfaces</code>或C++的<code>abstract</code>类。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -677,9 +669,9 @@ impl Write for Uart {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><strong>我们来写****println!</strong></p>
-<p>好的，所以println!()通常与stdout接口，但由于我们在写操作系统，我们没有这些花哨的功能。所以，我们要自己写。我们将用Rust的元编程语言来写，它是以代码macro_rules开始的。这种编程风格是我的第一个障碍，很难找到一个好的方法来教本科生这种元编程的复杂性，它本身就很像一种语言。</p>
-<p>为了确保我们有一个全局宏，我把println写在lib.rs中，我把它称为 &quot;主 &quot;文件。也就是说，我们为操作系统编写的所有模块，如UART、调度、进程，都将是通过lib.rs文件连接的子模块。全局宏放在lib.rs的顶部，用以下代码启动。</p>
+<h3 id="我们来写println"><a class="header" href="#我们来写println">我们来写println!</a></h3>
+<p>println!()通常与stdout对接，但由于我们在写操作系统，我们没有这些花哨的功能。所以，我们要自己写。我们将用Rust的元编程语言来写，以代码<code>macro_rules</code>开始。这种编程风格是我的第一个难点，很难找到一个好的方法来向本科生讲清楚这种元编程的复杂性，它本身就很像一种语言。</p>
+<p>为了确保我们有一个全局宏，我把println写在lib.rs中，我把它称为 &quot;主 &quot;文件。也就是说，我们为操作系统编写的所有模块，如UART、调度、进程，都将是通过lib.rs文件连接的子模块。全局宏放在lib.rs的顶部，用以下代码启动：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -709,22 +701,22 @@ macro_rules! println
 }	
 <span class="boring">}
 </span></code></pre></pre>
-<p>在这段代码中，我同时指定了print和println，当我们使用它们的时候，它们将逐渐拥有自己的叹息点。println！所做的就是在我们要打印的东西的末尾添加一个换行。</p>
-<p>那么，让我们来看看这个语法。我们指定#[macro_export]将我们的宏导出到其他的子模块中。这是#[macro_use]指令的阴阳两面，它告诉Rust，我们将使用一个crate（库）的宏。</p>
-<p>现在，我们进入 &quot;手臂&quot;，也就是等号-大于号，在C#等语言中也被称为 &quot;胖箭头&quot;。但是，我自己也在和腰带的尺寸作斗争，我将坚持使用 &quot;手臂 &quot;的版本。在这里，我们要指定一个匹配模式。每当我们写下println!(&quot;Hello&quot;)这样的东西时，Rust就会尝试匹配我们指定的参数。所以，我使用美元符号&quot;$&quot;来指定一个元变量。在这里，我们告诉Rust，我们要把我们的参数标记为 &quot;标记树&quot;（tt）参数，这就是$args:tt的来源。加号'+'告诉Rust，这里会有一个或多个匹配，所以要想编译，必须至少指定这些标记树参数中的一个。否则，就是错误。</p>
-<p>然后我们来到了手臂'=&gt;'。在这里，我们要告诉Rust，如果我们匹配了这个臂膀，要代表我们 &quot;编程 &quot;什么。在这里，注意我通过简单地添加大括号{}添加了另一个范围。由于我们的UART驱动实现了Write特性，我们必须告诉Rust在调用 &quot;write!&quot;时要 &quot;使用 &quot;该特性。幸运的是，write！的功能已经为我们写好了！（感谢Rust开发者(谢谢Rust开发者）!</p>
-<p>Rust试图成为一个好管家，告诉我们write！会返回一些东西。我们用let <em>来告诉Rust，我们知道这一点，但我们并不关心。下划线'</em>'本质上是承认了返回，但还是要抛弃它。在write!里面，我指定了一个长的路径来获取我们的uart驱动crate::uart::UartDriver。基本上，crate指定了根，从那里我们添加了一个名为uart的模块（见下面的代码），在该模块中，我们有一个名为UartDriver的结构，它实现了一个名为new的静态函数。</p>
-<p>最后，我们要告诉Rust将每个参数扩展到write！宏的末尾，这样所有的参数（记住：一个或多个）都直接传递给write宏。</p>
-<p>对于println，我使用了expr，意思是 &quot;表达式&quot;，以表明一个只是另一个的更严格版本。这篇博客并不打算成为一个编译器教程，所以我打算把它作为 &quot;未来 &quot;的工作来做--欢迎来到学术界相反，我只想告诉你，Rust会努力地匹配我们给println和print的内容。</p>
-<p><strong>为什么<strong><strong>println</strong></strong>有<strong><strong>3</strong></strong>个臂膀？</strong></p>
-<p>与print不同，我们希望能够调用println!();，而只是打印一个换行符。如果我们对print!这样做，那就太愚蠢了，因为它什么都不会做。这就是为什么在print中，我们指定了加号'+'，这样我们就可以匹配一个或多个。为了匹配零或更多，我们会使用星号'*'。</p>
-<p>第二个臂膀有$fmt:expr，如果我们提供至少一个参数，Rust就会匹配它。在本例中，这是一个格式字符串--类似于 &quot;Hello {}&quot;。请注意，Rust更多地使用了C#的风格（或者C#使用了Rust的风格--你们自己争论吧！），而不是C风格的%d、%s等。关于格式化的整个讨论可以在这里找到<a href="https://doc.rust-lang.org/std/fmt/index.html">：https://doc.rust-lang.org/std/fmt/index.html</a>。</p>
-<p>第三个臂膀将格式字符串和需要被替换到格式字符串中的参数结合起来。</p>
-<p><strong>为什么每次都要创建一个新的<strong><strong>UartDriver</strong></strong>？</strong></p>
-<p>这篇文章已经变得相当长了，但是我们将使用 &quot;单子 &quot;模式，这样外面就只有一个UartDriver存在。然而，由于内存位置总是相同的，我在这里的方法是简单地将该内存地址包裹到一个UartDriver结构中。TL;DR: 我们会成功的!</p>
-<p><strong>将<strong><strong>UART</strong></strong>加载到<strong><strong>lib.rs</strong></strong>中</strong></p>
-<p>我使用我的lib.rs作为我的 &quot;守护者&quot;。它包含了一些代码，但它的工作是导入其他模块，并给我们一个路径来获取它们，就像我们在打印宏中写的crate::uart::UartDriver一样。所以，Rust不使用include预处理器指令，比如C++的#include。相反，我们通过指定mod uart来导入模块。我在我的模块前面加了pub，使它们成为公共模块。这很像Rust将所有变量默认为不可变的。可见性也是如此，有一个pub关键字可以使一个本来是私有的模块变成公共的。</p>
-<p>所以，现在我们的代码看起来是这样的。</p>
+<p>在这段代码中，我同时指定了print和println，当我们使用它们的时候，<u>它们将逐渐拥有自己的感叹号</u>。println！所做的就是在我们要打印的东西的末尾添加一个换行。</p>
+<p>那么，让我们来看看这个语法。我们通过指定<code>#[macro_export]</code>将我们的宏导出到其他的子模块中。这是位于阳面的<code>#[macro_use]</code>指令的阴面，它告诉Rust，我们将使用一个crate（库）的宏。</p>
+<p>现在，我们进入 &quot;手臂(arms)&quot;，也就是等号-大于号，在C#等语言中也被称为 &quot;胖箭头&quot;。但是正如我自己也在和腰带的尺寸作斗争，我将坚持使用 &quot;手臂 &quot;这一称呼。在这里，我们要指定一个匹配模式。每当我们写下<code>println!(&quot;Hello&quot;)</code>这样的东西时，Rust就会尝试匹配我们指定的参数。所以，我使用美元符号&quot;$&quot;来指定一个元变量。在这里，我们告诉Rust，我们要把我们的参数标记为 &quot;令牌树(token tree)&quot;（tt）参数，这就是<code>$args:tt</code>的来源。加号'+'告诉Rust这里可能有一个或多个匹配，所以要想编译，必须至少指定这些标记树参数中的一个，否则会产生错误。</p>
+<p>然后我们来到了手臂'=&gt;'。在这里，我们要告诉Rust，如果我们匹配了这个臂膀，需要 &quot;编程 执行&quot;什么。在这里，注意我通过简单地添加大括号{}创建了一个代码域。由于我们的UART驱动实现了<code>Write</code> trait，我们必须告诉Rust在调用 &quot;write!&quot;时要 &quot;使用 &quot;该trait。幸运的是，<code>write！</code>的功能已经为我们写好了！（感谢Rust开发者!）</p>
+<p>Rust尽力成为一个好管家，告诉我们<code>write!</code>会返回一些东西。我们用<code>let_ </code>来告诉Rust，我们知道这一点，但我们并不关心。下划线'_'本质上是承认了返回，但还是要抛弃它的值。在<code>write!</code>里面，我指定了一个长的路径来获取我们的uart驱动<code>crate::uart::UartDriver</code>。基本上，crate指定了根，从那里我们添加了一个名为uart的模块（见下面的代码），在该模块中，我们有一个名为<code>UartDriver</code>的结构，它实现了一个名为<code>new</code>的静态函数。</p>
+<p>最后，我们要告诉Rust将每个参数扩展到<code>write!</code>宏的末尾，这样所有的参数（记住：一个或多个）都直接传递给write宏。</p>
+<p>对于println，我使用了expr，意思是 &quot;表达式&quot;，以表明这个只是上一个的更严格版本。这篇博客并不打算成为一个编译器教程，所以我打算把它作为 &quot;未来 &quot;的工作来做——欢迎来到学术界！而现在我只想告诉你，Rust会努力地匹配我们给println和print编写的内容。</p>
+<h3 id="为什么println有3个手臂"><a class="header" href="#为什么println有3个手臂">为什么println有3个手臂？</a></h3>
+<p>与print不同，我们希望能够调用<code>println!();</code>来只打印一个换行符。如果我们对<code>print!</code>这样做，那就太愚蠢了，因为它什么都不会做。这就是为什么在print中，我们指定了加号'+'，这样我们就可以匹配一个或多个参数。为了匹配零个或多个，我们会使用星号'*'。</p>
+<p>第二个手臂是<code>$fmt:expr</code>，如果我们提供至少一个参数，Rust就会匹配。在本例中，这是一个格式化字符串--类似于<code> &quot;Hello {}&quot;</code>。请注意，Rust使用了许多C#的风格（或者C#使用了Rust的风格--你们自己争论吧！），而不是C风格的<code>%d、%s</code>等。关于格式化的整个讨论可以在这里找到:<a href="https://doc.rust-lang.org/std/fmt/index.html">https://doc.rust-lang.org/std/fmt/index.html</a>。</p>
+<p>第三个手臂将格式化字符串和需要被填充到格式化字符串中的参数结合起来。</p>
+<h3 id="为什么每次都要创建一个新的uartdriver"><a class="header" href="#为什么每次都要创建一个新的uartdriver">为什么每次都要创建一个新的UartDriver？</a></h3>
+<p>这篇文章已经变得相当长了。我们将使用 &quot;单例 &quot;模式，这样外面就只有一个UartDriver存在。然而，由于内存位置不会变化，我在这里的方法是简单地将该内存地址包裹到一个<code>UartDriver</code>结构中。剩下太长了，不再看了，总之我们会成功的!</p>
+<h4 id="将uart加载到librs中"><a class="header" href="#将uart加载到librs中">将UART加载到lib.rs中</a></h4>
+<p>我使用我的lib.rs作为我的 &quot;守护者（keeper）&quot;。它包含了一些代码，但它的工作是导入其他模块，并给我们一个路径来获取它们，就像我们在print宏中写的<code>crate::uart::UartDriver</code>一样。Rust不使用include预处理指令，比如C++的<code>#include</code>，而是让我们通过指定<code>mod uart</code>来导入模块。我在我的模块前面加了<code>pub</code>，使它们成为公共模块。这很像Rust将所有变量默认为不可变的。可见性也是如此，利用<code>pub</code>关键字使一个本来是私有的模块变成公共的。</p>
+<p>所以，现在我们的代码看起来是这样的：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span>#![no_std]
@@ -816,16 +808,16 @@ fn kmain() {
 pub mod uart;
 <span class="boring">}
 </span></code></pre></pre>
-<p>我继续前进，并预设了println!()（去&lt;在此插入你的团队名称&gt;），期望一切都能成功。在我的生活中，总有那么一刻，当我运行make时，我屏住呼吸，只等着一连串的错误来告诉我，我是一个多么糟糕的程序员。</p>
-<p>有了这个，pub mod uart将在与我们的lib.rs相同的目录下寻找一个叫uart.rs的文件。稍后，我们将创建目录并使用mod.rs。如果你知道我在说什么，我们很快就能达到目的了!如果你不知道，别担心，我们以后会到的。(是的，我说了两件相互矛盾的事情）。</p>
-<p>由于这种导入是Rust的行为，而且我们写了uart.rs，所以我们应该有良好的精神状态。</p>
-<p><strong>说话，我的孩子</strong></p>
-<p>让我们看看是否能让我们的孩子（操作系统）对我们说话。假设我们正确地写了write_str，而且我们没有忘记先初始化UART，我们应该看到一些字。我一开始忘了，但我可以编辑我的帖子--谁能告诉我呢，对吗？</p>
-<p><img src="http://osblog.stephenmarz.com/imgs/speak_child.jpg" alt="img" /></p>
-<p>所以，运行make run，让孩子说话吧!如果你什么都得不到，请看一下我的第二章的Git Repo，网址是<a href="https://github.com/sgmarz/osblog">：https://github.com/sgmarz/osblog</a>。</p>
-<p><strong>听着，我的孩子</strong></p>
-<p>现在我们知道我们的孩子可以说话，让我们看看我们的孩子是否可以听。请记住，write_str，它是Write特性的一部分，调用我们的uart_put函数，逐个字符（严格地说，u8逐个u8）。自从UTF以来，一个字符已经被私生子化了。</p>
-<p>我们最终会把这段代码移到带有缓冲区的控制台处理程序中，这样我们就可以抓取整个字符串，而不仅仅是字符，但这里什么都没有。</p>
+<p>我继续下一步，并预设了println!()（去&lt;在此插入你的团队名称&gt;），期望一切都能顺利。在我的人生中总会有那么一刻，当我开始<code>make</code>时，我屏住呼吸，只等着一连串的错误来告诉我我是一个多么糟糕的程序员。</p>
+<p>有了这个，<code>pub mod uart</code>将在与lib.rs相同的目录下寻找一个叫uart.rs的文件。稍后，我们将创建目录并使用<code>mod.rs</code>。如果你知道我在说什么，我们很快就能达到目的了!如果你不知道，别担心，我们以后总会到终点的。(是的，我说了两件相互矛盾的事情）。</p>
+<p>由于这种导入是Rust的行为，而且我们写了<code>uart.rs</code>，我们应该保持着积极状态。</p>
+<h3 id="说出来我的小家伙"><a class="header" href="#说出来我的小家伙">说出来，我的小家伙</a></h3>
+<p>让我们看看是否能让我们的孩子（操作系统）对我们说话。假设我们正确地写了<code>write_str</code>，而且我们没有忘记先初始化UART，我们应该看到一些显示。我一开始忘了，但我可以编辑我的帖子--谁能发现呢，对吧？</p>
+<p><img src="assets/2/speak_child.jpg" alt="img" /></p>
+<p>所以，运行<code>make run</code>，让小家伙说话吧!如果你什么都得不到，请看一下我的第二章的Git 仓库，网址是：<a href="https://github.com/sgmarz/osblog">https://github.com/sgmarz/osblog</a>。</p>
+<h3 id="认真听我的小家伙"><a class="header" href="#认真听我的小家伙">认真听，我的小家伙</a></h3>
+<p>现在我们知道我们的孩子可以说话，让我们看看它是否可以听见。请记住，<code>write_str</code>作为Write trait的一部分，调用我们的<code>uart_put</code>函数来逐个字符（严格地说，逐个u8）填入。自从UTF以来，字符（character）已经越来越没落了。</p>
+<p>我们最终会把这段代码移到带有缓冲区的控制台处理程序中，这样我们就可以获取整个字符串，而不仅仅是字符，但这里暂时还没这么高级：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -858,11 +850,11 @@ loop {
 }	
 <span class="boring">}
 </span></code></pre></pre>
-<p>Rust有一个循环，它无条件地以最快的速度进行循环。我们应该添加一些刹车，但现在，让我们以最快的速度读取字符。大多数非Rust程序员首先会看到的新语法是if let Some(c)的东西。记住my_uart.get()返回一个Option，它要么是Some，要么是None。</p>
-<p>使用 if let，我们可以从期权中提取标的物的价值，并同时查看期权是否为 Some。在上面的例子中，if let只在my_uart.get()返回Some时执行其主体。请记住，我们还将从UART中弹出的字符包装到这个Some()结构中（确切地说，是枚举）。因此，这个块里面的代码意味着一个叫做c的新变量包含了被Some包装的字符。很好，对吗？</p>
-<p>第二个语言结构是匹配语句。它类似于switch语句，但没有混乱的中断。在这种情况下，Rust将检查变量c的内容，然后我们指定某些情况，如果c与之匹配。在上面的代码中，我们对c匹配8和10或13时有特殊的代码。|（管道字符）允许我们为一个手臂指定多个情况。同样，就像print和println中的宏匹配一样，我们使用胖箭头来扩展手臂。</p>
-<p>案例8是退格的数字代码。然而，退格的真正含义是 &quot;将光标向左移动一个字符&quot;。所以，如果我们只是打印，光标会移动，但底层的文本仍然在那里。因此，我们的解决方案是移动光标，画一个空格（这将使光标向右移动一个空格），然后再将光标向左移动一个空格。</p>
-<p>案例10是'\n'（换行）字符，案例13是'\r'（回车）字符。根据你的终端和终端仿真，你可能会得到一个或另一个或两者。我们所做的就是调用println!()，这将使Rust匹配第一个臂（没有任何表达式或标记树的那个）。回顾那里的代码，我们看到这将只是打印一个换行。</p>
+<p>Rust有一个<code>循环(loop)</code>，它无条件地以最快的速度进行循环。我们应该加一些break，但现在让我们以最快的速度读取字符。大多数非Rust程序员首先会看到的新语法是<code>if let Some(c)</code>。记住<code>my_uart.get()</code>返回一个Option，它要么是<code>Some</code>，要么是<code>None</code>。</p>
+<p>使用 <code>if let</code>，我们可以从option中获取准确值，并同时查看<code>Option</code>是否为<code> Some</code>。在上面的例子中，<code>if let</code>只在<code>my_uart.get()</code>返回<code>Some</code>时执行其主体。请记住，我们还将从UART中取出的字符包装到这个Some()结构中（确切地说，是枚举）。因此，这个块里面的代码意味着一个叫做c的新变量获得了被<code>Some</code>包装的字符。很好，对吗？</p>
+<p>第二个语言结构是<code>匹配(match)</code>语句。它类似于<code>switch</code>语句，但没有许多不清不楚的break。在这种情况下，Rust将检查变量c的内容，然后我们指定某些情况来检查c是否与之匹配。在上面的代码中，我们设定当c匹配8和10或13时会执行特定的代码。|（管道字符）允许我们为一个手臂指定多个情况。同样，就像print和println中的宏匹配一样，我们使用胖箭头来扩展手臂。</p>
+<p>Case 8是退格的数字代码。然而，退格的真正含义是 &quot;将光标向左移动一个字符&quot;。所以，如果我们只是单纯的print，光标会移动，但那一格的文本仍然在那里。因此，我们的解决方案是移动光标，画一个空格（这将使光标向右移动一个空格），然后再将光标向左移动一个空格。</p>
+<p>Case 10是'\n'（换行）字符，Case13是'\r'（回车）字符。根据你的终端和终端仿真器，你可能只有一个或另一个或两者都有。我们所做的就是调用<code>println!()</code>，这将使Rust匹配第一个臂（没有任何表达式或token树的那个）。回顾那里的代码，我们看到这将只是打印一个换行。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -872,14 +864,14 @@ loop {
 });
 <span class="boring">}
 </span></code></pre></pre>
-<p>最后，下划线被用来捕获其他所有的东西--有点像 &quot;非上述 &quot;选项。它很像开关语句的默认情况。任何我们不能用上面的武器匹配的东西都可以在这里匹配。Rust强迫我们为每一种可能性都准备一个案例，因此，我们要么指定256种可能性（0-255），要么指定几种可能性，然后再指定一个万能的。我选择了后者。</p>
-<p>附注：如果只有一行代码，Rust并不要求我们为每个匹配臂添加括号。然而，由于我们将在这段代码的大部分基础上进行开发，我为 &quot;未来的扩展 &quot;加上了大括号。</p>
-<p><strong>测试</strong>**!**</p>
+<p>最后，下划线被用来包括其他所有的东西--有点像 &quot;非上述 &quot;选项。它很像switch语句的<code>默认(default</code>)情况。任何我们不能用上面的手臂匹配的东西都可以在这里匹配。Rust强迫我们为每一种可能性都准备一个case，因此，我们要么指定256种可能性（0-255），要么指定几种可能性，然后再指定一个万能的。我选择了后者。</p>
+<p>附注：如果只有一行代码，Rust并不要求我们为每个匹配臂添加括号。然而，由于我们将在这段代码的基础上进行开发，我为 &quot;未来的扩展 &quot;加上了大括号。</p>
+<h3 id="测试"><a class="header" href="#测试">测试!</a></h3>
 <p>让我们看看这是否有效。</p>
-<p><img src="http://osblog.stephenmarz.com/imgs/listen_child.jpg" alt="img" /></p>
-<p><strong>最后的安慰</strong>**--**<strong>事情</strong></p>
-<p>许多人不记得ANSI转义序列了，因为我们现在有GUI。然而，每当你按下扩展键，如方向键时，这些将被传递给你的UART系统。现在，方向键只是在屏幕上移动光标，因为我们打印出准确的字节序列。</p>
-<p>ANSI转义序列是多个字节，以字节0x1b（十进制27）开始。下一个字节是0x5b（十进制91），是左括号字符'['。然后剩下的是序列的参数。我们要捕捉上、下、左、右箭头的序列。所以，在你的匹配臂上添加以下内容。</p>
+<p><img src="assets/2/listen_child.jpg" alt="img" /></p>
+<h3 id="最后的控制台操作"><a class="header" href="#最后的控制台操作">最后的控制台操作</a></h3>
+<p>许多人不记得ANSI转义序列了，因为我们现在有GUI。然而，每当你按下扩展键，如方向键时，这些将被传递给你的UART系统。现在，方向键只是在屏幕上移动光标，因为我们只是打印出准确的可见字符。</p>
+<p>ANSI转义序列是多个字节，以字节0x1b（十进制27）开始。下一个字节是0x5b（十进制91），是左括号字符'['。然后剩下的是序列的参数。我们要捕捉上、下、左、右箭头的序列。所以，在你的匹配手臂上添加以下内容。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -917,19 +909,20 @@ loop {
 },
 <span class="boring">}
 </span></code></pre></pre>
-<p>现在，再次运行你的操作系统，但这一次，试试箭头！这将有助于我们编写我们的shell。这在我们编写shell时将会很有帮助。</p>
-<p><img src="http://osblog.stephenmarz.com/imgs/listen_arrows.jpg" alt="img" /></p>
-<p>如果你用箭头太快，有时你会看到A、B、C或D出现。这是因为你会匹配转义序列，但错过了第91字节。因此，你的循环看起来只是一个普通的A、B、C或D，甚至是左括号'['。</p>
-<p><img src="http://osblog.stephenmarz.com/imgs/arrow_quick.png" alt="img" /></p>
-<p><strong>哇，这个代码很脏</strong></p>
-<p>是的，你见过房子的施工吗？你现在看到的是我们在操作系统中铺设的脚手架。这种简单但肮脏的通信方式使我们能够收紧我们即将为操作系统的下一个部分建立的代码。这样做的好处是我们可以用很少的代码进行通信。当我们把更多的Rust语言结构放在UART驱动周围时，每个操作可能看起来就不那么明显了。</p>
-<p>现在，我们只想进行通信。我们从婴儿谈话开始，然后我们可以开始将UART集成到一个控制台模块中，该模块将支持更多类似终端的功能。记住，让它工作、玩耍、欢呼、啤酒（这是一个动词，对吗？），然后我们就可以开始清理代码了。我预计还有很多章节会是这样的。我们将探索已经被广泛研究的内存分配器，我们将挑选一个，看看它是否适合我们，如果不适合，再挑选另一个。我认为这更像是一个旅程，而不是 &quot;这是最终产品，享受吧！&quot;已经有一个最终产品了--如果这是你唯一的目标，就叫<a href="https://fedoraproject.org/wiki/Architectures/RISC-V">RISC-V的Linux</a>。</p>
-<p><strong>沟通是关键</strong></p>
-<p>使用调试器是一个很大的挑战，尤其是当你不熟悉如何使用调试器或你所使用的特定调试器时。相反，我教我的那些从来没有编程的学生以一定的增量打印出数值，看看他们是否得到他们认为应该得到的东西。你现在可以倾听你的操作系统，与它对话。你可以开始自己做实验，看看你能让它做什么很酷的事情。还有，用Rust做实验。我绝不是一个专家，正如许多Rust开发者在我的GitHub上所证明的那样--尽管我欢迎教育（我真的很欢迎！）。所以，也许你能找到比我使用Rust更整洁、更好的方法。如果是这样，请告诉我们。</p>
+<p>现在，再次运行你的操作系统，但这一次试试方向箭头！这将有助于我们编写我们的shell。</p>
+<p><img src="assets/2/listen_arrows.jpg" alt="img" /></p>
+<p>如果你打箭头太快，有时你会看到A、B、C或D出现。这是因为你会匹配转义序列，但错过了字节91。因此，你的循环看起来只是一个普通的A、B、C或D，甚至是左括号'['。</p>
+<p><img src="assets/2/arrow_quick.png" alt="img" /></p>
+<h3 id="哇这个代码好dirty"><a class="header" href="#哇这个代码好dirty">哇，这个代码好dirty</a></h3>
+<p>确实。你见过房子的施工吗？你现在看到的是我们在操作系统中铺设的脚手架。这种简单但有点肮脏的通信方式使我们能够聚合我们即将为操作系统的下一个部分建立的代码。这样做的好处是我们可以用很少的代码进行通信。当我们把更多的Rust语言结构放在UART驱动周围时，每个操作可能看起来就不那么明显了。</p>
+<p>现在，我们只是想进行通信。我们从牙牙学语开始，然后可以开始将UART集成到一个控制台模块中，该模块将支持更多类似终端的功能。记住，让它能够顺利地工作、玩耍、欢呼、畅饮（beer是一个动词，对吗？），然后我们就可以开始重构代码了。我预计还有很多章节会是这样的。我们将探索已经被广泛研究的内存分配器，挑选一个版本，看看它是否适合我们，如果不适合，再挑选另一个。我认为这更像是一段旅程，而不是单纯的&quot;这是最后成果，享受吧！&quot;这种只重视结果的工作。已经有一个完成的作品了--如果这是你唯一的目标的话，那就是<a href="https://fedoraproject.org/wiki/Architectures/RISC-V">RISC-V的Linux</a>。</p>
+<h3 id="通信是关键"><a class="header" href="#通信是关键">通信是关键</a></h3>
+<p>使用debug程序是一个很大的挑战，尤其是当你不熟悉如何使用一般的调试器甚至某个特殊的调试器时。相反，我教导我的那些没有编程经验的学生每次都多打印出一些值，看看是否能显示出他们认为应该得到的东西。你现在可以与你的操作系统进行听说交流。你可以开始自己做些小实验，看看你能让它做什么很酷的事情，同时研究一下Rust的使用。我并不是一个专家，正如许多Rust开发者在我的GitHub上所证明的那样--尽管我很欢迎指导（我真的很欢迎！）。所以，也许你能找到比我的写法更整洁、更好的方法来编写Rust。如果是这样，请告诉我们！</p>
+<p><a href="ch1.html">第1章</a> → 第2章 → <a href="ch3.1.html">第3章</a></p>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="页粒度的内存分配"><a class="header" href="#页粒度的内存分配">页粒度的内存分配</a></h1>
-<h2 id="视频"><a class="header" href="#视频">视频</a></h2>
+<h2 id="视频-1"><a class="header" href="#视频-1">视频</a></h2>
 <p>本章博文的视频在 YouTube 上：<a href="https://www.youtube.com/watch?v=SZ6GMxLkbx0">https://www.youtube.com/watch?v=SZ6GMxLkbx0</a>。</p>
-<h2 id="概述-1"><a class="header" href="#概述-1">概述</a></h2>
+<h2 id="概述-2"><a class="header" href="#概述-2">概述</a></h2>
 <p>当我们启动时，<code>.elf</code> 文件内的所有内容都会自动加载到内存中。在代码中可见，我们为整个系统分配了 128 兆字节空间。因此，我们需要处理除去所有声明的全局变量和代码之外的空间。</p>
 <p>在管理内存时，我们本质上需要处理三个部分：1）页粒度的分配，2）字节粒度的分配，以及 3）内存管理单元的编程。</p>
 <h2 id="以页为单位的分配"><a class="header" href="#以页为单位的分配">以页为单位的分配</a></h2>
@@ -1079,7 +1072,7 @@ pub fn zalloc(pages: usize) -&gt; *mut u8 {
 <span class="boring">}
 </span></code></pre></pre>
 <p>我们简单地调用 <code>alloc</code> 来完成那些繁重的工作——分配页面描述符并设置标志位。然后我们进入 <code>zalloc</code> 的后半部分，即将页面清零。幸运的是，我们可以使用 8 字节的指针来一次性存储 8 字节的 0 ，因为 <code>4096 / 8 = 512</code>，而 512 是一个整数。因此，8 字节的指针只需 512 轮循环即可完全覆盖一个 4096 字节的页面。</p>
-<h2 id="测试"><a class="header" href="#测试">测试</a></h2>
+<h2 id="测试-1"><a class="header" href="#测试-1">测试</a></h2>
 <p>我创建了一个函数，通过查看所有占用的描述符来打印出页分配表。</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -1153,9 +1146,9 @@ pub fn print_page_allocations() {
 <p>当我们开始分配用户空间的进程时，我们需要保护内核内存不被用户的应用程序错误地写入，因此我们将使用内存管理单元，特别地，我们将使用Sv39 方案，它的文档在 <a href="https://github.com/riscv/riscv-isa-manual">RISC-V 特权规范第 4.4章</a>中。</p>
 <p>本章还将关注两个部分：2）内存管理单元（MMU）和 3）Rust 中 <code>alloc</code> crate 的字节粒度内存分配器，它包含数据结构，如链表和二叉树。我们还可以使用这个 crate 来存储和创建 <code>String</code> 类型。</p>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="内存管理单元"><a class="header" href="#内存管理单元">内存管理单元</a></h1>
-<h2 id="视频-1"><a class="header" href="#视频-1">视频</a></h2>
+<h2 id="视频-2"><a class="header" href="#视频-2">视频</a></h2>
 <p>本章博文的视频在 YouTube 上：<a href="https://www.youtube.com/watch?v=-9sRy5UPWJk">https://www.youtube.com/watch?v=-9sRy5UPWJk</a></p>
-<h2 id="概述-2"><a class="header" href="#概述-2">概述</a></h2>
+<h2 id="概述-3"><a class="header" href="#概述-3">概述</a></h2>
 <p>从操作系统的角度来看，我们有一个从某个起始地址到某个结束地址的大内存池。我们可以使用链接脚本（<code>virt.lds</code> 文件）提供表示起始和终止地址的符号。</p>
 <p>一些内存将用于全局变量、堆栈空间等。但是，我们使用链接脚本来帮助我们处理这些不断移动的东西。其余空闲的内存成为我们的“堆”空间。然而，操作系统中的堆并不完全是 <code>malloc</code>/<code>free</code> 所使用的堆。</p>
 <h2 id="分页"><a class="header" href="#分页">分页</a></h2>
@@ -1574,7 +1567,7 @@ unsafe {
 <p>我们在上面的代码中所做的是启用中断，并将第 11 位开始的数值置为 1（MPP=01）。当我们执行 <code>mret</code> 时，我们进入了一个叫 <code>kmain</code> 的 Rust 函数。现在我们处于监督者模式并且完全启用了 MMU。</p>
 <p>我们还没有处理任何页面错误，所以要小心！如果你跑到地址空间以外的地方，你的内核就会挂起宕机。</p>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="处理中断和陷入"><a class="header" href="#处理中断和陷入">处理中断和陷入</a></h1>
-<h2 id="概述-3"><a class="header" href="#概述-3">概述</a></h2>
+<h2 id="概述-4"><a class="header" href="#概述-4">概述</a></h2>
 <p>如果我们从来不会出差错，那不是很好吗？嗯，很不好，这是不可能的。所以，我们需要在问题发生时做好准备。 CPU 能够在事情发生时通知内核。虽说如此，并非所有的通知都是坏事。比如系统调用，或者定时器中断呢？是的，这些也会导致 CPU 通知内核。</p>
 <h2 id="risc-v中断系统"><a class="header" href="#risc-v中断系统">RISC-V中断系统</a></h2>
 <p>RISC-V 系统使用一个单一的、指向内核中的物理地址的函数指针。每当有事情发生时，CPU 会切换到机器态并跳转到这个函数。在 RISC-V 中，我们有两个特殊的 CSR（控制和状态寄存器）来控制这种 CPU 通信。</p>
@@ -1854,7 +1847,7 @@ mret
 <span class="boring">}
 </span></code></pre></pre>
 <p>第一部分重置了CLINT定时器，这将触发一个异步机器定时器陷入。然后，我们对 NULL 指针解引用，这将导致我们的存储页面错误。如果是 <code>v.read_volatile()</code> ，我们会得到一个载入页面错误而非存储。</p>
-<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-2"><a class="header" href="#the-adventures-of-os-2"><strong>The Adventures of OS</strong></a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-1"><a class="header" href="#the-adventures-of-os-1"><strong>The Adventures of OS</strong></a></h1>
 <p>使用Rust的RISC-V操作系统
 <a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a>
 这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第5章。
@@ -1862,9 +1855,9 @@ mret
 <h1 id="外部中断"><a class="header" href="#外部中断">外部中断</a></h1>
 <p><strong><span style='color:red'>2019年11月18日: 仅Patreon</span></strong><br />
 <strong><span style='color:red'>2019年11月25日: 公开</span></strong></p>
-<h2 id="视频-2"><a class="header" href="#视频-2">视频</a></h2>
+<h2 id="视频-3"><a class="header" href="#视频-3">视频</a></h2>
 <p><a href="https://www.youtube.com/watch?v=99KMubPgDIU">https://www.youtube.com/watch?v=99KMubPgDIU</a></p>
-<h2 id="概述-4"><a class="header" href="#概述-4">概述</a></h2>
+<h2 id="概述-5"><a class="header" href="#概述-5">概述</a></h2>
 <p>在上一章，我们讨论了CPU以及内核的中断。 在这一章，我们将讨论中断的其中一类——外部中断，这些中断表示发生了某些外部或平台中断。 例如，UART设备可能刚刚填满了它的缓冲区。</p>
 <h2 id="平台级中断控制器the-platform-level-interrupt-controller"><a class="header" href="#平台级中断控制器the-platform-level-interrupt-controller">平台级中断控制器(The Platform-Level Interrupt Controller)</a></h2>
 <p>平台级中断控制器 (PLIC) 通过CPU上的一个引脚——EI (外部中断) 引脚，来路由所有信号，通过 <code>mie</code> 寄存器中的机器外部中断启用 (<code>meie</code>) 位可以启用该引脚。</p>
@@ -2093,7 +2086,7 @@ println!(&quot;UART interrupts have been enabled and are awaiting your command&q
 <p><img src="assets/5/plic_works.png" alt="plic_works" /></p>
 </div>
 <p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch4.html">第4章</a> → (第5章) → <a href="http://osblog.stephenmarz.com/ch6.html">第6章</a></p>
-<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-3"><a class="header" href="#the-adventures-of-os-3"><strong>The Adventures of OS</strong></a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-2"><a class="header" href="#the-adventures-of-os-2"><strong>The Adventures of OS</strong></a></h1>
 <p>使用Rust的RISC-V操作系统<br />
 <a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a><br />
 这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第6章。<br />
@@ -2101,7 +2094,7 @@ println!(&quot;UART interrupts have been enabled and are awaiting your command&q
 <h1 id="进程的内存"><a class="header" href="#进程的内存">进程的内存</a></h1>
 <p><strong><span style='color:red'>2019年12月08日: 仅Patreon</span></strong><br />
 <strong><span style='color:red'>2019年12月23日: 公开</span></strong></p>
-<h2 id="概述-5"><a class="header" href="#概述-5">概述</a></h2>
+<h2 id="概述-6"><a class="header" href="#概述-6">概述</a></h2>
 <p>进程是操作系统的重点。 我们想开始“做点事”，我们将把它融入一个进程并让它能够运行。 我们将在未来随着向进程添加功能来更新进程结构体，现在我们需要一个程序计数器（正在执行的指令，<code>pc</code>）和一个用于本地内存的栈。</p>
 <p>我们不会为进程创建标准库。 在本章中，我们将编写内核函数并将它们包装到一个进程中。 当我们开始创建我们的用户进程时，我们需要从块设备中读取并开始执行指令。 这是一种相当不错的方式，因为我们将需要系统调用等等。</p>
 <h2 id="进程结构体"><a class="header" href="#进程结构体">进程结构体</a></h2>
@@ -2353,7 +2346,7 @@ call	m_trap
 <p>我们的调度算法（稍后）将始终需要至少一个进程，就像 Linux 一样，我们将把这个进程称为 <code>init</code>。</p>
 <p>本章的重点是展示一个进程在抽象视图中的样子，我将通过添加调度程序并显示实际运行的进程来在本章基础上进一步展示，这将是我们操作系统的基础。 想要让进程实际执行操作，我们需要做的另一件事是实现系统调用，因此您可以期待它！</p>
 <p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch5.html">第5章</a> → (第6章) → <a href="http://osblog.stephenmarz.com/ch7.html">第7章</a></p>
-<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-4"><a class="header" href="#the-adventures-of-os-4"><strong>The Adventures of OS</strong></a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-3"><a class="header" href="#the-adventures-of-os-3"><strong>The Adventures of OS</strong></a></h1>
 <p>使用Rust的RISC-V操作系统<br />
 <a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a><br />
 这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第7章。<br />
@@ -2361,9 +2354,9 @@ call	m_trap
 <h1 id="系统调用"><a class="header" href="#系统调用">系统调用</a></h1>
 <p><strong><span style='color:red'>2020年1月23日: 仅Patreon</span></strong><br />
 <strong><span style='color:red'>2020年1月29日: 公开</span></strong></p>
-<h2 id="视频-3"><a class="header" href="#视频-3">视频</a></h2>
+<h2 id="视频-4"><a class="header" href="#视频-4">视频</a></h2>
 <p><a href="https://www.youtube.com/watch?v=6GW_jgkdGPw">https://www.youtube.com/watch?v=6GW_jgkdGPw</a></p>
-<h2 id="概述-6"><a class="header" href="#概述-6">概述</a></h2>
+<h2 id="概述-7"><a class="header" href="#概述-7">概述</a></h2>
 <p>系统调用是非特权用户应用程序向内核请求服务的一种方式。 在 RISC-V 架构中，我们使用 <code>ecall</code> 指令调用，这将导致 CPU 停止它正在做的事情，提升特权模式，然后跳转到存储在 <code>mtvec</code>（机器陷入向量）寄存器中的任何函数处理程序，请记住这是处理所有陷入的“漏斗”，包括我们的系统调用。</p>
 <p>我们必须设置处理系统调用的约定，可以使用已经存在的约定，这样可以与库进行交互，例如 newlib。 但是，让我们把它变成我们的！ 我们可以规定系统调用号是多少，以及当我们执行系统调用时它们将在哪里。</p>
 <h2 id="系统调用程序"><a class="header" href="#系统调用程序">系统调用程序</a></h2>

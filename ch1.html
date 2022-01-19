@@ -98,7 +98,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 搭建环境与前置需求</a></li><li class="chapter-item expanded "><a href="ch1.html" class="active"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">5.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">7.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">8.</strong> 系统调用</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 环境配置与依赖安装</a></li><li class="chapter-item expanded "><a href="ch1.html" class="active"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">5.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">7.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">8.</strong> 系统调用</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> 启动一个进程</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -168,18 +168,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="the-adventures-of-os"><a class="header" href="#the-adventures-of-os"><strong>The Adventures of OS</strong></a></h1>
-<p>使用Rust的RISC-V操作系统
-<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a>
-这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第0章，介绍如何正确地构建运行环境。
-<a href="http://osblog.stephenmarz.com/index.html">目录</a> → （第0章） → <a href="http://osblog.stephenmarz.com/ch1.html">第1章</a></p>
-<h3 id="我需要你的支持"><a class="header" href="#我需要你的支持">我需要你的支持</a></h3>
-<p>对我来说，写这些帖子现在只是业余消遣，因为我的本职工作是本科生教育。我会一直写下去，但真的很希望有人来帮助编写。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon（sgmarz）</a>支持我。
-文章刚开始，要写的还有很多！所以，请加入我的团队吧!</p>
-<h3 id="掌握risc-v"><a class="header" href="#掌握risc-v"><strong>掌握RISC-V</strong></a></h3>
+                        <h1 id="掌控risc-v"><a class="header" href="#掌控risc-v">掌控RISC-V</a></h1>
 <p><strong><span style='color:red'>2019年9月27日</span></strong></p>
-<h4 id="概述"><a class="header" href="#概述"><strong>概述</strong></a></h4>
-<p>启动并进入RISC-V系统是相当简单的。在各种方法中，我将要介绍我自己的方法--从物理内存地址<strong>0x8000_0000</strong>开始。幸运的是，QEMU可以读取ELF文件，所以它知道把我们的代码应该运行在哪个地址上。在整个过程中，我们将通过查看QEMU中包含的<strong>qemu/hw/riscv/virt.c</strong>源代码收集大量信息。首先，先来看一下内存映射：</p>
+<h3 id="概述"><a class="header" href="#概述">概述</a></h3>
+<p>启动并进入RISC-V系统是很简单的。在各种方法中，我将要介绍我自己的方法——从物理内存地址<code>0x8000_0000</code>开始。幸运的是，QEMU可以读取ELF文件，所以它知道应该把我们的代码运行在哪个地址上。在整个过程中，我们将通过查看QEMU中包含的<code>qemu/hw/riscv/virt.c</code>源代码来获取一些信息。首先，先来看一下内存映射：</p>
 <pre><code class="language-c">static const struct MemmapEntry {
 	hwaddr base;
 	hwaddr size;
@@ -204,11 +196,11 @@
 <li>将BSS部分清零；</li>
 <li>开始Rust!</li>
 </ol>
-<p>RISC-V汇编类似于MIPS汇编，除了我们不需要给我们的寄存器加前缀。所有的指令都来自于RISC-V规范，你可以在以下网站copy一份：<a href="https://github.com/riscv/riscv-isa-manual">https://github.com/riscv/riscv-isa-manual</a>。我们的编写对象是RV64GC（RISC-V 64位，一般扩展和压缩指令扩展）。</p>
-<h4 id="选择一个引导加载程序"><a class="header" href="#选择一个引导加载程序"><strong>选择一个引导加载程序</strong></a></h4>
-<p>这个时候我们不去考虑并行性、条件竞争或其他任何与此相关的问题。相反，我们只让我们的一个CPU核心（RISC-V称为HARTs[硬件线程]）做所有的工作。我们现在首先要深入研究特权级规范，来弄清我们要讨论的是哪个寄存器。因此，请在<a href="https://github.com/riscv/riscv-isa-manual/">https://github.com/riscv/riscv-isa-manual</a>获取一份指导。
+<p>RISC-V汇编类似于MIPS汇编，除了我们不需要给我们的寄存器加前缀。所有的指令都来自于RISC-V规范，你可以在以下网站获取：<a href="https://github.com/riscv/riscv-isa-manual">https://github.com/riscv/riscv-isa-manual</a>。我们的编写对象是RV64GC（RISC-V 64位，一般扩展和压缩指令扩展）。</p>
+<h3 id="选择一个引导加载程序bootloader"><a class="header" href="#选择一个引导加载程序bootloader">选择一个引导加载程序(bootloader)</a></h3>
+<p>这个时候我们不考虑并行性、条件竞争或其他此类问题。相反，我们只让我们的一个CPU核心（RISC-V中称为HARTs[硬件线程]）做所有的工作。现在我们首先要深入研究特权级规范，来弄清我们要讨论的是哪个寄存器。因此，请在<a href="https://github.com/riscv/riscv-isa-manual/">https://github.com/riscv/riscv-isa-manual</a>下载。
 我们将从3.1.5章中开始（Hart ID寄存器 mhartid）。这个寄存器将告诉我们我们的hart编号。根据规范，我们必须有一个hart id #0。所以，我们以这个ID来启动。</p>
-<p>在你的<strong>src/asm/<strong>目录下创建一个</strong>boot.S</strong>文件。我们将在此启动并进入Rust的编写。</p>
+<p>在你的<code>src/asm/</code>目录下创建一个<code>boot.S</code>文件。我们将在此启动并进入Rust的编写。</p>
 <pre><code class="language-nasm"># boot.S
 # bootloader for SoS
 # Stephen Marz
@@ -234,9 +226,9 @@ _start:
 	wfi
 	j	3b
 </code></pre>
-<p>在这里，csrr的意思是 &quot;控制状态寄存器读取&quot;，所以我们把我们的hart标识符读到寄存器t0中，检查它是否为零。如果不是，我们就把它送去停放（繁忙循环）。之后，我们将监督器地址转换和保护（satp）寄存器设置为0，这就是我们最终控制MMU的方式。由于我们还没有对虚拟内存的需求，我们通过把csrw（控制状态寄存器写入）写成0来禁用掉。一些板子的复位向量会将mhartid加载到该板子的a0寄存器中，但有些板子或许不会这么做，所以我选择从最可靠的地方来获取hart ID。</p>
-<h4 id="清除bss"><a class="header" href="#清除bss"><strong>清除BSS</strong></a></h4>
-<p>全局的、未初始化的变量的初值都是0，因为这些变量是在BSS段分配的。对于操作系统而言，我们要保证内存全是0幸运的是，在我们的链接器脚本中，有两个字段为我们定义，叫做_bss_start和_bss_end，分别告诉我们BSS部分的开始和结束位置。因此，我们在.option pop的下面和3的前面添加以下内容：</p>
+<p>这里csrr的意思是 &quot;控制状态寄存器读取&quot;，利用csrr我们把hart标识符读到寄存器t0中，检查它是否为零。如果不是，我们就把它送去循环等待。之后，我们将监管者地址转换和保护（satp）寄存器设置为0，这就是我们最终控制MMU的方式。由于我们还没有对虚拟内存的需求，我们用csrw（控制状态寄存器写入）写入0来把它禁用掉。一些板子的复位向量会将mhartid加载到该板子的a0寄存器中，但有些板子或许不会这么做，所以我选择从最可靠的地方来获取hart ID。</p>
+<h3 id="清除bss"><a class="header" href="#清除bss">清除BSS</a></h3>
+<p>全局的、未初始化的变量的初值都是0，因为这些变量是在BSS段分配的。对于操作系统而言，我们要保证内存全是0。幸运的是，在我们的链接器脚本中定义了<code>_bss_start</code>和<code>_bss_end</code>这两个字段，分别告诉我们BSS部分的开始和结束位置。因此，我们在<code>.option pop</code>和<code>3</code>之间添加以下内容：</p>
 <pre><code class="language-nasm"># The BSS section is expected to be zero
 	la 		a0, _bss_start
 	la		a1, _bss_end
@@ -248,9 +240,9 @@ _start:
 2:	
 </code></pre>
 <p>在这里，我们使用sd（双字[64位]存储）将0存到内存地址a0，该地址逐渐向_bss_end移动。</p>
-<h4 id="进入rust编程"><a class="header" href="#进入rust编程"><strong>进入Rust编程</strong></a></h4>
+<h3 id="进入rust编程"><a class="header" href="#进入rust编程">进入Rust编程</a></h3>
 <p>由于许多人都不喜欢编写大量的汇编，我们尽快跳入Rust，虽然也会有人认为用Rust编程是最难的部分。我们的Rust不会那么难，不会一直和借用检查器(borrow checker)较劲。</p>
-<p>为了进入Rust程序并使CPU处于可预测的模式，我们将使用mret指令，这是一个陷阱返回函数。这允许我们将mstatus寄存器设置为我们的特权模式。因此，我们在boot.S中加入以下内容。</p>
+<p>为了进入Rust程序并使CPU处于一个确定的模式，我们将使用mret指令，这是一个陷阱返回函数，允许我们将mstatus寄存器设置为我们的特权模式。因此，我们在boot.S中加入以下内容。</p>
 <pre><code class="language-nasm"># Control registers, set the stack, mstatus, mepc,
 # and mtvec to return to the main function.
 # li		t5, 0xffff;
@@ -273,12 +265,12 @@ mret
 	wfi
 	j	4b
 </code></pre>
-<p>这里有很多东西，有些被注释掉了。然而，我们要做的是将位[12:11]设置为11，也就是 &quot;机器模式&quot;。这将使我们能够访问所有的指令和寄存器。当然，我们可能已经处于这种模式了，但让我们再做一次。</p>
-<p>&gt; 那么位[7]和位[3]将在粗略的水平上启用中断。然而，我们仍然需要通过mie（机器中断使能）寄存器启用特定的中断，这一点我们在最后做。</p>
-<p>mepc寄存器是 &quot;机器异常程序计数器&quot;，它是我们要返回的内存地址。符号kmain是在Rust中定义的，是我们离开汇编的逃生票。</p>
-<p>mtvec（机器陷阱向量），是一个内核函数，每当有陷阱出现时就会被调用，比如系统调用、非法指令，甚至是定时器中断。</p>
-<p>在我们完成Rust的主函数后，我们将ra（返回地址）设置为park。然后，mret指令将我们刚才所做的一切，通过mepc寄存器跳回，这就是我们最终进入Rust的地方!</p>
-<p>(2019年9月29日添加）我们已经参考了asm_trap_vector，但我们还没有写。不过我们很快就会写，现在先在 src/asm/ 下创建一个名为 trap.S 的文件，并在其中添加以下内容。</p>
+<p>这段代码很长，中间还有些注释。我们要做的是将[12:11]位设置为11，也就是 &quot;机器模式(machine mode)&quot;。这将使我们能够访问所有的指令和寄存器。当然，我们或许已经处于这一模式了，但还是做一次比较好。</p>
+<p>&gt; 之后位[7]和位[3]将在总体上启用中断。然而，我们仍然需要通过<code>mie</code>（机器中断使能）寄存器启用特定的中断，这一点在最后几行实现。</p>
+<p>mepc寄存器是 &quot;机器异常程序计数器&quot;，它是我们要返回的内存地址。符号<code>kmain</code>是在Rust中定义的，是我们离开汇编、进入Rust的“逃生”通道。</p>
+<p>mtvec（机器陷阱向量）是一个内核函数，每当有陷阱出现时就会被调用，比如系统调用、非法指令或者时钟中断。</p>
+<p>在我们完成Rust的主函数后，我们将ra（返回地址）置为等待状态。然后，<code>mret</code>指令将我们刚才所做的一切，通过mepc寄存器跳回，这就是我们最终进入Rust的地方!</p>
+<p>(2019年9月29日添加）我们已经参考了<code>asm_trap_vector</code>，但我们还没有实际编写它。不过我们很快就会开工，现在先在 <code>src/asm/</code> 下创建一个名为 <code>trap.S</code> 的文件，并在其中添加以下内容。</p>
 <pre><code class="language-nasm"># trap.S
 # Assembly-level trap handler.
 .section .text
@@ -288,9 +280,9 @@ asm_trap_vector:
 	# for any reason.
     mret
 </code></pre>
-<p><strong>裸机Rust的世界</strong></p>
-<p>现在我们已经来到了rust，我们需要编辑lib.rs，它是由cargo命令为我们创建的。不要改变 lib.rs 的名称，否则 cargo 将永远不知道我们在说什么。相反，lib.rs将是我们的入口点、实用工具，以及我们用来导入其他Rust模块的东西。不要把kmain看成是一个执行代码。相反，它将初始化我们所需要的一切，然后引起 &quot;大爆炸&quot;，也就是让一切都开始运动。操作系统主要是异步的。我们将使用一个定时器中断来催促我们的内核开始行动，所以我们不能使用我们可能习惯的单线程编程方法。</p>
-<p>当你打开lib.rs时，删除里面的所有东西。里面没有我们需要的东西，也没有我们可以用于内核的东西。相反，根据Rust，我们需要定义一些东西。由于我们没有使用标准库（反正它不是为我们的内核建立的），我们必须在继续之前定义abort和panic_handler。所以，这里什么都没有。</p>
+<h3 id="裸机rust的世界"><a class="header" href="#裸机rust的世界">裸机Rust的世界!</a></h3>
+<p>现在我们已经进入了rust。首先我们需要编辑 <code>lib.rs</code>，这个文件是由cargo命令为我们创建的。不要改变 lib.rs 的名称，否则 cargo 将永远不知道我们在干什么。lib.rs将是我们的入口点与我们用来导入其他Rust模块的工具。不要把<code>kmain</code>看成是一段执行代码。相反，它将初始化我们所需要的一切，然后引起 &quot;大爆炸&quot;，也就是说让所有代码都开始运行。操作系统主要是异步的，我们将使用时钟中断来指示内核开始运行，所以我们不能使用平时习惯的单线程编程方法。</p>
+<p>当第一次打开<code>lib.rs</code>时，清空文件，因为里面没有我们需要用于内核的东西。我们需要自己定义一些东西来满足Rust的要求。由于我们不会使用标准库（标准库自己就依赖于内核，不能被用于我们的内核构建），我们必须首先定义<code>abort</code>和<code>panic_handler</code>再去做别的事情。就像这样：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -359,11 +351,11 @@ fn abort() -&gt; ! {
 }		
 <span class="boring">}
 </span></code></pre></pre>
-<p>我们使用#！[no_std]来告诉Rust，我们不会使用标准库。然后我们要求Rust允许我们的代码使用恐慌信息和内嵌式汇编功能。我们做的第一件事是创建一个空的eh_personality函数。#[no_mangle]关闭了Rust的名称处理功能，所以这个符号正好是eh_personality。然后，extern &quot;C &quot;告诉Rust使用C风格的ABI。</p>
-<p>然后，#[panic_handler]告诉Rust，我们定义的下一个函数将是我们的panic处理程序。Rust调用panic有几个原因，我们将用我们的断言隐含地调用它。我让这个函数做的是打印出引起恐慌的源文件和行号。然而，我们还没有写print！或println!，但我们知道Rust中print和println的格式。顺便提一下，-&gt;！意味着这个函数不会返回。如果Rust检测到它可以返回，编译器会给你一个错误。</p>
-<p>最后，我们写下中止函数。这所做的就是不断循环wfi（等待中断）指令。这使它正在运行的硬盘断电，直到另一个中断。</p>
-<p><strong>我们在生锈!</strong></p>
-<p>我们已经正式进入rust，所以我们需要写出我们在boot.S中指定的入口点，也就是kmain。所以，在我们的lib.rs代码中添加。</p>
+<p>我们使用<code>#![no_std]</code>来告诉Rust不会使用标准库。然后我们要求Rust允许我们的代码使用 panic 信息和内嵌式汇编功能。第一件要做的事是创建一个空的<code>eh_personality</code>函数。<code>#[no_mangle]</code>关闭了Rust的名称处理功能，所以这个符号确实是eh_personality。然后，<code>extern &quot;C &quot;</code>告诉Rust使用C风格的ABI。</p>
+<p>之后，<code>#[panic_handler]</code>告诉Rust，我们定义的下一个函数将是我们的panic处理程序。Rust调用panic有几个原因，我们将用我们的断言隐式地调用它。我让这个函数做的是打印出产生panic的源文件和行号。虽说我们还没有实现<code>print！</code>或<code>println!</code>，但我们知道Rust中print和println的格式。顺便提一下，<code>-&gt;！</code>意味着这个函数不会返回。如果Rust检测到它可以返回，编译器会报错。</p>
+<p>最后，我们编写<code>abort</code>函数。它要做的就是不断循环<code>wfi</code>（等待中断）指令。这使它正在运行的hart关闭，直到另一个中断发生。</p>
+<h3 id="我们真正进入了rust"><a class="header" href="#我们真正进入了rust">我们真正进入了RUST!</a></h3>
+<p>我们已经正式进入rust，所以我们需要写出<code>boot.S</code>中指定的入口点，也就是<code>kmain</code>。所以，在我们的<code>lib.rs</code>代码中添加：</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -377,9 +369,9 @@ fn kmain() {
 <span class="boring">}
 </span></code></pre></pre>
 <p>当kmain返回时，它碰到wfi循环并挂起。这是我们所期望的，因为我们还没有告诉内核要做什么。</p>
-<p>所以，你有它。我们在Rust中。不幸的是，在我们写出print！的实际作用之前，我们不会看到任何打印到屏幕上的东西。但是，所有的东西都应该被编译出来通常情况下，好的作家会以一些引言或结束语来结束，但我不是一个好的作家。</p>
-<p>当你输入make run时，你的操作系统将尝试启动并进入Rust，它会这样做的。然而，由于我们还没有编写与操作系统通信的驱动程序，所以什么也不会出现。输入CTRL-A，然后点击'x'退出模拟器。另外，你可以通过输入CTRL-A，然后点击'c'来查看你所在的位置。你现在是在QEMU的控制台。输入 &quot;info registers &quot;来查看模拟器在你的操作系统中的位置。</p>
-<p><a href="http://osblog.stephenmarz.com/ch0.html">第0章</a>→（第1章）→<a href="http://osblog.stephenmarz.com/ch2.html">第2章</a></p>
+<p>那么基本已经完工了，我们进入了Rust之中。不幸的是，在我们实现<code>print！</code>之前不会看到任何打印到屏幕上的东西。但是，现在的代码至少应该是能够正常编译的！一般来说，优秀的作家会以一些引言或结束语来结束，但我并不是一位优秀的作家。</p>
+<p>当你输入<code>make run</code>时，你的操作系统将尝试启动并进入Rust。然而由于我们还没有编写与操作系统通信的驱动程序，所以什么也不会发生。输入CTRL-A+'x'退出模拟器。同时，你也可以通过输入CTRL-A+'c'来查看你所在的位置。你现在是在QEMU的控制台。输入 &quot;info registers &quot;来查看模拟器在你的操作系统中的位置。</p>
+<p><a href="ch0.html">第0章</a> → 第1章 → <a href="ch2.html">第2章</a></p>
 
                     </main>
 

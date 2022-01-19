@@ -2567,14 +2567,14 @@ fn init_process() {
 <pre><code class="language-armasm">
 .global switch_to_user
 switch_to_user:
-  # a0 - Frame address
-  # a1 - Program counter
-  # a2 - SATP Register
+  # a0 - 帧地址
+  # a1 - 程序计数器
+  # a2 - SATP 寄存器
   csrw    mscratch, a0
 
   # 1 &lt;&lt; 7 is MPIE
-  # Since user mode is 00, we don't need to set anything
-  # in MPP (bits 12:11)
+  # 由于用户模式为 00，
+  # 我们不需要在 MPP 中设置任何内容（bits 12:11）
   li		t0, 1 &lt;&lt; 7 | 1 &lt;&lt; 5
   csrw	mstatus, t0
   csrw	mepc, a1
@@ -2583,13 +2583,13 @@ switch_to_user:
   csrw	mie, t1
   la		t2, m_trap_vector
   csrw	mtvec, t2
-  # This fence forces the MMU to flush the TLB. However, since
-  # we're using the PID as the address space identifier, we might
-  # only need this when we create a process. Right now, this ensures
-  # correctness, however it isn't the most efficient.
+  # 这个 fence 强制 MMU 刷新 TLB。 
+  # 然而，由于我们使用 PID 作为地址空间标识符，
+  # 我们可能只在创建进程时才需要它。 
+  # 现在，这确保了正确性，但它不是最有效的。
   sfence.vma
-  # A0 is the context frame, so we need to reload it back
-  # and mret so we can start running the program.
+  # A0 是上下文帧，所以我们需要重新加载它
+  # 并 mret 以便我们可以开始运行程序。
   mv	t6, a0
   .set	i, 1
   .rept	31

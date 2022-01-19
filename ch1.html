@@ -242,7 +242,7 @@ _start:
 <p>在这里，我们使用sd（双字[64位]存储）将0存到内存地址a0，该地址逐渐向_bss_end移动。</p>
 <h3 id="进入rust编程"><a class="header" href="#进入rust编程">进入Rust编程</a></h3>
 <p>由于许多人都不喜欢编写大量的汇编，我们尽快跳入Rust，虽然也会有人认为用Rust编程是最难的部分。我们的Rust不会那么难，不会一直和借用检查器(borrow checker)较劲。</p>
-<p>为了进入Rust程序并使CPU处于一个确定的模式，我们将使用mret指令，这是一个陷阱返回函数，允许我们将mstatus寄存器设置为我们的特权模式。因此，我们在boot.S中加入以下内容。</p>
+<p>为了进入Rust程序并使CPU处于一个确定的模式，我们将使用mret指令，这是一个陷入返回函数，允许我们将mstatus寄存器设置为我们的特权模式。因此，我们在boot.S中加入以下内容。</p>
 <pre><code class="language-nasm"># Control registers, set the stack, mstatus, mepc,
 # and mtvec to return to the main function.
 # li		t5, 0xffff;
@@ -268,7 +268,7 @@ mret
 <p>这段代码很长，中间还有些注释。我们要做的是将[12:11]位设置为11，也就是 &quot;机器模式(machine mode)&quot;。这将使我们能够访问所有的指令和寄存器。当然，我们或许已经处于这一模式了，但还是做一次比较好。</p>
 <p>&gt; 之后位[7]和位[3]将在总体上启用中断。然而，我们仍然需要通过<code>mie</code>（机器中断使能）寄存器启用特定的中断，这一点在最后几行实现。</p>
 <p>mepc寄存器是 &quot;机器异常程序计数器&quot;，它是我们要返回的内存地址。符号<code>kmain</code>是在Rust中定义的，是我们离开汇编、进入Rust的“逃生”通道。</p>
-<p>mtvec（机器陷阱向量）是一个内核函数，每当有陷阱出现时就会被调用，比如系统调用、非法指令或者时钟中断。</p>
+<p>mtvec（机器陷入向量）是一个内核函数，每当有陷入出现时就会被调用，比如系统调用、非法指令或者时钟中断。</p>
 <p>在我们完成Rust的主函数后，我们将ra（返回地址）置为等待状态。然后，<code>mret</code>指令将我们刚才所做的一切，通过mepc寄存器跳回，这就是我们最终进入Rust的地方!</p>
 <p>(2019年9月29日添加）我们已经参考了<code>asm_trap_vector</code>，但我们还没有实际编写它。不过我们很快就会开工，现在先在 <code>src/asm/</code> 下创建一个名为 <code>trap.S</code> 的文件，并在其中添加以下内容。</p>
 <pre><code class="language-nasm"># trap.S

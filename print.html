@@ -100,7 +100,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">简介</a></li><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 环境配置与依赖安装</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">5.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">7.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">8.</strong> 系统调用</a></li><li class="chapter-item expanded "><a href="ch8.html"><strong aria-hidden="true">9.</strong> 启动一个进程</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 块设备驱动</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 文件系统</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 用户空间进程</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 环境配置与依赖安装</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">5.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">7.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">8.</strong> 系统调用</a></li><li class="chapter-item expanded "><a href="ch8.html"><strong aria-hidden="true">9.</strong> 启动一个进程</a></li><li class="chapter-item expanded "><a href="ch9.html"><strong aria-hidden="true">10.</strong> 块设备驱动</a></li><li class="chapter-item expanded "><a href="ch10.html"><strong aria-hidden="true">11.</strong> 文件系统</a></li><li class="chapter-item expanded "><a href="ch11.html"><strong aria-hidden="true">12.</strong> 用户空间进程</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -170,7 +170,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os"><a class="header" href="#the-adventures-of-os">The Adventures of OS</a></h1>
+                        <h1 id="the-adventures-of-os"><a class="header" href="#the-adventures-of-os">The Adventures of OS</a></h1>
 <p>使用Rust的RISC-V操作系统</p>
 <p><strong><a href="https://www.patreon.com/sgmarz">在Patreon上支持我!</a>  <a href="http://osblog.stephenmarz.com/">操作系统博客</a>  <a href="http://osblog.stephenmarz.com/feed.rss">RSS订阅</a>  <a href="https://github.com/sgmarz">Github </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1">EECS网站</a></strong></p>
 <p>这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第0章，介绍如何正确地构建运行环境。</p>
@@ -2636,6 +2636,905 @@ switch_to_user:
 <p>每当我们执行上下文切换计时器时，我们都会看到“调度 1”，现在是每秒 1 个，这对于普通的操作系统来说太慢了，但它给了我们足够的时间来看看发生了什么。 然后，进程本身 init_process 在 70,000,000 次迭代后进行系统调用，然后将“Test syscall”打印到屏幕上。</p>
 <p>我们知道我们的进程调度程序正在运行，并且我们知道我们的进程本身正在 CPU 上执行。 因此，我们成功了！</p>
 <p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch7.html">第7章</a> → (第8章) → <a href="http://osblog.stephenmarz.com/ch9.html">第9章</a></p>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="a-hrefhttpsgallium70githubioosblog-translationch8htmlthe-adventures-of-osthe-adventures-of-osa"><a class="header" href="#a-hrefhttpsgallium70githubioosblog-translationch8htmlthe-adventures-of-osthe-adventures-of-osa"><a href="https://gallium70.github.io/osblog-translation/ch8.html#the-adventures-of-os"><strong>The Adventures of OS</strong></a></a></h1>
+<p>使用Rust的RISC-V操作系统
+<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a>
+这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第10章。
+<a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch8.html">第8章</a> → (第9章) → <a href="http://osblog.stephenmarz.com/ch10.html">第10章</a></p>
+<h1 id="块设备驱动"><a class="header" href="#块设备驱动">块设备驱动</a></h1>
+<p>2020年4月6日：仅限PATREON</p>
+<p>2020年4月13日：公开</p>
+<h2 id="视频和参考资料-1"><a class="header" href="#视频和参考资料-1">视频和参考资料</a></h2>
+<p>我在大学里教过操作系统，所以我将在这里链接我在那门课程中关于virt I/O协议的笔记。这个协议多年来一直在变化，但QEMU实现的是传统的MMIO接口。</p>
+<p>https://www.youtube.com/watch?v=FyPnYxeH5YU</p>
+<p><a href="https://web.eecs.utk.edu/%7Esmarz1/courses/cosc361/notes/virtio">OS Course Notes: Virt I/O</a></p>
+<p>https://docs.oasis-open.org/virtio/virtio/v1.1/virtio-v1.1.html</p>
+<p>上面的说明是对进程这一概念的总体概述。 我们在这里构建的操作系统可能会做一些不同的事情。这主要是因为它是用Rust编写的--hahahahaha。</p>
+<h2 id="概述-9"><a class="header" href="#概述-9">概述</a></h2>
+<p>VirtIO协议是一种与虚拟化设备通信的方式，例如块状设备（硬盘）或输入设备（鼠标/键盘）。 在这篇文章中，我将向你展示如何使用VirtIO协议编写一个块驱动。</p>
+<p>首先，我们必须了解的是，VirtIO只是一个通用的I/O通信协议。然后，我们要看一下<em>块设备</em>部分，看看专门针对块设备的通信协议。</p>
+<h2 id="非持久性指针"><a class="header" href="#非持久性指针">非持久性指针</a></h2>
+<p>使用内存映射的I/O通常需要使用<em>非持久性</em>指针。这是C/C++中的一个特定关键字，它告诉编译器，指针所给的内存地址的值可能发生非显性的变化。这意味着编译器不能对其进行以内存值不变为前提的优化。</p>
+<p>在C/C++中，这是在声明指针时使用的一个关键字。然而，Rust没有这样一个关键字。相反，Rust使用一个原始指针的成员，称为<em>read_volatile</em>或<em>write_volatile</em>： https://doc.rust-lang.org/nightly/std/primitive.pointer.html#method.read_volatile.</p>
+<p>这可能会导致一些问题，虽然在&quot;读&quot;的时候不是太糟糕，但在&quot;写&quot;的时候却是一场噩梦。有两种不同的方法来解决对MMIO的读/写。(1)创建一个大的结构，其字段方便地与偏移量对齐(2)每次读和写都计算偏移量。我个人更喜欢#1的便利性和可读性，然而，Rust让#1变得更加困难。在调试了很久之后，我决定采用#2。虽然我还没有放弃，但在这一点上，更多的是固执己见，没有什么收获。</p>
+<p>为了帮助我做到这一点，我创建了一个包含所有偏移量的枚举，这些偏移量包含在了VirtIO规范中。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[repr(usize)]
+pub enum MmioOffsets {
+  MagicValue = 0x000,
+  Version = 0x004,
+  DeviceId = 0x008,
+  VendorId = 0x00c,
+  HostFeatures = 0x010,
+  HostFeaturesSel = 0x014,
+  GuestFeatures = 0x020,
+  GuestFeaturesSel = 0x024,
+  GuestPageSize = 0x028,
+  QueueSel = 0x030,
+  QueueNumMax = 0x034,
+  QueueNum = 0x038,
+  QueueAlign = 0x03c,
+  QueuePfn = 0x040,
+  QueueNotify = 0x050,
+  InterruptStatus = 0x060,
+  InterruptAck = 0x064,
+  Status = 0x070,
+  Config = 0x100,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>开头的<em>repr</em>意味着将这些数据表示为数据类型usize，对于一个64位的系统来说，它是64位。我们不需要这么多的存储空间，但是当我们向一个指针添加数据时，Rust想要一个usize，而不是一个u16。</p>
+<p>你会注意到，如果你阅读VirtIO规范，这些是<em>传统的</em>偏移量。这是因为QEMU在使用VirtIO时，暂时使用传统的MMIO接口。</p>
+<h2 id="关于指针偏移的说明"><a class="header" href="#关于指针偏移的说明">关于指针偏移的说明</a></h2>
+<p>就像C/C++一样，当我们在Rust中向一个指针添加一个值时，它是作为一个缩放的偏移量添加的。这意味着，如果我给一个u64的指针加1，它实际上是加8。对于任何指针来说，公式是<code>base + offset * size</code>。</p>
+<p>这将导致问题，因为我在这个枚举中有绝对偏移量的数字。为了将其与Rust的原始指针联系起来，我在枚举中加入了一些成员。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl MmioOffsets {
+  pub fn val(self) -&gt; usize {
+    self as usize
+  }
+
+  pub fn scaled(self, scale: usize) -&gt; usize {
+    self.val() / scale
+  }
+
+  pub fn scale32(self) -&gt; usize {
+    self.scaled(4)
+  }
+
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>第一个成员中，<code>fn val</code>将获取枚举类型并将其转换为等价的usize。这是因为Rust不能自动完成这种转化。</p>
+<p>然后，我们有scale32()。我把它作为一个辅助工具，因为我用一个32位的指针（大多数寄存器都是32位的）来作为相对MMIO读/写基址的偏移。</p>
+<p>你可以看到，我并不特别喜欢这种方法。结构方法使它更容易在不同的数据大小之间切换，但现在，这是我选择的方法。</p>
+<h2 id="扫描总线"><a class="header" href="#扫描总线">扫描总线</a></h2>
+<p>我不会在这里介绍VirtIO协议，对应地，我已经把我的讲义链接到上面的操作系统课。相反，我选择让操作系统发挥作用。我将截取一些说明，如果你需要更深入地了解该协议，请看课程笔记。</p>
+<p>对于QEMU模拟器来说，它把virtio设备按地址映射为0x1000_1000到0x1000_8000。如果我们只有一个设备，它应该连接在0x1000_8000处，但为了良好的操作系统实践，我们要探测所有总线，看看连接了什么。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn probe() {
+  // Rust's for loop uses an Iterator object, which now has a step_by
+  // modifier to change how much it steps. Also recall that ..= means up
+  // to AND including MMIO_VIRTIO_END.
+  for addr in (MMIO_VIRTIO_START..=MMIO_VIRTIO_END).step_by(MMIO_VIRTIO_STRIDE) {
+    print!(&quot;Virtio probing 0x{:08x}...&quot;, addr);
+    let magicvalue;
+    let deviceid;
+    let ptr = addr as *mut u32;
+    unsafe {
+      magicvalue = ptr.read_volatile();
+      deviceid = ptr.add(2).read_volatile();
+    }
+    // 0x74_72_69_76 is &quot;virt&quot; in little endian, so in reality
+    // it is triv. All VirtIO devices have this attached to the
+    // MagicValue register (offset 0x000)
+    if MMIO_VIRTIO_MAGIC != magicvalue {
+      println!(&quot;not virtio.&quot;);
+    }
+    // If we are a virtio device, we now need to see if anything
+    // is actually attached to it. The DeviceID register will
+    // contain what type of device this is. If this value is 0,
+    // then it is not connected.
+    else if 0 == deviceid {
+      println!(&quot;not connected.&quot;);
+    }
+    // If we get here, we have a connected virtio device. Now we have
+    // to figure out what kind it is so we can do device-specific setup.
+    else {
+      match deviceid {
+        // DeviceID 2 is a block device
+        2 =&gt; {
+          print!(&quot;block device...&quot;);
+          if false == setup_block_device(ptr) {
+            println!(&quot;setup failed.&quot;);
+          }
+          else {
+            let idx = (addr - MMIO_VIRTIO_START) &gt;&gt; 12;
+            unsafe {
+              VIRTIO_DEVICES[idx] =
+                Some(VirtioDevice::new_with(DeviceTypes::Block));
+            }
+            println!(&quot;setup succeeded!&quot;);
+          }
+        },
+        // DeviceID 4 is a random number generator device
+        4 =&gt; {
+          print!(&quot;entropy device...&quot;);
+          if false == setup_entropy_device(ptr) {
+            println!(&quot;setup failed.&quot;);
+          }
+          else {
+            println!(&quot;setup succeeded!&quot;);
+          }
+        },
+        _ =&gt; println!(&quot;unknown device type.&quot;),
+      }
+    }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>在探测过程中，我们首先要看这是否是一个<em>virtio</em>的基础地址。在偏移量0处，我们应该读到4个字节，这将是 &quot;triv&quot;，也就是以little-endian形式存储的 &quot;virt&quot;。这被称为<em>magic</em>字节，用于识别目的。如果我们发现这个magic不匹配，那么我们可以确信这不是一个virtio内存地址。</p>
+<p>在我们发现这是一个virtio总线之后，我们要看看实际上连接的是什么类型的设备。回想一下，virtio是一个通用的总线，所以我们可以连接GPU、网络设备、块状设备，等等。我们可以通过读取<em>DeviceID</em>寄存器来判断连接的设备类型。现在，我们只关心设备号2，它是为<em>块设备</em>保留的。</p>
+<p>如果我们找到 &quot;virt &quot;和设备ID 2，我们就可以把这个设备配置为一个块设备。这时我们就可以看到规范中关于设备的具体部分。</p>
+<h2 id="配置设备"><a class="header" href="#配置设备">配置设备</a></h2>
+<p>在我们能够使用设备之前，我们必须配置它。我们与设备（它们）协商驱动程序（我们），按照程序来完成这一工作。</p>
+<p>配置设备的程序在规范中规定如下。</p>
+<ol>
+<li>通过向状态寄存器写0来重置设备。</li>
+<li>在状态寄存器中设置ACKNOWLEDGE状态位。</li>
+<li>将DRIVER的状态位设置到状态寄存器中。</li>
+<li>从host_features寄存器中读取设备特性。</li>
+<li>协商功能集，并将接受的内容写入guest_features寄存器。</li>
+<li>将FEATURES_OK状态位设置到状态寄存器中。</li>
+<li>重新读取状态寄存器，确认设备接受了你的功能。</li>
+<li>执行设备特定的设置。</li>
+<li>在状态寄存器中设置DRIVER_OK状态位，设备将被激活。</li>
+</ol>
+<p>看起来有很多步骤，但其实并不难。我们正在做的是确保驱动程序和设备能够相互理解。其中一个 &quot;功能 &quot;可能是<em>只读</em>位，这意味着我们不能写到设备上。如果我们想写到设备上，我们可能要协商关闭这个功能。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn setup_block_device(ptr: *mut u32) -&gt; bool {
+  unsafe {
+    // We can get the index of the device based on its address.
+    // 0x1000_1000 is index 0
+    // 0x1000_2000 is index 1
+    // ...
+    // 0x1000_8000 is index 7
+    // To get the number that changes over, we shift right 12 places (3 hex digits)
+    let idx = (ptr as usize - virtio::MMIO_VIRTIO_START) &gt;&gt; 12;
+    // [Driver] Device Initialization
+    // 1. Reset the device (write 0 into status)
+    ptr.add(MmioOffsets::Status.scale32()).write_volatile(0);
+    let mut status_bits = StatusField::Acknowledge.val32();
+    // 2. Set ACKNOWLEDGE status bit
+    ptr.add(MmioOffsets::Status.scale32()).write_volatile(status_bits);
+    // 3. Set the DRIVER status bit
+    status_bits |= StatusField::DriverOk.val32();
+    ptr.add(MmioOffsets::Status.scale32()).write_volatile(status_bits);
+    // 4. Read device feature bits, write subset of feature
+    // bits understood by OS and driver    to the device.
+    let host_features = ptr.add(MmioOffsets::HostFeatures.scale32()).read_volatile();
+    let guest_features = host_features &amp; !(1 &lt;&lt; VIRTIO_BLK_F_RO);
+    let ro = host_features &amp; (1 &lt;&lt; VIRTIO_BLK_F_RO) != 0;
+    ptr.add(MmioOffsets::GuestFeatures.scale32()).write_volatile(guest_features);
+    // 5. Set the FEATURES_OK status bit
+    status_bits |= StatusField::FeaturesOk.val32();
+    ptr.add(MmioOffsets::Status.scale32()).write_volatile(status_bits);
+    // 6. Re-read status to ensure FEATURES_OK is still set.
+    // Otherwise, it doesn't support our features.
+    let status_ok = ptr.add(MmioOffsets::Status.scale32()).read_volatile();
+    // If the status field no longer has features_ok set,
+    // that means that the device couldn't accept
+    // the features that we request. Therefore, this is
+    // considered a &quot;failed&quot; state.
+    if false == StatusField::features_ok(status_ok) {
+      print!(&quot;features fail...&quot;);
+      ptr.add(MmioOffsets::Status.scale32()).write_volatile(StatusField::Failed.val32());
+      return false;
+    }
+    // 7. Perform device-specific setup.
+    // Set the queue num. We have to make sure that the
+    // queue size is valid because the device can only take
+    // a certain size.
+    let qnmax = ptr.add(MmioOffsets::QueueNumMax.scale32()).read_volatile();
+    ptr.add(MmioOffsets::QueueNum.scale32()).write_volatile(VIRTIO_RING_SIZE as u32);
+    if VIRTIO_RING_SIZE as u32 &gt; qnmax {
+      print!(&quot;queue size fail...&quot;);
+      return false;
+    }
+    // First, if the block device array is empty, create it!
+    // We add 4095 to round this up and then do an integer
+    // divide to truncate the decimal. We don't add 4096,
+    // because if it is exactly 4096 bytes, we would get two
+    // pages, not one.
+    let num_pages = (size_of::&lt;Queue&gt;() + PAGE_SIZE - 1) / PAGE_SIZE;
+    // println!(&quot;np = {}&quot;, num_pages);
+    // We allocate a page for each device. This will the the
+    // descriptor where we can communicate with the block
+    // device. We will still use an MMIO register (in
+    // particular, QueueNotify) to actually tell the device
+    // we put something in memory. We also have to be
+    // careful with memory ordering. We don't want to
+    // issue a notify before all memory writes have
+    // finished. We will look at that later, but we need
+    // what is called a memory &quot;fence&quot; or barrier.
+    ptr.add(MmioOffsets::QueueSel.scale32()).write_volatile(0);
+    // Alignment is very important here. This is the memory address
+    // alignment between the available and used rings. If this is wrong,
+    // then we and the device will refer to different memory addresses
+    // and hence get the wrong data in the used ring.
+    // ptr.add(MmioOffsets::QueueAlign.scale32()).write_volatile(2);
+    let queue_ptr = zalloc(num_pages) as *mut Queue;
+    let queue_pfn = queue_ptr as u32;
+    ptr.add(MmioOffsets::GuestPageSize.scale32()).write_volatile(PAGE_SIZE as u32);
+    // QueuePFN is a physical page number, however it
+    // appears for QEMU we have to write the entire memory
+    // address. This is a physical memory address where we
+    // (the OS) and the block device have in common for
+    // making and receiving requests.
+    ptr.add(MmioOffsets::QueuePfn.scale32()).write_volatile(queue_pfn / PAGE_SIZE as u32);
+    // We need to store all of this data as a &quot;BlockDevice&quot;
+    // structure We will be referring to this structure when
+    // making block requests AND when handling responses.
+    let bd = BlockDevice { queue:        queue_ptr,
+                            dev:          ptr,
+                            idx:          0,
+                            ack_used_idx: 0,
+                            read_only:    ro, };
+    BLOCK_DEVICES[idx] = Some(bd);
+
+    // 8. Set the DRIVER_OK status bit. Device is now &quot;live&quot;
+    status_bits |= StatusField::DriverOk.val32();
+    ptr.add(MmioOffsets::Status.scale32()).write_volatile(status_bits);
+
+    true
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="要求"><a class="header" href="#要求">要求</a></h2>
+<p>现在设备已经上线，我们可以通过使用virtio环开始提出请求。virtio描述符/环系统是通用的；但是，我们在进行<em>块</em>请求时有一个协议。我们将使用三个描述符来做一个块请求。(1)块请求头(2)块请求缓冲区(3)块请求状态。</p>
+<p>头部告诉块设备我们是要读还是要写，以及在哪里。不幸的是，where部分的单位是<em>扇区</em>，而不是字节。然而，实际上字节数是扇区数的512倍。也就是说，每个扇区有512个字节。所以，这是很简单的计算。</p>
+<p>在头部信息之后，我们存储<em>缓冲区</em>。对于读取操作，设备将数据写入这块内存，而对于写入，设备将从这块内存中读取数据。值得注意的是，这些必须是<em>物理</em>地址，因为块设备绕过了MMU。</p>
+<p>最后，我们有一个状态字段。设备将把请求的结果写到这个8位字段。目前，我们只能得到三种响应。0-成功，1-失败，2-不支持的操作。这并没有给我们提供很多信息，但如果我们得到一个0，我们可以合理地认为我们的请求得到了正确的处理。</p>
+<h2 id="发出请求"><a class="header" href="#发出请求">发出请求</a></h2>
+<p>为了发出一个请求，我们需要分配<em>堆</em>内存。我们创建的内存必须保持常驻/有效直到设备做出响应之后。因此，我们不能使用堆栈。我们将从virtio队列中抓取三个开放描述符，用头、缓冲区和状态填充它，然后我们将virtqueue的编号（0）写入queue_notify寄存器，告诉设备开始处理这个请求。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn block_op(dev: usize, buffer: *mut u8, size: u32, offset: u64, write: bool) {
+  unsafe {
+    if let Some(bdev) = BLOCK_DEVICES[dev - 1].as_mut() {
+      // Check to see if we are trying to write to a read only device.
+      if true == bdev.read_only &amp;&amp; true == write {
+        println!(&quot;Trying to write to read/only!&quot;);
+        return;
+      }
+      let sector = offset / 512;
+      // TODO: Before we get here, we are NOT allowed to schedule a read or
+      // write OUTSIDE of the disk's size. So, we can read capacity from
+      // the configuration space to ensure we stay within bounds.
+      let blk_request_size = size_of::&lt;Request&gt;();
+      let blk_request = kmalloc(blk_request_size) as *mut Request;
+      let desc = Descriptor { addr:  &amp;(*blk_request).header as *const Header as u64,
+                              len:   size_of::&lt;Header&gt;() as u32,
+                              flags: virtio::VIRTIO_DESC_F_NEXT,
+                              next:  0, };
+      let head_idx = fill_next_descriptor(bdev, desc);
+      (*blk_request).header.sector = sector;
+      // A write is an &quot;out&quot; direction, whereas a read is an &quot;in&quot; direction.
+      (*blk_request).header.blktype = if true == write {
+        VIRTIO_BLK_T_OUT
+      }
+      else {
+        VIRTIO_BLK_T_IN
+      };
+      // We put 111 in the status. Whenever the device finishes, it will write into
+      // status. If we read status and it is 111, we know that it wasn't written to by
+      // the device.
+      (*blk_request).data.data = buffer;
+      (*blk_request).header.reserved = 0;
+      (*blk_request).status.status = 111;
+      let desc = Descriptor { addr:  buffer as u64,
+                              len:   size,
+                              flags: virtio::VIRTIO_DESC_F_NEXT
+                                      | if false == write {
+                                        virtio::VIRTIO_DESC_F_WRITE
+                                      }
+                                      else {
+                                        0
+                                      },
+                              next:  0, };
+      let _data_idx = fill_next_descriptor(bdev, desc);
+      let desc = Descriptor { addr:  &amp;(*blk_request).status as *const Status as u64,
+                              len:   size_of::&lt;Status&gt;() as u32,
+                              flags: virtio::VIRTIO_DESC_F_WRITE,
+                              next:  0, };
+      let _status_idx = fill_next_descriptor(bdev, desc);
+      (*bdev.queue).avail.ring[(*bdev.queue).avail.idx as usize % virtio::VIRTIO_RING_SIZE] = head_idx;
+      (*bdev.queue).avail.idx = (*bdev.queue).avail.idx.wrapping_add(1);
+      // The only queue a block device has is 0, which is the request
+      // queue.
+      bdev.dev.add(MmioOffsets::QueueNotify.scale32()).write_volatile(0);
+    }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>上面的代码显示我们分配了三个描述符（使用kzalloc，这样它就在堆上），填充这些描述符，然后把这些描述符的头部放到<em>available ring</em>中。当我们把0写到queue_notify时，设备立即启动。</p>
+<h2 id="响应"><a class="header" href="#响应">响应</a></h2>
+<p>可用的环被我们用来发出请求。被使用的*环被设备用来向我们发送响应。当我们在queue_notify中写入0时，它就开始工作。当它完成后，它将通过PLIC（还记得那个东西吗）发送一个中断。幸运的是，0x1000_1000是PLIC中断1...0x1000_8000是PLIC中断8。所以，这是一个简单的转换。</p>
+<p>响应是以<em>被使用的环形元素</em>的形式出现的。当我们从这个元素读取时，我们将得到它所响应的描述符的标识符（索引）。这是因为块设备可以自由地以它所希望的任何顺序执行请求。所以!!! 我们不能假设我们会按照请求的顺序得到响应。</p>
+<p>我们将接受一个外部中断，询问PLIC是什么原因造成的，PLIC会给我们第一个块设备的8。当我们看到这一点时，我们可以将数据转发给该块设备的处理程序，然后它将确认响应。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn pending(bd: &amp;mut BlockDevice) {
+  // Here we need to check the used ring and then free the resources
+  // given by the descriptor id.
+  unsafe {
+    let ref queue = *bd.queue;
+    while bd.ack_used_idx != queue.used.idx {
+      let ref elem = queue.used.ring[bd.ack_used_idx as usize % VIRTIO_RING_SIZE];
+      bd.ack_used_idx = bd.ack_used_idx.wrapping_add(1);
+      let rq = queue.desc[elem.id as usize].addr as *const Request;
+      kfree(rq as *mut u8);
+      // TODO: Awaken the process that will need this I/O. This is
+      // the purpose of the waiting state.
+    }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>我们在内部保留ack_used_idx，所以设备不会看到它。 那是已用环的最后确认索引。queue.used.idx是设备和驱动之间共享的。因此，每当设备想要响应我们的时候，它就会把一些东西放进已用环中，然后增加这个索引。我们可以检测到我们的内部索引与公共索引不一样，告诉我们有一个未处理的响应。</p>
+<p>我们必须在上面的while循环中使用!=，因为所有这些环都是循环的，也就是说，当我们到达终点时，我们会从头开始。</p>
+<p>注意，直到我们得到响应，我们才使用kfree释放资源。</p>
+<h2 id="测试-2"><a class="header" href="#测试-2">测试</a></h2>
+<p>现在我们有了read()和write()函数，我们可以测试读和写。在最后一章中，我们将把块驱动链接到用户进程中，这样我们就可以使用系统调用来读取块设备的部分内容了</p>
+<p>当你的块设备正常工作时，你将需要链接一直在我们身边徘徊的hdd.dsk。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Let's test the block driver!
+println!(&quot;Testing block driver.&quot;);
+let buffer = kmem::kmalloc(512);
+block::read(8, buffer, 512, 0);
+for i in 0..48 {
+  print!(&quot; {:02x}&quot;, unsafe { buffer.add(i).read() });
+  if 0 == ((i+1) % 24) {
+    println!();
+  }
+}
+kmem::kfree(buffer);
+println!(&quot;Block driver done&quot;);
+<span class="boring">}
+</span></code></pre></pre>
+<p>上面的代码在我们探测完virtio总线后就进入了kinit。当我看我得到的东西（前48个字节）时，我看到以下内容。</p>
+<p><img src="http://osblog.stephenmarz.com/imgs/block_driver_read.png" alt="img" /></p>
+<p>为了验证我们的结果，让我们看一下hdd.dsk文件的十六进制转储。<img src="http://osblog.stephenmarz.com/imgs/block_hdd_dsk.png" alt="img" /></p>
+<h2 id="结论-1"><a class="header" href="#结论-1">结论</a></h2>
+<p>探索期间发生了很多事情。当我第一次决定处理VirtIO规范时，我并没有意识到我将遇到的痛苦的挫折。不过，我想我现在已经牢牢掌握了事情的真相，但我愿意接受指正!</p>
+<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch8.html">第八章</a> → (第九章) → <a href="http://osblog.stephenmarz.com/ch10.html">第十章</a></p>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="a-hrefhttpsgallium70githubioosblog-translationch8htmlthe-adventures-of-osthe-adventures-of-osa-1"><a class="header" href="#a-hrefhttpsgallium70githubioosblog-translationch8htmlthe-adventures-of-osthe-adventures-of-osa-1"><a href="https://gallium70.github.io/osblog-translation/ch8.html#the-adventures-of-os"><strong>The Adventures of OS</strong></a></a></h1>
+<p>使用Rust的RISC-V操作系统
+<a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a>
+这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第10章。</p>
+<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch9.html">第9章</a> → (第10章) → <a href="http://osblog.stephenmarz.com/ch11.html">第11章</a></p>
+<h1 id="文件系统"><a class="header" href="#文件系统">文件系统</a></h1>
+<p>2020年5月4日。仅限PATREON</p>
+<p>2020年5月11日。公开</p>
+<h2 id="视频和参考资料-2"><a class="header" href="#视频和参考资料-2">视频和参考资料</a></h2>
+<p>我在大学里教过操作系统，所以我将在这里链接我在那门课程中关于virt I/O协议的笔记。这个协议多年来一直在变化，但QEMU实现的是传统的MMIO接口。</p>
+<p>https://www.youtube.com/watch?v=OOyQOgHkVyI</p>
+<p><a href="https://web.eecs.utk.edu/%7Esmarz1/courses/cosc361/notes/llfs">OS Course Notes: Filesystems</a></p>
+<p>上面的说明是针对一般的文件系统的，但它确实对Minix 3文件系统进行了更详细的说明。我们在这里构建的操作系统可能会做一些不同的事情。这主要是因为它是用Rust编写的--hahahahaha。</p>
+<h2 id="开箱即用的rust"><a class="header" href="#开箱即用的rust">开箱即用的Rust</a></h2>
+<p>这个操作系统现在可以单独由 Rust 来编译了。我更新了 <a href="http://osblog.stephenmarz.com/ch0.html">Chapter 0</a> 中关于配置 Rust 的程序，以便在不需要工具链的情况下编译这个操作系统!</p>
+<h2 id="概述-10"><a class="header" href="#概述-10">概述</a></h2>
+<p>存储是操作系统的一个重要部分。当我们运行一个shell，执行另一个程序时，我们是从某种二级存储中加载的，比如硬盘或U盘。我们在上一章谈到了<em>块驱动</em>，但这只是对存储的读写。存储器本身以一定的顺序排列其0和1。这个序列被称为<em>文件系统</em>。我选择使用的文件系统是Minix 3文件系统，我将在这里描述它的实际应用。关于Minix 3文件系统或一般文件系统的更多概述，请参考我上面发布的课程笔记和视频。</p>
+<p>我将介绍Minix 3文件系统的每个部分，但下面的图表描述了Minix 3文件系统的各个方面和结构。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/Filesystem_v1.png"><img src="http://osblog.stephenmarz.com/imgs/Filesystem_v1.png" alt="img" /></a></p>
+<h2 id="超级块"><a class="header" href="#超级块">超级块</a></h2>
+<p>Minix 3文件系统的第一个块是<em>boot块</em>，它被保留给诸如bootloaders之类的东西，但我们被允许将第一个块用于任何我们想要的东西。然而，第二个区块是<em>超级区块</em>。超级块*是描述整个文件系统的元数据，包括块的大小和inodes的数量。</p>
+<p>Minix 3文件系统的整个结构在文件系统被创建时就被设定了。节点和块的总数是根据二级存储的容量提前知道的。</p>
+<p>由于超级块有一个已知的位置，我们可以查询文件系统的这一部分，得知我们在哪里可以找到索引节点（inodes），这些索引节点描述一个单一的文件。文件系统的大部分内容都可以通过基于块大小的简单数学计算来定位。下面的Rust结构描述了Minix 3文件系统的超级块。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[repr(C)]
+pub struct SuperBlock {
+  pub ninodes:         u32,
+  pub pad0:            u16,
+  pub imap_blocks:     u16,
+  pub zmap_blocks:     u16,
+  pub first_data_zone: u16,
+  pub log_zone_size:   u16,
+  pub pad1:            u16,
+  pub max_size:        u32,
+  pub zones:           u32,
+  pub magic:           u16,
+  pub pad2:            u16,
+  pub block_size:      u16,
+  pub disk_version:    u8,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>超级块不会改变，除非我们重新调整文件系统的大小，否则我们永远不会向超级块写入。我们的文件系统代码只需要从这个结构中读取。回顾一下，我们可以在引导块之后找到这个结构。Minix 3文件系统的默认块大小是1,024字节，这就是为什么我们可以用下面的方法要求块驱动器为我们获取超级块。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// descriptor, buffer, size, offset
+syc_read(desc, buffer.get_mut(), 512, 1024);
+<span class="boring">}
+</span></code></pre></pre>
+<p>超级区块本身只有32个字节；但是，回顾一下，区块驱动必须以<em>扇区</em>的形式接收请求，也就是一组512个字节。是的，我们在读取超级块时浪费了相当多的内存，但由于I/O的限制，我们不得不这样做。这就是为什么我在我的大部分代码中使用缓冲区。我们可以将结构只指向内存的顶部部分。如果字段对齐正确，我们可以通过简单地引用Rust结构来读取超级块。 这就是为什么你会看到<code>#[repr(C)]</code>来改变Rust的结构为C风格的结构。</p>
+<h2 id="索引节点和区位图"><a class="header" href="#索引节点和区位图">索引节点和区位图</a></h2>
+<p>为了跟踪节点和区域（块）的分配情况，Minix 3文件系统使用了一个位图。位图跟随超级区块，每个bit（因此是位图）代表一个节点或一个区块! 因此，这个位图的一个字节可以指代8个节点或8个块（8位=1字节）。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/bitmap_1.png"><img src="http://osblog.stephenmarz.com/imgs/bitmap_1.png" alt="img" /></a></p>
+<p>为了证明这一点，我的工作是弄清楚172区是被占用还是空闲。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/bitmap_2.png"><img src="http://osblog.stephenmarz.com/imgs/bitmap_2.png" alt="img" /></a></p>
+<p>当我们测试第21字节的第4位时，我们将得到一个0或1。如果是1，意味着该区（块）已经被分配。如果是0，这意味着该区（块）是空闲的。如果我们想在一个文件中添加一个块，我们会扫描位图，寻找我们遇到的第一个0。每个位正好是一个块，所以我们可以把第一个1的位置乘以1024（或块的大小），就可以知道文件系统中的哪个位置是空闲的。</p>
+<p>Minix 3文件系统有两个位图，一个是上面展示的区（块），另一个是inodes（下面解释）。</p>
+<p>超级块的一个有趣的部分被称为<em>magic</em>。这是一个由两个字节组成的序列，有一个定义的值。当我们进入这个位置时，我们应该看到0x4d5a。如果我们没有看到，这要么不是Minix 3文件系统，要么是有什么东西被破坏了。你可以看到，我在下面的Rust代码中检查了这个神奇的数字。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// ...
+pub const MAGIC: u16 = 0x4d5a;
+// ...
+if super_block.magic == MAGIC {
+  // SUCCESS!
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="索引节点inode"><a class="header" href="#索引节点inode">索引节点（inode）</a></h2>
+<p>我们需要能够用一个名字来指代存储元素。在unix风格的文件系统中，元数据，如文件的大小和类型，都包含在所谓的<em>索引节点</em>或简称<em>inode</em>中。Minix 3的inode包含有关文件的信息，包括模式（权限和文件类型）、大小、谁拥有该文件、访问、修改和创建时间，以及一组指向磁盘上可以找到实际文件数据的<em>区指针</em>。顺便提一下，注意到inode将文件的大小存储为u32，也就是4字节。然而，2^32大约是4GB，所以我们不能在任何一个文件中访问超过4GB的数据。</p>
+<p>这些文件系统大多遵循所谓的<em>索引分配</em>。这与操作系统教程中通常使用的文件系统不同，它是依赖文件分配表（FAT）实现的。在索引分配中，我们的指针指向磁盘上某些<em>块</em>的数据。你看，一个<em>块</em>是文件系统中最小的可寻址单位。所有东西都是由块组成的。就我们的操作系统而言，所有的块都是1,024字节的小块。因此，如果我有两个文件，一个是10个字节，另一个是41个字节，这两个文件都正好需要1,024字节。对于第一个文件，前10个字节包含文件的数据，其余部分不包含任何内容。文件可以在这个块内展开。如果一个文件超过了一个块的大小，就必须分配另一个块，并由另一个<em>区域指针</em>来指向。</p>
+<h3 id="区域指针"><a class="header" href="#区域指针">区域指针</a></h3>
+<p>在Minix 3文件系统中，有四种类型的区域指针：直接、间接、双重间接和三重间接。直接区域指针只是一个数字，我们可以用这个数字乘以块的大小来得到确切的块的位置。然而，我们只有7个直接区，这意味着我们只能寻址7 * 1,024（块大小）~= 7KB的数据！这就是间接区域指针的由来。间接区指针指向一个可以找到更多区指针的块。事实上，每个区块有1,024（区块大小）/4=256个指针。每个指针正好是4个字节。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/indirect_zones.png"><img src="http://osblog.stephenmarz.com/imgs/indirect_zones.png" alt="img" /></a></p>
+<p>红色和橙色的块不包含任何与文件有关的数据。相反，这些块包含256个指针。单一间接指针可以寻址1,024 * 1,024 / 4 = 1,024 * 256 = 262 KB的数据。 请注意，我们从7个直接指针的约7KB变成了一个间接指针的262KB！这是很好的。</p>
+<p>双重间接指针可以指向更多的块。双重间接指针指向一个256个指针的块。这256个指针中的每一个都指向另一个256个指针的块。这些指针中的每一个都指向文件的一个数据块。这样我们就得到了1,024 * 256 * 256 = 67 MB，也就是大约67兆字节的数据。三层间接指针是1,024 * 256 * 256 * 256 = 17 GB，大约是17千兆字节的数据!</p>
+<p>当我们到了双倍和三倍间接指针时，Rust代码变得有点混乱了。我们在嵌套的循环嵌套循环! 直接指针是相当简单的，你可以在下面看到。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let zone_offset = inode.zones[i] * BLOCK_SIZE;
+syc_read(desc, block_buffer.get_mut(), BLOCK_SIZE, zone_offset);
+<span class="boring">}
+</span></code></pre></pre>
+<p>一个直接指针乘以块的大小。这就给了我们区块的偏移量。然而，正如下面的代码所示，在读取间接区，也就是第8块区域（7号索引）时，我们必须多进行一步读取。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>syc_read(desc, indirect_buffer.get_mut(), BLOCK_SIZE, BLOCK_SIZE * inode.zones[7]);
+let izones = indirect_buffer.get() as *const u32;
+for i in 0..num_indirect_pointers {
+  if izones.add(i).read() != 0 {
+    if offset_block &lt;= blocks_seen {
+      // descriptor, buffer, size, offset
+      syc_read(desc, block_buffer.get_mut(), BLOCK_SIZE, BLOCK_SIZE * izones.add(i).read());
+    }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>为什么是0？在Minix 3中，当我们写文件或覆盖部分文件时，它们会变得*分散，这意味着文件的数据将被分散在不连续的块中。有时我们只是想完全跳过一个块。在这种情况下，我们可以将区域指针设置为0，在Minix 3中这意味着 &quot;跳过它&quot;。</p>
+<p>双重和三重间接区分别多了一个和两个for循环。是的，很好，很容易阅读，对吗？</p>
+<h2 id="目录项"><a class="header" href="#目录项">目录项</a></h2>
+<p>请注意，inode没有任何与之相关的名称，但我们总是通过名称访问文件。这就是目录项DirEntry结构发挥作用的地方。你看，一个文件可以被赋予多个名字。这些被称为<em>硬链接</em>。下面的Rust结构显示了目录项是如何布局的。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[repr(C)]
+pub struct DirEntry {
+  pub inode: u32,
+  pub name:  [u8; 60],
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>再次使用<code>#[repr(C)]</code>来表示该结构是一个C风格的结构。注意，我们有一个4字节（32位）的inode，后面是一个60字节的名字。该结构本身是64字节。这就是我们如何将一个inode与一个名字联系起来。</p>
+<p>这些目录条目存储在哪里？嗯，回顾一下，一个inode的<em>模式告诉我们它是什么类型的文件。一种特殊类型的文件被称为</em>目录*。这些文件仍然有一个大小和与之相关的块。然而，当我们去找块的时候，我们会发现一堆这样的DirEntry结构。我们可以从节点1开始，这被称为<em>根</em>节点。它是一个目录，所以当我们读取块时，我们会发现每个块有1,024 / 64 = 16个目录条目。每个文件，无论其类型如何，都会在某个地方得到一个目录条目。根节点只有紧靠根目录下的目录条目。然后，我们将进入另一个目录，例如/usr/bin/，并读取 &quot;bin &quot;的目录条目，以找到该目录中包含的所有文件。</p>
+<p>布置目录条目使文件系统具有分层（树状）结构。要进入/usr/bin/shell，我们必须首先进入根目录/，然后是usr目录/usr，然后找到bin目录/usr/bin，最后找到shell文件/usr/bin/shell。/、usr和bin会有一个与之相关的inode，其模式会告诉我们这些是目录。当我们到达shell时，它将是一个<em>普通的文件</em>，也是用模式描述的。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/directory_structure.png"><img src="http://osblog.stephenmarz.com/imgs/directory_structure.png" alt="img" /></a></p>
+<p>这些目录可以放在任何区块中，除了<em>根</em>目录/，它总是在1号节点。这给了我们一个稳定的、已知的起点。</p>
+<h2 id="操作系统的文件系统读取过程"><a class="header" href="#操作系统的文件系统读取过程">操作系统的文件系统读取过程</a></h2>
+<p>回顾一下，块设备驱动发出一个请求，并将其发送给区块设备。块设备为请求提供服务，然后在完成后发送一个中断。我们真的不知道中断什么时候会来，而且我们也不能等着它。这就是为什么我决定把文件系统阅读器变成一个内核进程。我们可以把这个内核进程放在<em>等待</em>的状态下，这样它就不会被调度，直到收到来自块设备的中断。否则，我们将不得不自旋和轮询以查看中断是否被发送。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn process_read(pid: u16, dev: usize, node: u32, buffer: *mut u8, size: u32, offset: u32) {
+  let args = talloc::().unwrap();
+  args.pid = pid;
+  args.dev = dev;
+  args.buffer = buffer;
+  args.size = size;
+  args.offset = offset;
+  args.node = node;
+  set_waiting(pid);
+  let _ = add_kernel_process_args(read_proc, args as *mut ProcArgs as usize);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>由于我们的块驱动现在需要知道等待中断的进程，我们必须添加一个<em>watcher</em>，也就是它要通知中断的进程。所以，我们的块操作函数的原型是：</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn block_op(dev: usize, buffer: *mut u8, size: u32, offset: u64, write: bool, watcher: u16) -&gt; Result&lt;u32, BlockErrors&gt;
+<span class="boring">}
+</span></code></pre></pre>
+<p>正如你所看到的，我们已经添加了另一个参数，即watcher。这是watcher的PID，而不是一个引用。如果我们使用一个引用，进程在等待状态下需要保持驻留。否则，我们将解除对无效内存的引用。使用pid，我们可以通过进程ID来查找该进程。如果我们没有找到它，我们可以默默地丢弃这个结果。这仍然留下了空缓冲区的可能性，但一次只做一件事，ok？</p>
+<p>现在，当我们处理块设备的中断时，我们必须匹配watcher并唤醒它。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let rq = queue.desc[elem.id as usize].addr as *const Request;
+let pid_of_watcher = (*rq).watcher;
+if pid_of_watcher &gt; 0 {
+  set_running(pid_of_watcher);
+  let proc = get_by_pid(pid_of_watcher);
+  (*(*proc).get_frame_mut()).regs[10] = (*rq).status.status as usize;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>regs[10]是RISC-V中的A0寄存器。这被用作函数的第一个参数，但它也被用作返回值。所以，当进程在系统调用后唤醒并继续运行时，A0寄存器将包含状态。状态为0表示OK，1表示I/O错误，2表示不支持的请求。这些数字是在VirtIO规范中为块设备定义的。</p>
+<p>这里要做的一件好事是检查<code>get_by_pid</code>是否真的返回一个有效的Process指针，因为我们绕过了Rust的检查。</p>
+<h2 id="测试-3"><a class="header" href="#测试-3">测试</a></h2>
+<p>我们需要hdd.dsk有一个有效的Minix 3文件系统。你可以在Linux机器上这样做，比如我使用的Arch Linux。你可以用<code>losetup</code>将一个文件设置成一个块设备。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/making_hdd_dsk.png"><img src="http://osblog.stephenmarz.com/imgs/making_hdd_dsk.png" alt="img" /></a></p>
+<p><code>fallocate</code>命令将分配一个空文件。在这个例子中，我们指定长度（大小）为32MB。然后，我们告诉Linux通过使用<code>losetup</code>使我们的hdd.dsk成为一个块设备，这是一个循环设置。每当我们读/写块设备/dev/loop0时，它实际上会读/写文件hdd.dsk。然后我们可以通过输入`mkfs.minix -3 /dev/loop0'在这个块设备上建立Minix 3文件系统。3很重要，因为我们正在使用Minix 3文件系统。Minix 1和2并不遵循我在本教程中介绍的所有结构。</p>
+<p>文件系统建立后，我们可以在Linux中使用<code>mount /dev/loop0 /mnt</code>来挂载它。就像任何文件系统一样，我们可以向这个新的文件系统读/写。由于我们的操作系统还不能通过名字找到一个节点，我们必须通过节点号来指定它。如果我们看一下中间<code>stat</code>之后的第三行，我们可以看到<code>Inode: 2</code>. 这意味着如果我们读取inode #2，我们将找到所有必要的信息来读出 &quot;你好，这是我在Minix 3的文件系统上的第一个文件&quot;。当我们读取这个节点时，我们应该得到一个文件大小为53，模式为10644（八进制），权限是644，类型是10（普通文件）的文件。</p>
+<p>你可以通过使用以下命令来卸载和删除该块设备。</p>
+<pre><code class="language-shell-session">sudo umount /mnt
+sudo losetup -d /dev/loop0
+</code></pre>
+<p>现在，在main.rs中，我们可以写一个小测试，看看这是否有效。我们需要添加一个内核进程，它就像一个正常的进程，只是我们在机器模式下运行。在这种RISC-V模式下，MMU被关闭了，所以我们只处理物理地址。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn test_read_proc() {
+  let buffer = kmalloc(100);
+                                  // device, inode, buffer, size, offset
+  let bytes_read = syscall_fs_read(8, 2, buffer, 100, 0);
+  if bytes_read != 53 {
+    println!(&quot;Read {} bytes, but I thought the file was 53 bytes.&quot;, bytes_read);
+  }
+  else {
+    for i in 0..53 {
+      print!(&quot;{}&quot;, unsafe { buffer.add(i).read() as char });
+    }
+    println!();
+  }
+  kfree(buffer);
+  syscall_exit();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="扩展系统调用"><a class="header" href="#扩展系统调用">扩展系统调用</a></h2>
+<p>正如你所看到的，我们在上面为一个内核进程使用了syscall_fs_read和syscall_exit。我们可以在syscall.rs中定义这些，如下所示。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn do_make_syscall(sysno: usize,
+                   arg0: usize,
+                   arg1: usize,
+                   arg2: usize,
+                   arg3: usize,
+                   arg4: usize,
+                   arg5: usize)
+                   -&gt; usize
+{
+	unsafe { make_syscall(sysno, arg0, arg1, arg2, arg3, arg4, arg5) }
+}
+pub fn syscall_fs_read(dev: usize,
+              inode: u32,
+              buffer: *mut u8,
+              size: u32,
+              offset: u32) -&gt; usize
+{
+  do_make_syscall(63,dev,inode as usize,buffer as usize,size as usize,offset as usize,0)
+}
+
+pub fn syscall_exit() {
+	let _ = do_make_syscall(93, 0, 0, 0, 0, 0, 0);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>如果我们看一下asm/trap.S中的代码，在底部，我们会发现<code>make_syscall</code>。我指定63作为读取系统调用，93作为退出系统调用，以匹配newlib的libgloss。</p>
+<pre><code class="language-nasm">.global make_syscall
+make_syscall:
+  mv	a7, a0
+  mv	a0, a1
+  mv	a1, a2
+  mv	a2, a3
+  mv	a3, a4
+  mv	a4, a5
+  mv	a5, a6
+  ecall
+  ret
+</code></pre>
+<p>编号63是libgloss库中的read()系统调用，它是newlib的一部分。这将执行以下内容。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let _ = minixfs::process_read(
+        (*frame).pid as u16,
+        (*frame).regs[10] as usize,
+        (*frame).regs[11] as u32,
+        physical_buffer as *mut u8,
+        (*frame).regs[13] as u32,
+        (*frame).regs[14] as u32
+);
+<span class="boring">}
+</span></code></pre></pre>
+<p>系统调用的编号现在在寄存器A7（由make_syscall汇编函数移动）。寄存器10到14（A0-A4），存储了这个系统调用的参数。当我们在这里调用process_read时，它将创建一个新的内核进程来处理从文件系统的读取。回顾一下，我们这样做是为了让块驱动器在等待块设备的回复时让我们进入睡眠状态。</p>
+<h2 id="结论-2"><a class="header" href="#结论-2">结论</a></h2>
+<p>Minix 3文件系统是教学系统Minix 1和2版本的后继版本。Minix 3文件系统是一个相当规范的文件系统。你在这里看到的所有结构都是规范的，可以从Linux机器上用mkfs.minix制作的文件系统中读取。</p>
+<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch9.html">第9章</a> → (第10章) → <a href="http://osblog.stephenmarz.com/ch11.html">第11章</a></p>
+<p>Stephen Marz (c) 2020</p>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="the-adventures-of-os-5"><a class="header" href="#the-adventures-of-os-5">The Adventures of OS</a></h1>
+<p>使用Rust的RISC-V操作系统</p>
+<p><a href="https://www.patreon.com/sgmarz"><strong>在Patreon上支持我!</strong></a>  <a href="http://osblog.stephenmarz.com/"><strong>操作系统博客</strong></a>  <a href="http://osblog.stephenmarz.com/feed.rss"><strong>RSS订阅</strong> </a>  <a href="https://github.com/sgmarz"><strong>Github</strong> </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1"><strong>EECS网站</strong></a></p>
+<p>这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第11章。</p>
+<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch10.html">第10章</a> → (第11章)</p>
+<h1 id="用户空间进程"><a class="header" href="#用户空间进程">用户空间进程</a></h1>
+<p>2020年6月1日：仅限PATREON</p>
+<p>2020年6月8日：公开</p>
+<h2 id="资源和参考资料"><a class="header" href="#资源和参考资料">资源和参考资料</a></h2>
+<p>ELF标准可以在这里找到： <a href="http://osblog.stephenmarz.com/files/elf.pdf">ELF File Format (PDF)</a>.</p>
+<h2 id="简介"><a class="header" href="#简介">简介</a></h2>
+<p>这就是我们一直在等待的时刻。十个章节的设置使我们来到了这一时刻--最终能够从磁盘上加载一个进程并运行它。可执行文件的文件格式被称为ELF（可执行和可链接格式）。我将对它进行一些详细介绍，但你可以通过这一种文件类型探索很多途径。</p>
+<h2 id="elf文件格式"><a class="header" href="#elf文件格式">ELF文件格式</a></h2>
+<p>可执行和可链接格式（ELF）是一种广泛使用的文件格式。 如果你使用过Linux，你无疑见过它或它的效果。 这种文件格式包含一个ELF头，后面是程序头。 每一次，我们都在告诉操作系统链接器将可执行部分映射到了哪里。如果你不记得了，我们有一个用于CPU指令的.text部分，用于全局常量的.rodata，用于全局初始化变量的.data，以及用于全局未初始化变量的.bss部分。在ELF格式中，编译器会决定把这些放在哪里。 另外，由于我们使用的是虚拟内存地址，ELF头指定了<em>入口点</em>，这就是我们在第一次调度进程时要放在程序计数器中的内容。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/elf_format.png"><img src="http://osblog.stephenmarz.com/imgs/elf_format.png" alt="img" /></a></p>
+<p>[joke]我的笔迹从4岁起就没有改进过[/joke]</p>
+<p>让我们看看一些能帮助我们的Rust结构。这些都在elf.rs中。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[repr(C)]
+pub struct Header {
+    pub magic: u32,
+    pub bitsize: u8,
+    pub endian: u8,
+    pub ident_abi_version: u8,
+    pub target_platform: u8,
+    pub abi_version: u8,
+    pub padding: [u8; 7],
+    pub obj_type: u16,
+    pub machine: u16, // 0xf3 for RISC-V
+    pub version: u32,
+    pub entry_addr: usize,
+    pub phoff: usize,
+    pub shoff: usize,
+    pub flags: u32,
+    pub ehsize: u16,
+    pub phentsize: u16,
+    pub phnum: u16,
+    pub shentsize: u16,
+    pub shnum: u16,
+    pub shstrndx: u16,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>所有ELF文件都以这个ELF头结构开始。最上面是0x7f，后面是大写的ELF，即0x7f 0x45 0x4c和0x46，你可以在下面看到。我对ls（列表）命令进行了简单的十六进制转储。你可以看到神奇的东西就在那里。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/ls_elf.png"><img src="http://osblog.stephenmarz.com/imgs/ls_elf.png" alt="img" /></a></p>
+<p>其余的字段将告诉我们这个ELF文件是为哪个架构制作的。RISC-V已经保留了0xf3作为其机器类型。所以，当我们从磁盘上加载ELF文件时，我们必须确保它是为正确的体系结构制作的。你也会注意到<code>entry_addr</code>也在上面。这是一个虚拟内存地址，是<code>_start</code>的开始。我们的_start只是简单的调用main，然后当main返回时，它调用exit系统调用。这就是大多数程序的实际工作方式，但它们的工作要严格得多，包括获取命令行参数等等。现在，我们还没有这些。</p>
+<p>我们需要知道的字段是<code>phoff</code>字段，它指定了程序头的偏移。程序头是一个或多个程序部分的表格。我拍了一张ls（再次）和程序头的快照。你可以用<code>readelf -l /bin/ls</code>做同样的事情。下面的代码显示了我是如何用Rust读取ELF头的。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let elf_hdr;
+unsafe {
+  elf_hdr = (buffer.get() as *const elf::Header).as_ref().unwrap();
+}
+if elf_hdr.magic != elf::MAGIC {
+  println!(&quot;ELF magic didn't match.&quot;);
+  return;
+}
+if elf_hdr.machine != elf::MACHINE_RISCV {
+  println!(&quot;ELF loaded is not RISC-V.&quot;);
+  return;
+}
+if elf_hdr.obj_type != elf::TYPE_EXEC {
+  println!(&quot;ELF is not an executable.&quot;);
+  return;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>你可以看到，现在我们到了程序头，我对/bin/ls进行了快照。<a href="http://osblog.stephenmarz.com/imgs/ls_program_headers.png"><img src="http://osblog.stephenmarz.com/imgs/ls_program_headers.png" alt="img" /></a></p>
+<p>程序头在Rust中具有以下结构。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[repr(C)]
+pub struct ProgramHeader {
+    pub seg_type: u32,
+    pub flags: u32,
+    pub off: usize,
+    pub vaddr: usize,
+    pub paddr: usize,
+    pub filesz: usize,
+    pub memsz: usize,
+    pub align: usize,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>/bin/ls使用共享库，但我们还没那么厉害。所以，我们关心的唯一程序头是由LOAD显示的那些。这些是我们需要为我们的静态二进制文件加载到内存中的部分。 在ProgramHeader结构中，我们需要seg_type为LOAD。标志位告诉我们如何保护虚拟内存。有三个标志EXECUTE（1），WRITE（2）和READ（4）。我们还需要off（偏移量），它告诉我们在ELF文件中要加载到程序内存的部分包含在哪里。最后，vaddr是我们需要指向MMU的地方，即我们将这部分加载到内存中的地方。你可以在test.rs的test_elf()函数中看到我是怎么做的。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>for i in 0..elf_hdr.phnum as usize {
+  let ph = ph_tab.add(i).as_ref().unwrap();
+  if ph.seg_type != elf::PH_SEG_TYPE_LOAD {
+    continue;
+  }
+  if ph.memsz == 0 {
+    continue;
+  }
+  memcpy(program_mem.add(ph.off), buffer.get().add(ph.off), ph.memsz);
+  let mut bits = EntryBits::User.val();
+  if ph.flags &amp; elf::PROG_EXECUTE != 0 {
+    bits |= EntryBits::Execute.val();
+  }
+  if ph.flags &amp; elf::PROG_READ != 0 {
+    bits |= EntryBits::Read.val();
+  }
+  if ph.flags &amp; elf::PROG_WRITE != 0 {
+    bits |= EntryBits::Write.val();
+  }
+  let pages = (ph.memsz + PAGE_SIZE) / PAGE_SIZE;
+  for i in 0..pages {
+    let vaddr = ph.vaddr + i * PAGE_SIZE;
+    let paddr = program_mem as usize + ph.off + i * PAGE_SIZE;
+    map(table, vaddr, paddr, bits, 0);
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>我在上面的代码中所做的就是枚举所有的程序头文件。 ELF头文件通过phnum字段告诉我们有多少个头文件。然后我们检查段的类型，看它是否是LOAD。如果不是，我们就跳过它。 然后，我们检查该段是否真的包含任何东西。如果没有，那么加载它就没有用了。最后，我们把从文件系统中读到的东西（缓冲区）复制到进程的内存（program_mem）中。由于这些是虚拟内存地址，代码的其余部分决定了我们应该如何映射这些页面。</p>
+<h2 id="运行进程"><a class="header" href="#运行进程">运行进程</a></h2>
+<p>我们需要映射一些东西，包括堆栈和程序。另外，别忘了将程序计数器设置为entry_addr!</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>(*my_proc.frame).pc = elf_hdr.entry_addr;
+(*my_proc.frame).regs[2] = STACK_ADDR as usize + STACK_PAGES * PAGE_SIZE;
+(*my_proc.frame).mode = CpuMode::User as usize;
+(*my_proc.frame).pid = my_proc.pid as usize;
+(*my_proc.frame).satp = build_satp(SatpMode::Sv39, my_proc.pid as usize, my_proc.root as usize);
+<span class="boring">}
+</span></code></pre></pre>
+<p>在这里，regs[2]是堆栈指针（SP），它必须是有效的并被映射，否则进程将立即出现页面故障。现在一切都准备好了，我们的最后一点执行工作是将其添加到进程列表中。当调度器开始工作时，它将运行我们新造的进程。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>if let Some(mut pl) = unsafe { PROCESS_LIST.take() } {
+  println!(
+            &quot;Added user process to the scheduler...get ready \
+            for take-off!&quot;
+  );
+  pl.push_back(my_proc);
+  unsafe {
+    PROCESS_LIST.replace(pl);
+  }
+}
+else {
+  println!(&quot;Unable to spawn process.&quot;);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="编写用户空间程序"><a class="header" href="#编写用户空间程序">编写用户空间程序</a></h2>
+<p>我们还没有一个C语言库。然而，我正在使操作系统访问newlib，它是一个主要用于嵌入式系统的小型C语言库。目前，我做了一个叫做<code>startlib</code>的小库，它将使我们开始第一步，我把printf复制到了里面。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>.section .text.init
+.global _start
+_start:
+  call	main
+  li	a0, 93
+  j 	make_syscall
+<span class="boring">}
+</span></code></pre></pre>
+<p>_start是一个特殊的标签，编译器将用它作为入口地址。回顾一下，当我们建立一个新的进程时，我们在程序计数器中设置了这个地址。在main返回后，我们安排了一个编号为93的系统调用，也就是 &quot;exit &quot;的系统调用。这个系统调用所做的就是取消进程的调度，释放其所有的资源。</p>
+<p>还有其他一些实用程序，包括我们的小库中的printf，但是还是让我们做一个简单的程序，看看我们是否能让它工作。为了更加稳健，我将扩展我们所有的可用部分，看看它们是否能正常加载。</p>
+<pre><code class="language-cpp">#include &lt;printf.h&gt;
+
+const int SIZE = 1000;
+int myarray[SIZE];
+int another_array[5] = {1, 2, 3, 4, 5};
+
+int main()
+{
+  printf(&quot;I'm a C++ program, and I'm running in user space. How about a big, Hello World\n&quot;);
+  printf(&quot;My array is at 0x%p\n&quot;, myarray);
+  printf(&quot;I'm going to start crunching some numbers, so gimme a minute.\n&quot;);
+  for (int i = 0;i &lt; SIZE;i++) {
+    myarray[i] = another_array[i % 5];
+  }
+  for (int i = 0;i &lt; 100000000;i++) {
+    myarray[i % SIZE] += 1;
+  }
+  printf(&quot;Ok, I'm done crunching. Wanna see myarray[0]? It's %d\n&quot;, myarray[0]);
+  return 0;
+}
+</code></pre>
+<p>这个程序其实并没有做什么有用的事情，但是它可以看到系统调用是否工作以及上下文切换。在QEMU上，这个程序在我家里的机器上运行大约需要5到8秒。</p>
+<p>然后我们用我们的C++工具链（如果你有的话）来编译这个。<code>riscv64-unknown-elf-g++ -Wall -O0 -ffreestanding -nostartfiles -nostdlib -static -march=rv64g -mabi=lp64d -I. /startlib -L. /startlib -o helloworld.elf helloworld.cpp -lstart</code>。</p>
+<p>如果你没有工具链，你可以在这里下载我的程序：<a href="http://osblog.stephenmarz.com/helloworld.elf">helloworld.elf</a>. 这要求你的系统调用与我的相同，因为它是按系统调用号进行的。</p>
+<h2 id="上传程序"><a class="header" href="#上传程序">上传程序</a></h2>
+<p>我们可以使用Linux来上传我们的elf文件。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/upload_hw.png"><img src="http://osblog.stephenmarz.com/imgs/upload_hw.png" alt="img" /></a></p>
+<p>请注意节点号（26）和文件大小（14776）。你的可能不一样，所以你可能要设置它。修改test.rs，把你的inode和文件大小放在顶部。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let files_inode = 26u32; // Change to yours!
+let files_size = 14776; // Change to yours!
+let bytes_to_read = 1024 * 50;
+let mut buffer = BlockBuffer::new(bytes_to_read);
+let bytes_read = syscall_fs_read(
+                                  8,
+                                  files_inode,
+                                  buffer.get_mut(),
+                                  bytes_to_read as u32,
+                                  0,
+);
+if bytes_read != files_size {
+  println!(
+            &quot;Unable to load program at inode {}, which should \
+            be {} bytes, got {}&quot;,
+            files_inode, files_size, bytes_read
+  );
+  return;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>这将使用我们的文件系统读取调用，将给定的inode读入内存。然后，我们仔细检查大小是否与stat所说的完全一致。然后我们开始ELF加载过程，正如我之前讨论的那样。</p>
+<p>从这里开始，当你<code>cargo运行</code>你的操作系统时，你应该看到以下内容。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/user_prog_screenshot.png"><img src="http://osblog.stephenmarz.com/imgs/user_prog_screenshot.png" alt="img" /></a></p>
+<p>让我们再看看是什么在做这件事：</p>
+<pre><code class="language-cpp">#include &lt;printf.h&gt;
+
+const int SIZE = 1000;
+int myarray[SIZE];
+int another_array[5] = {1, 2, 3, 4, 5};
+
+int main()
+{
+  printf(&quot;I'm a C++ program, and I'm running in user space. How about a big, Hello World\n&quot;);
+  printf(&quot;My array is at 0x%p\n&quot;, myarray);
+  printf(&quot;I'm going to start crunching some numbers, so gimme a minute.\n&quot;);
+  for (int i = 0;i &lt; SIZE;i++) {
+    myarray[i] = another_array[i % 5];
+  }
+  for (int i = 0;i &lt; 100000000;i++) {
+    myarray[i % SIZE] += 1;
+  }
+  printf(&quot;Ok, I'm done crunching. Wanna see myarray[0]? It's %d\n&quot;, myarray[0]);
+  return 0;
+}
+</code></pre>
+<p>好吧，这难道不是一件好事吗？这就是我看到的打印到屏幕上的东西!  请注意，myarray[0]得到了100001。在开始时，我们把数值1放入myarray[0]，然后每1000个100000000，我们再把一个数值放入myarray[0]，总共是100001。所以，是的，我们的部分似乎是在正常运作</p>
+<h2 id="验证"><a class="header" href="#验证">验证</a></h2>
+<p>让我们检查一下我们的helloworld.elf文件，看看我们在Rust中做了什么。让我们首先检查ELF头。你会看到我们的入口点0x101e4就是我们输入PC的内容（你可以println！this out来验证）。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/helloworld_elf_header.png"><img src="http://osblog.stephenmarz.com/imgs/helloworld_elf_header.png" alt="img" /></a>接下来是程序头文件。这导致我在第一次检查程序头时写出了几个bug。注意到.text、.rodata和.eh_frame被放在第一个头文件中，有读取和执行的权限。还注意到0x303c和0x3040（PH0的结束和PH1的开始）重叠了物理页（但不是虚拟页）。我不喜欢这样。.rodata不应该是可执行的，但它是可执行的，因为它和.text部分在同一个物理和虚拟页面。</p>
+<p><a href="http://osblog.stephenmarz.com/imgs/helloworld_prog_headers.png"><img src="http://osblog.stephenmarz.com/imgs/helloworld_prog_headers.png" alt="img" /></a></p>
+<p>看看这个。我们的ELF头显示的正是我们在操作系统中验证的内容，程序头也是差不多的。在Linux中，唯一真正重要的文件类型是ELF。其他一切都由它需要的任何帮助程序来决定。</p>
+<h2 id="结论-3"><a class="header" href="#结论-3">结论</a></h2>
+<p>欢迎来到这个操作系统教程的结尾。为了完善你的操作系统，你将需要增加read、write、readdir等的系统调用。我把libgloss的列表放在syscall.rs中（在底部），这样你就知道libgloss包含哪些系统调用。最终的测试是将gcc编译到你的文件系统中并从那里执行它。另外，我们需要有一个遍历函数来按名字遍历目录结构。目前，我们是通过节点号来定位的，这不是很好。然而，你可以看到一个操作系统的所有有用的部分。</p>
+<p>本教程到此结束，但我将在我们的操作系统中加入一些东西。我计划加入图形和网络，但这扩大了本教程的范围，所以我将把它们放在自己的博客文章中。</p>
+<p>恭喜你，你现在有一个可以运行进程的操作系统了 像往常一样，你可以在我的GitHub仓库里找到这个操作系统和它的所有更新：https://github.com/sgmarz/osblog.</p>
+<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → <a href="http://osblog.stephenmarz.com/ch10.html">第10章</a> → (第11章)</p>
 
                     </main>
 

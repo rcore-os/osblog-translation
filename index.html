@@ -174,16 +174,16 @@
 <p>这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第0章，介绍如何正确地构建运行环境。</p>
 <p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → （第0章） → <a href="http://osblog.stephenmarz.com/ch1.html">第1章</a></p>
 <h3 id="我需要你的支持"><a class="header" href="#我需要你的支持">我需要你的支持</a></h3>
-<p>对我来说，写这些帖子现在只是业余消遣，因为我的本职工作主要是本科生教育。我会一直写下去，但真的很希望有人来帮助编写。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon（sgmarz）</a>支持我。
-文章刚开始，要写的还有很多！所以，请加入我的团队吧!</p>
+<p>对我来说，写这篇博客现在只是业余消遣，因为我的本职工作主要是本科生教育。我会坚持写下去，但真的很希望有人来帮忙。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon（sgmarz）</a>支持我。
+文章刚开始，要写的还有很多！所以，请加入我们吧!</p>
 <h1 id="环境配置与依赖安装"><a class="header" href="#环境配置与依赖安装">环境配置与依赖安装</a></h1>
 <p><strong><span style='color:red;'>2019年9月27日</span></strong></p>
 <h4 id="2020年更新"><a class="header" href="#2020年更新">2020年更新</a></h4>
-<p>Rust现在对RISC-V的支持使我们能开箱即用！这使我们不通过工具链也能很容易地来构建项目。但工具链之外，你仍然需要QEMU（模拟器），在<a href="http://osblog.stephenmarz.com/ch0.old.html">ch0.old.html</a>的旧版教程中有相关介绍。</p>
+<p>Rust现在对RISC-V的支持使我们能开箱即用！我们不通过工具链也能很容易地来构建项目。但在工具链之外，仍需要QEMU（模拟器），在<a href="http://osblog.stephenmarz.com/ch0.old.html">ch0.old.html</a>的旧版教程中有相关介绍。</p>
 <ul>
 <li></li>
 </ul>
-<p>Rust要求我们使用<code>rustup</code>命令安装一些依赖。如果你没有rustup，请在https://www.rust-lang.org/tools/install下载。</p>
+<p>Rust要求我们使用<code>rustup</code>命令安装一些依赖。如果你没有rustup，请在<a href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a>下载。</p>
 <pre><code>rustup default nightly
 rustup target add riscv64gc-unknown-none-elf
 cargo install cargo-binutils

@@ -176,16 +176,16 @@
 <p>这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第0章，介绍如何正确地构建运行环境。</p>
 <p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → （第0章） → <a href="http://osblog.stephenmarz.com/ch1.html">第1章</a></p>
 <h3 id="我需要你的支持"><a class="header" href="#我需要你的支持">我需要你的支持</a></h3>
-<p>对我来说，写这些帖子现在只是业余消遣，因为我的本职工作主要是本科生教育。我会一直写下去，但真的很希望有人来帮助编写。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon（sgmarz）</a>支持我。
-文章刚开始，要写的还有很多！所以，请加入我的团队吧!</p>
+<p>对我来说，写这篇博客现在只是业余消遣，因为我的本职工作主要是本科生教育。我会坚持写下去，但真的很希望有人来帮忙。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon（sgmarz）</a>支持我。
+文章刚开始，要写的还有很多！所以，请加入我们吧!</p>
 <h1 id="环境配置与依赖安装"><a class="header" href="#环境配置与依赖安装">环境配置与依赖安装</a></h1>
 <p><strong><span style='color:red;'>2019年9月27日</span></strong></p>
 <h4 id="2020年更新"><a class="header" href="#2020年更新">2020年更新</a></h4>
-<p>Rust现在对RISC-V的支持使我们能开箱即用！这使我们不通过工具链也能很容易地来构建项目。但工具链之外，你仍然需要QEMU（模拟器），在<a href="http://osblog.stephenmarz.com/ch0.old.html">ch0.old.html</a>的旧版教程中有相关介绍。</p>
+<p>Rust现在对RISC-V的支持使我们能开箱即用！我们不通过工具链也能很容易地来构建项目。但在工具链之外，仍需要QEMU（模拟器），在<a href="http://osblog.stephenmarz.com/ch0.old.html">ch0.old.html</a>的旧版教程中有相关介绍。</p>
 <ul>
 <li></li>
 </ul>
-<p>Rust要求我们使用<code>rustup</code>命令安装一些依赖。如果你没有rustup，请在https://www.rust-lang.org/tools/install下载。</p>
+<p>Rust要求我们使用<code>rustup</code>命令安装一些依赖。如果你没有rustup，请在<a href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a>下载。</p>
 <pre><code>rustup default nightly
 rustup target add riscv64gc-unknown-none-elf
 cargo install cargo-binutils
@@ -206,7 +206,7 @@ runner = &quot;qemu-system-riscv64 -machine virt -cpu rv64 -smp 4 -m 128M -drive
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="掌控risc-v"><a class="header" href="#掌控risc-v">掌控RISC-V</a></h1>
 <p><strong><span style='color:red'>2019年9月27日</span></strong></p>
 <h3 id="概述"><a class="header" href="#概述">概述</a></h3>
-<p>启动并进入RISC-V系统是很简单的。在各种方法中，我将要介绍我自己的方法——从物理内存地址<code>0x8000_0000</code>开始。幸运的是，QEMU可以读取ELF文件，所以它知道应该把我们的代码运行在哪个地址上。在整个过程中，我们将通过查看QEMU中包含的<code>qemu/hw/riscv/virt.c</code>源代码来获取一些信息。首先，先来看一下内存映射：</p>
+<p>启动并进入RISC-V系统很简单。在各种方法中，我将要介绍我自己的方法——从物理内存地址<code>0x8000_0000</code>开始。幸运的是，QEMU可以读取ELF文件，所以它知道应该把我们的代码运行在哪个地址上。在整个过程中，我们将通过查看QEMU中包含的<code>qemu/hw/riscv/virt.c</code>源代码来获取一些信息。首先，先来看一下内存映射：</p>
 <pre><code class="language-c">static const struct MemmapEntry {
 	hwaddr base;
 	hwaddr size;
@@ -411,12 +411,12 @@ fn kmain() {
 <p><strong><span style='color:red'>2019年10月4日：仅Patreon</span></strong></p>
 <p><strong><span style='color:red'>2019年10月6日：公开</span></strong></p>
 <h3 id="视频"><a class="header" href="#视频">视频</a></h3>
-<p>带有评论的视频版本可以在以下网站找到:<a href="https://www.youtube.com/watch?v=1SR1sB8W248">https://www.youtube.com/watch?v=1SR1sB8W248</a>。</p>
+<p>带解说的教学视频可以在以下网站找到:<a href="https://www.youtube.com/watch?v=1SR1sB8W248">https://www.youtube.com/watch?v=1SR1sB8W248</a>。</p>
 <h3 id="概述-1"><a class="header" href="#概述-1">概述</a></h3>
 <p>在什么都显示不出来的情况下，我们编写的这个操作系统有什么优点？简单来说确实没有。但我们已经让这个小家伙诞生了，并给它起了个名字，所以我们要进一步培养它！</p>
 <p>我们将开始构建操作系统的各个部分，它们将像拼图一样，在之后组合在一起。有些会在相当早的时候就装配好（控制台和UART驱动有紧密的结合），有些会在以后组装。请耐心看下去，我们最终一定会成功的！</p>
 <h3 id="获取代码"><a class="header" href="#获取代码">获取代码</a></h3>
-<p>为了更容易跟上进度，请到https://github.com/sgmarz/osblog获取第二章的代码。</p>
+<p>为了更容易跟上进度，请到<a href="https://github.com/sgmarz/osblog">https://github.com/sgmarz/osblog</a>获取第二章的代码。</p>
 <h3 id="通用异步收发传输器uart"><a class="header" href="#通用异步收发传输器uart">通用异步收发传输器（UART）</a></h3>
 <p>我们将首先使用UART（通用异步收发传输器）进行通信。我们通过QEMU使用的虚拟机模拟了NS16550A UART芯片组。我们使用内存映射的I/O在地址<code>0x1000_0000</code>处控制这个UART系统。在这里，我们可以控制NS16550a的寄存器，它们都是8位的。</p>
 <h3 id="内存映射iommio"><a class="header" href="#内存映射iommio">内存映射I/O（MMIO）</a></h3>

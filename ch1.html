@@ -171,7 +171,7 @@
                         <h1 id="掌控risc-v"><a class="header" href="#掌控risc-v">掌控RISC-V</a></h1>
 <p><strong><span style='color:red'>2019年9月27日</span></strong></p>
 <h3 id="概述"><a class="header" href="#概述">概述</a></h3>
-<p>启动并进入RISC-V系统是很简单的。在各种方法中，我将要介绍我自己的方法——从物理内存地址<code>0x8000_0000</code>开始。幸运的是，QEMU可以读取ELF文件，所以它知道应该把我们的代码运行在哪个地址上。在整个过程中，我们将通过查看QEMU中包含的<code>qemu/hw/riscv/virt.c</code>源代码来获取一些信息。首先，先来看一下内存映射：</p>
+<p>启动并进入RISC-V系统很简单。在各种方法中，我将要介绍我自己的方法——从物理内存地址<code>0x8000_0000</code>开始。幸运的是，QEMU可以读取ELF文件，所以它知道应该把我们的代码运行在哪个地址上。在整个过程中，我们将通过查看QEMU中包含的<code>qemu/hw/riscv/virt.c</code>源代码来获取一些信息。首先，先来看一下内存映射：</p>
 <pre><code class="language-c">static const struct MemmapEntry {
 	hwaddr base;
 	hwaddr size;

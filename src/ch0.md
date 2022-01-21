@@ -10,8 +10,8 @@
 
 ### 我需要你的支持
 
-对我来说，写这些帖子现在只是业余消遣，因为我的本职工作主要是本科生教育。我会一直写下去，但真的很希望有人来帮助编写。如果你愿意，请在[Patreon（sgmarz）](https://www.patreon.com/sgmarz)支持我。
-文章刚开始，要写的还有很多！所以，请加入我的团队吧!
+对我来说，写这篇博客现在只是业余消遣，因为我的本职工作主要是本科生教育。我会坚持写下去，但真的很希望有人来帮忙。如果你愿意，请在[Patreon（sgmarz）](https://www.patreon.com/sgmarz)支持我。
+文章刚开始，要写的还有很多！所以，请加入我们吧!
 
 
 
@@ -21,11 +21,11 @@
 
 #### 2020年更新
 
-Rust现在对RISC-V的支持使我们能开箱即用！这使我们不通过工具链也能很容易地来构建项目。但工具链之外，你仍然需要QEMU（模拟器），在[ch0.old.html](http://osblog.stephenmarz.com/ch0.old.html)的旧版教程中有相关介绍。
+Rust现在对RISC-V的支持使我们能开箱即用！我们不通过工具链也能很容易地来构建项目。但在工具链之外，仍需要QEMU（模拟器），在[ch0.old.html](http://osblog.stephenmarz.com/ch0.old.html)的旧版教程中有相关介绍。
 
 - 
 
-Rust要求我们使用`rustup`命令安装一些依赖。如果你没有rustup，请在https://www.rust-lang.org/tools/install下载。
+Rust要求我们使用`rustup`命令安装一些依赖。如果你没有rustup，请在[https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)下载。
 
 ```
 rustup default nightly

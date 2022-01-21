@@ -6,7 +6,7 @@
 
 ### 视频
 
-带有评论的视频版本可以在以下网站找到:[https://www.youtube.com/watch?v=1SR1sB8W248](https://www.youtube.com/watch?v=1SR1sB8W248)。
+带解说的教学视频可以在以下网站找到:[https://www.youtube.com/watch?v=1SR1sB8W248](https://www.youtube.com/watch?v=1SR1sB8W248)。
 
 ### 概述
 
@@ -16,7 +16,7 @@
 
 ### 获取代码
 
-为了更容易跟上进度，请到https://github.com/sgmarz/osblog获取第二章的代码。
+为了更容易跟上进度，请到[https://github.com/sgmarz/osblog](https://github.com/sgmarz/osblog)获取第二章的代码。
 
 ### 通用异步收发传输器（UART）
 

@@ -1,7 +1,6 @@
 # Summary
 
-<!-- [简介](intro.md) -->
-
+[前言](index.md)
 [环境配置与依赖安装](ch0.md)
 
 - [掌控 RISC-V](ch1.md)

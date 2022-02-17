@@ -100,7 +100,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="ch0.html"><strong aria-hidden="true">1.</strong> 环境配置与依赖安装</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">2.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">3.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">4.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">4.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">5.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">6.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">7.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">8.</strong> 系统调用</a></li><li class="chapter-item expanded "><a href="ch8.html"><strong aria-hidden="true">9.</strong> 启动一个进程</a></li><li class="chapter-item expanded "><a href="ch9.html"><strong aria-hidden="true">10.</strong> 块设备驱动</a></li><li class="chapter-item expanded "><a href="ch10.html"><strong aria-hidden="true">11.</strong> 文件系统</a></li><li class="chapter-item expanded "><a href="ch11.html"><strong aria-hidden="true">12.</strong> 用户空间进程</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="ch0.html">环境配置与依赖安装</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">1.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">2.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">3.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html"><strong aria-hidden="true">3.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">4.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">5.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">6.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">7.</strong> 系统调用</a></li><li class="chapter-item expanded "><a href="ch8.html"><strong aria-hidden="true">8.</strong> 启动一个进程</a></li><li class="chapter-item expanded "><a href="ch9.html"><strong aria-hidden="true">9.</strong> 块设备驱动</a></li><li class="chapter-item expanded "><a href="ch10.html"><strong aria-hidden="true">10.</strong> 文件系统</a></li><li class="chapter-item expanded "><a href="ch11.html"><strong aria-hidden="true">11.</strong> 用户空间进程</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -171,37 +171,38 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="the-adventures-of-os"><a class="header" href="#the-adventures-of-os">The Adventures of OS</a></h1>
-<p>使用Rust的RISC-V操作系统</p>
-<p><strong><a href="https://www.patreon.com/sgmarz">在Patreon上支持我!</a>  <a href="http://osblog.stephenmarz.com/">操作系统博客</a>  <a href="http://osblog.stephenmarz.com/feed.rss">RSS订阅</a>  <a href="https://github.com/sgmarz">Github </a>  <a href="http://web.eecs.utk.edu/%7Esmarz1">EECS网站</a></strong></p>
-<p>这是<a href="http://osblog.stephenmarz.com/index.html">用Rust编写RISC-V操作系统</a>系列教程中的第0章，介绍如何正确地构建运行环境。</p>
-<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → （第0章） → <a href="http://osblog.stephenmarz.com/ch1.html">第1章</a></p>
-<h3 id="我需要你的支持"><a class="header" href="#我需要你的支持">我需要你的支持</a></h3>
-<p>对我来说，写这篇博客现在只是业余消遣，因为我的本职工作主要是本科生教育。我会坚持写下去，但真的很希望有人来帮忙。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon（sgmarz）</a>支持我。
-文章刚开始，要写的还有很多！所以，请加入我们吧!</p>
+<p>使用 Rust 的 RISC-V 操作系统</p>
+<p><a href="https://www.patreon.com/sgmarz">在 Patreon 上支持我!</a>  
+<a href="http://osblog.stephenmarz.com/">操作系统博客</a>  
+<a href="http://osblog.stephenmarz.com/feed.rss">RSS 订阅</a>  
+<a href="https://github.com/sgmarz">Github</a>  
+<a href="http://web.eecs.utk.edu/%7Esmarz1">EECS 网站</a>  </p>
+<p>这是<a href="http://osblog.stephenmarz.com/index.html">用 Rust 编写 RISC-V 操作系统</a>系列教程中的第0章，介绍如何正确地构建运行环境。</p>
+<p><a href="http://osblog.stephenmarz.com/index.html">目录</a> → 第0章 → <a href="http://osblog.stephenmarz.com/ch1.html">第1章</a></p>
+<h2 id="我需要你的支持"><a class="header" href="#我需要你的支持">我需要你的支持</a></h2>
+<p>对我来说，写这篇博客现在只是业余消遣，因为我的本职工作主要是本科生教育。我会坚持写下去，但真的很希望有人来帮忙。如果你愿意，请在<a href="https://www.patreon.com/sgmarz">Patreon(sgmarz)</a> 支持我。</p>
+<p>我刚刚起步，要做的还有很多！所以，请加入我们吧!</p>
 <h1 id="环境配置与依赖安装"><a class="header" href="#环境配置与依赖安装">环境配置与依赖安装</a></h1>
 <p><strong><span style='color:red;'>2019年9月27日</span></strong></p>
-<h4 id="2020年更新"><a class="header" href="#2020年更新">2020年更新</a></h4>
-<p>Rust现在对RISC-V的支持使我们能开箱即用！我们不通过工具链也能很容易地来构建项目。但在工具链之外，仍需要QEMU（模拟器），在<a href="http://osblog.stephenmarz.com/ch0.old.html">ch0.old.html</a>的旧版教程中有相关介绍。</p>
-<ul>
-<li></li>
-</ul>
+<h2 id="2020年更新"><a class="header" href="#2020年更新">2020年更新</a></h2>
+<p>Rust现在对RISC-V的支持使我们能开箱即用！我们不通过工具链也能很容易地来构建项目。但在工具链之外，仍需要QEMU（模拟器），在<a href="http://osblog.stephenmarz.com/ch0.old.html">ch0.old.html</a> 的旧版教程中有相关介绍。</p>
 <p>Rust要求我们使用<code>rustup</code>命令安装一些依赖。如果你没有rustup，请在<a href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a>下载。</p>
-<pre><code>rustup default nightly
+<pre><code class="language-sh">rustup default nightly
 rustup target add riscv64gc-unknown-none-elf
 cargo install cargo-binutils
 </code></pre>
-<p>由于我在系统中使用了语言特性（用<code>#![features]</code>表示），我们必须使用nightly版本，即使RISC-V是在稳定版本上。</p>
-<h3 id="构建与运行"><a class="header" href="#构建与运行">构建与运行</a></h3>
-<p>在博客的git仓库中<a href="https://github.com/sgmarz/osblog">(Github)</a>你会看到一个名为<code>.cargo/config</code>的文件。你可以根据你的系统来编辑这个文件：</p>
-<pre><code>[build]
+<p>由于我在系统中使用了语言特性（用 <code>#![features]</code> 表示），我们必须使用 nightly 版本，即使 RISC-V 有稳定版本。</p>
+<h2 id="构建与运行"><a class="header" href="#构建与运行">构建与运行</a></h2>
+<p>在<a href="https://github.com/sgmarz/osblog">博客的 git 仓库 (Github)</a> 中你会看到一个名为 <code>.cargo/config</code> 的文件。你可以根据你的系统来编辑这个文件：</p>
+<pre><code class="language-toml">[build]
 target = &quot;riscv64gc-unknown-none-elf&quot;
 rustflags = ['-Clink-arg=-Tsrc/lds/virt.lds']
 
 [target.riscv64gc-unknown-none-elf]
-runner = &quot;qemu-system-riscv64 -machine virt -cpu rv64 -smp 4 -m 128M -drive if=none,format=raw,file=hdd.dsk,id=foo -device virtio-blk-device,scsi=off,drive=foo -nographic -serial mon:stdio -bios none -device virtio-rng-device -device virtio-gpu-device -device virtio-net-device -device virtio-tablet-device -device virtio-keyboard-device -kernel &quot;	
+runner = &quot;qemu-system-riscv64 -machine virt -cpu rv64 -smp 4 -m 128M -drive if=none,format=raw,file=hdd.dsk,id=foo -device virtio-blk-device,scsi=off,drive=foo -nographic -serial mon:stdio -bios none -device virtio-rng-device -device virtio-gpu-device -device virtio-net-device -device virtio-tablet-device -device virtio-keyboard-device -kernel &quot;
 </code></pre>
-<p>配置文件显示了我们要构建的目标，也就是riscv64gc。我们还需要指定我们的链接器脚本<code>src/lds/virt.lds</code>，以便我们能确保正确的文件位置。最后，当我们输入<code>cargo run</code>时，会调用一个 &quot;runner&quot;，它将运行riscv64 qemu。另外注意在-kernel后面有一个空格，这是因为cargo会自动指定通过Cargo.toml配置的可执行文件。</p>
-<h3 id="完成"><a class="header" href="#完成">完成!</a></h3>
+<p>配置文件显示了我们要构建的目标，也就是 riscv64gc 。我们还需要指定我们的链接器脚本 <code>src/lds/virt.lds</code> ，以便我们能确保正确的文件位置。最后，当我们输入 <code>cargo run</code> 时，会调用一个 &quot;runner&quot;，它将运行 riscv64 qemu 。另外注意在 -kernel 后面有一个空格，这是因为 cargo 会自动指定通过 Cargo.toml 配置的可执行文件。</p>
+<h2 id="完成"><a class="header" href="#完成">完成！</a></h2>
 <p>这部分确实很无聊，如果配置过程一切顺利（在ArchLinux上配置正常！），接下来的部分将有趣起来。</p>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="掌控risc-v"><a class="header" href="#掌控risc-v">掌控RISC-V</a></h1>
 <p><strong><span style='color:red'>2019年9月27日</span></strong></p>

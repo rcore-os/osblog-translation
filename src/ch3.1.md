@@ -1,5 +1,13 @@
 # 页粒度的内存分配
 
+这是[用 Rust 编写 RISC-V 操作系统](http://osblog.stephenmarz.com/index.html)系列教程中的第 3.1 章。
+
+[目录](index.md) → [第 2 章](ch2.md) → 第 3.1 章 → [第 3.2 章](ch3.2.md)
+
+**<span style='color:red'>2019 年 10 月 15 日：仅Patreon</span>**
+
+**<span style='color:red'>2019 年 10 月 22 日：公开</span>**
+
 ## 视频
 
 本章博文的视频在 YouTube 上：[https://www.youtube.com/watch?v=SZ6GMxLkbx0](https://www.youtube.com/watch?v=SZ6GMxLkbx0)。
@@ -245,3 +253,5 @@ pub fn print_page_allocations() {
 当我们开始分配用户空间的进程时，我们需要保护内核内存不被用户的应用程序错误地写入，因此我们将使用内存管理单元，特别地，我们将使用Sv39 方案，它的文档在 [RISC-V 特权规范第 4.4章](https://github.com/riscv/riscv-isa-manual)中。
 
 本章还将关注两个部分：2）内存管理单元（MMU）和 3）Rust 中 `alloc` crate 的字节粒度内存分配器，它包含数据结构，如链表和二叉树。我们还可以使用这个 crate 来存储和创建 `String` 类型。
+
+[目录](index.md) → [第 2 章](ch2.md) → 第 3.1 章 → [第 3.2 章](ch3.2.md)

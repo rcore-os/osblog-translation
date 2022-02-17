@@ -1,5 +1,15 @@
 # 内存管理单元
 
+这是[用 Rust 编写 RISC-V 操作系统](http://osblog.stephenmarz.com/index.html)系列教程中的第 3.2 章。
+
+[目录](index.md) → [第 3.1 章](ch3.1.md) → 第 3.2 章 → [第 4 章](ch4.md)
+
+**<span style='color:red'>2019 年 10 月 23 日：仅Patreon</span>**
+
+**<span style='color:red'>2019 年 10 月 30 日：公开</span>**
+
+**<span style='color:red'>于 2019 年 11 月 4 日更新</span>**
+
 ## 视频
 
 本章博文的视频在 YouTube 上：[https://www.youtube.com/watch?v=-9sRy5UPWJk](https://www.youtube.com/watch?v=-9sRy5UPWJk)

@@ -98,7 +98,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="ch0.html">环境配置与依赖安装</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">1.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">2.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">3.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html" class="active"><strong aria-hidden="true">3.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">4.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">5.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">6.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">7.</strong> 系统调用</a></li><li class="chapter-item expanded "><a href="ch8.html"><strong aria-hidden="true">8.</strong> 启动一个进程</a></li><li class="chapter-item expanded "><a href="ch9.html"><strong aria-hidden="true">9.</strong> 块设备驱动</a></li><li class="chapter-item expanded "><a href="ch10.html"><strong aria-hidden="true">10.</strong> 文件系统</a></li><li class="chapter-item expanded "><a href="ch11.html"><strong aria-hidden="true">11.</strong> 用户空间进程</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">前言</a></li><li class="chapter-item expanded affix "><a href="ch0.html">环境配置与依赖安装</a></li><li class="chapter-item expanded "><a href="ch1.html"><strong aria-hidden="true">1.</strong> 掌控 RISC-V</a></li><li class="chapter-item expanded "><a href="ch2.html"><strong aria-hidden="true">2.</strong> 通信</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> 内存管理</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch3.1.html"><strong aria-hidden="true">3.1.</strong> 页粒度的内存分配</a></li><li class="chapter-item expanded "><a href="ch3.2.html" class="active"><strong aria-hidden="true">3.2.</strong> 内存管理单元</a></li></ol></li><li class="chapter-item expanded "><a href="ch4.html"><strong aria-hidden="true">4.</strong> 处理中断和陷入</a></li><li class="chapter-item expanded "><a href="ch5.html"><strong aria-hidden="true">5.</strong> 外部中断</a></li><li class="chapter-item expanded "><a href="ch6.html"><strong aria-hidden="true">6.</strong> 进程的内存</a></li><li class="chapter-item expanded "><a href="ch7.html"><strong aria-hidden="true">7.</strong> 系统调用</a></li><li class="chapter-item expanded "><a href="ch8.html"><strong aria-hidden="true">8.</strong> 启动一个进程</a></li><li class="chapter-item expanded "><a href="ch9.html"><strong aria-hidden="true">9.</strong> 块设备驱动</a></li><li class="chapter-item expanded "><a href="ch10.html"><strong aria-hidden="true">10.</strong> 文件系统</a></li><li class="chapter-item expanded "><a href="ch11.html"><strong aria-hidden="true">11.</strong> 用户空间进程</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -169,6 +169,11 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="内存管理单元"><a class="header" href="#内存管理单元">内存管理单元</a></h1>
+<p>这是<a href="http://osblog.stephenmarz.com/index.html">用 Rust 编写 RISC-V 操作系统</a>系列教程中的第 3.2 章。</p>
+<p><a href="index.html">目录</a> → <a href="ch3.1.html">第 3.1 章</a> → 第 3.2 章 → <a href="ch4.html">第 4 章</a></p>
+<p><strong><span style='color:red'>2019 年 10 月 23 日：仅Patreon</span></strong></p>
+<p><strong><span style='color:red'>2019 年 10 月 30 日：公开</span></strong></p>
+<p><strong><span style='color:red'>于 2019 年 11 月 4 日更新</span></strong></p>
 <h2 id="视频"><a class="header" href="#视频">视频</a></h2>
 <p>本章博文的视频在 YouTube 上：<a href="https://www.youtube.com/watch?v=-9sRy5UPWJk">https://www.youtube.com/watch?v=-9sRy5UPWJk</a></p>
 <h2 id="概述"><a class="header" href="#概述">概述</a></h2>
@@ -589,6 +594,7 @@ unsafe {
 </code></pre>
 <p>我们在上面的代码中所做的是启用中断，并将第 11 位开始的数值置为 1（MPP=01）。当我们执行 <code>mret</code> 时，我们进入了一个叫 <code>kmain</code> 的 Rust 函数。现在我们处于监督者模式并且完全启用了 MMU。</p>
 <p>我们还没有处理任何页面错误，所以要小心！如果你跑到地址空间以外的地方，你的内核就会挂起宕机。</p>
+<p><a href="index.html">目录</a> → <a href="ch3.1.html">第 3.1 章</a> → 第 3.2 章 → <a href="ch4.html">第 4 章</a></p>
 
                     </main>
 

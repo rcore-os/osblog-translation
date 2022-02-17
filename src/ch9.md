@@ -1,4 +1,4 @@
-# [**The Adventures of OS**](https://gallium70.github.io/osblog-translation/ch8.html#the-adventures-of-os)
+# [**The Adventures of OS**](https://rcore-os.github.io/osblog-translation/ch8.html#the-adventures-of-os)
 
 使用Rust的RISC-V操作系统
  [**在Patreon上支持我!**](https://www.patreon.com/sgmarz)  [**操作系统博客**](http://osblog.stephenmarz.com/)  [**RSS订阅** ](http://osblog.stephenmarz.com/feed.rss)  [**Github** ](https://github.com/sgmarz)  [**EECS网站**](http://web.eecs.utk.edu/~smarz1)

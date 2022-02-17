@@ -1,6 +1,6 @@
-# 操作系统大冒险：用 Rust 制作一个 RISC-V 操作系统
+# 操作系统大冒险：用 Rust 编写一个 RISC-V 操作系统
 
-用 Rust 制作的 RISC-V 操作系统
+短标题：用 Rust 编写一个 RISC-V 操作系统
 
 [在 Patreon 上支持我!](https://www.patreon.com/sgmarz) &emsp;
 [操作系统博客](http://osblog.stephenmarz.com/) &emsp;

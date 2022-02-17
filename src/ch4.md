@@ -4,7 +4,7 @@
 
 [目录](index.md) → [第 3.2 章](ch3.2.md) → 第 4 章 → [第 5 章](ch5.md)
 
-**<span style='color:red'>2019 年 11 月 5 日：仅Patreon</span>**
+**<span style='color:red'>2019 年 11 月 5 日：仅 Patreon</span>**
 
 **<span style='color:red'>2019 年 11 月 11 日：公开</span>**
 
